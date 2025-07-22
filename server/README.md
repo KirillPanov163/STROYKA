@@ -1,2 +1,0 @@
-Еще раз PRIVET
-hghgghnbn 
