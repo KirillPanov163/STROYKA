@@ -6,7 +6,7 @@ export class FAQService {
     question?: string;
     answers?: string;
   }) {
-    const faq = await prisma.fAQ.create({
+    const faq = await prisma.faq.create({
       data: {
         question: data.question,
         answers: data.answers,
@@ -16,13 +16,13 @@ export class FAQService {
   }
 
   static async getAllFAQs() {
-    const faqs = await prisma.fAQ.findMany();
+    const faqs = await prisma.faq.findMany();
     return faqs;
   }
 
   static async getFAQById(id: number) {
-    const faq = await prisma.fAQ.findUnique({
-      where: { Id: id },
+    const faq = await prisma.faq.findUnique({
+      where: { id },
     });
     return faq;
   }
@@ -34,8 +34,8 @@ export class FAQService {
       answers?: string;
     },
   ) {
-    const faq = await prisma.fAQ.update({
-      where: { Id: id },
+    const faq = await prisma.faq.update({
+      where: { id },
       data: {
         question: data.question,
         answers: data.answers,
@@ -45,8 +45,8 @@ export class FAQService {
   }
 
   static async deleteFAQ(id: number) {
-    const faq = await prisma.fAQ.delete({
-      where: { Id: id },
+    const faq = await prisma.faq.delete({
+      where: { id },
     });
     return faq;
   }

@@ -10,7 +10,7 @@ export class MyWorkService {
     success_work?: string;
     image?: string;
   }) {
-    const myWork = await prisma.mY_WORK.create({
+    const myWork = await prisma.my_work.create({
       data: {
         title: data.title,
         square: data.square,
@@ -24,13 +24,13 @@ export class MyWorkService {
   }
 
   static async getAllMyWorks() {
-    const myWorks = await prisma.mY_WORK.findMany();
+    const myWorks = await prisma.my_work.findMany();
     return myWorks;
   }
 
   static async getMyWorkById(id: number) {
-    const myWork = await prisma.mY_WORK.findUnique({
-      where: { Id: id },
+    const myWork = await prisma.my_work.findUnique({
+      where: { id },
     });
     return myWork;
   }
@@ -46,8 +46,8 @@ export class MyWorkService {
       image?: string;
     },
   ) {
-    const myWork = await prisma.mY_WORK.update({
-      where: { Id: id },
+    const myWork = await prisma.my_work.update({
+      where: { id },
       data: {
         title: data.title,
         square: data.square,
@@ -61,8 +61,8 @@ export class MyWorkService {
   }
 
   static async deleteMyWork(id: number) {
-    const myWork = await prisma.mY_WORK.delete({
-      where: { Id: id },
+    const myWork = await prisma.my_work.delete({
+      where: { id },
     });
     return myWork;
   }
