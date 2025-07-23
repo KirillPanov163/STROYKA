@@ -9,7 +9,7 @@ export class ContactsService {
     whatsapp?: string;
     telegram?: string;
   }) {
-    const contact = await prisma.cONTACTS.create({
+    const contact = await prisma.contacts.create({
       data: {
         email: data.email,
         tel: data.tel,
@@ -21,13 +21,13 @@ export class ContactsService {
     return contact;
   }
   static async getAllContacts() {
-    const contacts = await prisma.cONTACTS.findMany();
+    const contacts = await prisma.contacts.findMany();
     return contacts;
   }
 
   static async getContactById(id: number) {
-    const contact = await prisma.cONTACTS.findUnique({
-      where: { Id: id },
+    const contact = await prisma.contacts.findUnique({
+      where: { id },
     });
     return contact;
   }
@@ -42,8 +42,8 @@ export class ContactsService {
       telegram?: string;
     },
   ) {
-    const contact = await prisma.cONTACTS.update({
-      where: { Id: id },
+    const contact = await prisma.contacts.update({
+      where: { id },
       data: {
         email: data.email,
         tel: data.tel,
@@ -56,8 +56,8 @@ export class ContactsService {
   }
 
   static async deleteContact(id: number) {
-    const contact = await prisma.cONTACTS.delete({
-      where: { Id: id },
+    const contact = await prisma.contacts.delete({
+      where: { id },
     });
     return contact;
   }

@@ -257,7 +257,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\НАДЕЖДА\\OneDrive\\Документы\\MyProject\\ElbrusTraining\\FinalyProject1\\STROYKA\\server\\src\\generated\\prisma",
+      "value": "C:\\Users\\bolat\\STROYKA\\server\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -271,7 +271,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\НАДЕЖДА\\OneDrive\\Документы\\MyProject\\ElbrusTraining\\FinalyProject1\\STROYKA\\server\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\bolat\\STROYKA\\server\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
