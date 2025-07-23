@@ -25,7 +25,7 @@ export class ContactsController {
 
   static async getContactById(req: Request, res: Response) {
     try {
-      const id = parseInt(req.params.id);
+      const id = (+req.params.id);
       if (isNaN(id)) {
         res.status(400).json(formatResponse(400, 'Некорректный ID контакта'));
         return;
@@ -45,7 +45,7 @@ export class ContactsController {
 
   static async updateContact(req: Request, res: Response) {
     try {
-      const id = parseInt(req.params.id);
+      const id = (+req.params.id);
       if (isNaN(id)) {
         res.status(400).json(formatResponse(400, 'Некорректный ID контакта'));
         return;
@@ -61,7 +61,7 @@ export class ContactsController {
 
   static async deleteContact(req: Request, res: Response) {
     try {
-      const id = parseInt(req.params.id);
+      const id = (+req.params.id);
       if (isNaN(id)) {
         res.status(400).json(formatResponse(400, 'Некорректный ID контакта'));
         return;

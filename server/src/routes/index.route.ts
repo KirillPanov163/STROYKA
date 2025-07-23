@@ -4,6 +4,7 @@ import authRouter from './auth.route.js';
 import recordingRouter from './recording.route.js';
 import contactsRouter from './contacts.routes.js';
 import faqRouter from './FAQ.route.js';
+import myWorkRouter from './myWork.route.js';
 
 const router = Router();
 
@@ -11,6 +12,9 @@ router.use('/auth', authRouter);
 router.use('/recording', recordingRouter)
 router.use('/contacts', contactsRouter)
 router.use('/faq', faqRouter);
+router.use('/my-work', myWorkRouter);
+
+
 
 router.use((req: Request, res: Response) => {
   res.status(404).json(formatResponse(404, 'Not found'));

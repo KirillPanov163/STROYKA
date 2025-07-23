@@ -25,7 +25,7 @@ export class FAQController {
 
   static async getFAQById(req: Request, res: Response) {
     try {
-      const id = parseInt(req.params.id);
+      const id = (+req.params.id);
       if (isNaN(id)) {
         res.status(400).json(formatResponse(400, 'Некорректный ID FAQ'));
         return;
@@ -45,7 +45,7 @@ export class FAQController {
 
   static async updateFAQ(req: Request, res: Response) {
     try {
-      const id = parseInt(req.params.id);
+      const id = (+req.params.id);
       if (isNaN(id)) {
         res.status(400).json(formatResponse(400, 'Некорректный ID FAQ'));
         return;
@@ -61,7 +61,7 @@ export class FAQController {
 
   static async deleteFAQ(req: Request, res: Response) {
     try {
-      const id = parseInt(req.params.id);
+      const id = (+req.params.id);
       if (isNaN(id)) {
         res.status(400).json(formatResponse(400, 'Некорректный ID FAQ'));
         return;
