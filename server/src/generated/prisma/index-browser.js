@@ -132,13 +132,14 @@ exports.Prisma.UsernameScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.MetaDataScalarFieldEnum = {
-  Id: 'Id',
+exports.Prisma.Meta_dataScalarFieldEnum = {
+  id: 'id',
   title: 'title',
   description: 'description',
   keywords: 'keywords',
   author_name: 'author_name',
-  nataliaBase: 'nataliaBase',
+  author_url: 'author_url',
+  metadataBase: 'metadataBase',
   alternates: 'alternates',
   openGraph_title: 'openGraph_title',
   openGraph_description: 'openGraph_description',
@@ -156,24 +157,24 @@ exports.Prisma.MetaDataScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.FAQScalarFieldEnum = {
-  Id: 'Id',
+exports.Prisma.FaqScalarFieldEnum = {
+  id: 'id',
   question: 'question',
   answers: 'answers',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.SERVICEScalarFieldEnum = {
-  Id: 'Id',
+exports.Prisma.ServiceScalarFieldEnum = {
+  id: 'id',
   service: 'service',
   description: 'description',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.MY_WORKScalarFieldEnum = {
-  Id: 'Id',
+exports.Prisma.My_workScalarFieldEnum = {
+  id: 'id',
   title: 'title',
   square: 'square',
   quantity: 'quantity',
@@ -184,8 +185,8 @@ exports.Prisma.MY_WORKScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.CONTACTSScalarFieldEnum = {
-  Id: 'Id',
+exports.Prisma.ContactsScalarFieldEnum = {
+  id: 'id',
   email: 'email',
   tel: 'tel',
   address: 'address',
@@ -212,12 +213,13 @@ exports.Prisma.UsernameOrderByRelevanceFieldEnum = {
   twoFACode: 'twoFACode'
 };
 
-exports.Prisma.MetaDataOrderByRelevanceFieldEnum = {
+exports.Prisma.Meta_dataOrderByRelevanceFieldEnum = {
   title: 'title',
   description: 'description',
   keywords: 'keywords',
   author_name: 'author_name',
-  nataliaBase: 'nataliaBase',
+  author_url: 'author_url',
+  metadataBase: 'metadataBase',
   alternates: 'alternates',
   openGraph_title: 'openGraph_title',
   openGraph_description: 'openGraph_description',
@@ -233,17 +235,17 @@ exports.Prisma.MetaDataOrderByRelevanceFieldEnum = {
   other_ICBM: 'other_ICBM'
 };
 
-exports.Prisma.FAQOrderByRelevanceFieldEnum = {
+exports.Prisma.FaqOrderByRelevanceFieldEnum = {
   question: 'question',
   answers: 'answers'
 };
 
-exports.Prisma.SERVICEOrderByRelevanceFieldEnum = {
+exports.Prisma.ServiceOrderByRelevanceFieldEnum = {
   service: 'service',
   description: 'description'
 };
 
-exports.Prisma.MY_WORKOrderByRelevanceFieldEnum = {
+exports.Prisma.My_workOrderByRelevanceFieldEnum = {
   title: 'title',
   square: 'square',
   quantity: 'quantity',
@@ -252,7 +254,7 @@ exports.Prisma.MY_WORKOrderByRelevanceFieldEnum = {
   image: 'image'
 };
 
-exports.Prisma.CONTACTSOrderByRelevanceFieldEnum = {
+exports.Prisma.ContactsOrderByRelevanceFieldEnum = {
   email: 'email',
   tel: 'tel',
   address: 'address',
@@ -266,11 +268,11 @@ exports.Role = exports.$Enums.Role = {
 
 exports.Prisma.ModelName = {
   Username: 'Username',
-  MetaData: 'MetaData',
-  FAQ: 'FAQ',
-  SERVICE: 'SERVICE',
-  MY_WORK: 'MY_WORK',
-  CONTACTS: 'CONTACTS'
+  Meta_data: 'Meta_data',
+  Faq: 'Faq',
+  Service: 'Service',
+  My_work: 'My_work',
+  Contacts: 'Contacts'
 };
 
 /**
