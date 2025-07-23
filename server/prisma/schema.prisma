@@ -25,13 +25,14 @@ enum Role {
   ADMIN
 }
 
-model MetaData {
-  Id                      Int      @id @default(autoincrement())
+model Meta_data {
+  id                      Int      @id @default(autoincrement())
   title                   String?  @db.Text
   description             String?  @db.Text
   keywords                String?  @db.Text
   author_name             String?  @db.Text
-  nataliaBase             String?  @db.Text
+  author_url              String?  @db.Text
+  metadataBase            String?  @db.Text
   alternates              String?  @db.Text
   openGraph_title         String?  @db.Text
   openGraph_description   String?  @db.Text
@@ -49,24 +50,24 @@ model MetaData {
   updatedAt DateTime @updatedAt
 }
 
-model FAQ {
-  Id                  Int      @id @default(autoincrement())
+model Faq {
+  id                  Int      @id @default(autoincrement())
   question            String?  @db.Text
   answers             String?  @db.Text
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model SERVICE {
-  Id                  Int      @id @default(autoincrement())
+model Service {
+  id                  Int      @id @default(autoincrement())
   service             String?  @db.Text
   description         String?  @db.Text
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model MY_WORK {
-  Id                  Int      @id @default(autoincrement())
+model My_work {
+  id                  Int      @id @default(autoincrement())
   title               String?  @db.Text
   square              String?  @db.Text
   quantity            String?  @db.Text
@@ -77,8 +78,8 @@ model MY_WORK {
   updatedAt DateTime @updatedAt
 }
 
-model CONTACTS {
-  Id                  Int      @id @default(autoincrement())
+model Contacts {
+  id                  Int      @id @default(autoincrement())
   email               String?  @db.Text
   tel                 String?  @db.Text
   address             String?  @db.Text
