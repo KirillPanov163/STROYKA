@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken';
 import formatResponse from '../utils/formatResponse.js';
-import cookieConfig from '../configs/cookieConfig.js';
 
-const verifyAccessToken = (req: any, res: any, next: any) => {
+
+export const verifyAccessToken = (req: any, res: any, next: any) => {
   try {
     const accessToken = req.headers.authorization.split(' ')[1]; // Bearer <token>
     const { user } = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET!) as jwt.JwtPayload;
