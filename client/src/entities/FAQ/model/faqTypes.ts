@@ -1,3 +1,5 @@
+import { FAQThunkStatus } from '../../../shared/enums/FAQThunkTypes';
+
 export interface Faq {
   id: number;
   question: string | null;
@@ -8,6 +10,6 @@ export interface Faq {
 
 export interface FAQState {
   data: Faq[];
-  loading: boolean;
+  status: FAQThunkStatus;
   error: string | null;
 }
