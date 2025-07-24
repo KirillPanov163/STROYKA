@@ -5,7 +5,10 @@ const { service } = prisma;
 type ServisType = {
   service: string;
   description: string;
+  images: string
 };
+
+
 
 export class ServiceService {
   static async getAllService() {
@@ -33,13 +36,8 @@ export class ServiceService {
     });
   }
 
-  static async createService(data: { service: string; description: string }) {
-    const newService = await service.create({
-      data: {
-        service: data.service,
-        description: data.description,
-      },
-    });
+  static async createService(data: ServisType) {
+    const newService = await service.create({data});
     return newService;
   }
 }

@@ -1,4 +1,4 @@
-import { FAQThunkStatus } from '../../../shared/enums/FAQThunkTypes';
+import { FAQThunkStatus } from '../../../shared/enums/faqThunkTypes';
 
 export interface Faq {
   id: number;

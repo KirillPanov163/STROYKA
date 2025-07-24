@@ -2,6 +2,12 @@ import type { Request, Response } from 'express';
 import { ServiceService } from '../services/Service.service.js';
 import formatResponse from '../utils/formatResponse.js';
 
+type ServisType = {
+  service: string;
+  description: string;
+  images: string
+};
+
 export class ServiceController {
   static async getAllServices(req: Request, res: Response) {
     try {
@@ -35,7 +41,6 @@ export class ServiceController {
       if (!service) {
         return res.status(404).json(formatResponse(404, 'Сервис не найден'));
       }
-
       return res
         .status(200)
         .json(formatResponse(200, 'Данные сервиса получены', service));
@@ -49,18 +54,15 @@ export class ServiceController {
 
   static async createService(req: Request, res: Response) {
     try {
-      const { service, description } = req.body;
+      const { service, description, images } = req.body;
 
-      if (!service || !description) {
+      if (!service || !description || !images) {
         return res
           .status(400)
           .json(formatResponse(400, 'Название и описание сервиса обязательны'));
       }
-
-      const newService = await ServiceService.createService({
-        service,
-        description,
-      });
+      const data: ServisType = { service, description, images };
+      const newService = await ServiceService.createService(data);
 
       return res
         .status(201)
@@ -75,7 +77,7 @@ export class ServiceController {
 
   static async updateService(req: Request, res: Response) {
     try {
-      const {id, ...updateData} = req.body;
+      const { id, ...updateData } = req.body;
 
       if (!id) {
         return res.status(400).json(formatResponse(400, 'ID сервиса обязателен'));
@@ -116,7 +118,6 @@ export class ServiceController {
       if (isNaN(parsedId)) {
         return res.status(400).json(formatResponse(400, 'ID должен быть числом'));
       }
-
       const existingService = await ServiceService.getOneService(parsedId);
       if (!existingService) {
         return res.status(404).json(formatResponse(404, 'Сервис не найден'));
@@ -124,7 +125,7 @@ export class ServiceController {
 
       await ServiceService.deleteService(parsedId);
 
-      return res.status(200).json(formatResponse(200, 'Сервис успешно удален'));
+      return res.status(200).json(formatResponse(200, 'Сервис успешно удален', existingService));
     } catch (error) {
       console.error(error);
       return res

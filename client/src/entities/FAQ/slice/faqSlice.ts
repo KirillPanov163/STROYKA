@@ -7,7 +7,7 @@ import {
   updateFaq,
   deleteFaq,
 } from '../api/faqThunkApi';
-import { FAQThunkStatus } from '../../../shared/enums/FAQThunkTypes';
+import { FAQThunkStatus } from '../../../shared/enums/faqThunkTypes';
 
 const initialState: FAQState = {
   data: [],
