@@ -14,7 +14,7 @@ const contactsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) =>
     builder
-
+  
     //& ПОЛУЧИТЬ ВСЕХ-------------------------------------------------
 
       .addCase(getAllContactsThunk.pending, (state) => {
