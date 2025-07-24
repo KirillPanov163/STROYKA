@@ -106,3 +106,6 @@ export const serviceSlice = createSlice({
       });
   },
 });
+
+export const { actions: servicesActions } = serviceSlice
+export const servicesReducer = serviceSlice.reducer
