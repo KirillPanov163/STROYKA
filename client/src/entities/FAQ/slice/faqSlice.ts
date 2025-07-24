@@ -24,7 +24,7 @@ const faqSlice = createSlice({
     setSelectedFAQ(state, action) {
       state.selectedFAQ = action.payload;
     },
-    // для сброса выбранного FAQ 
+    // для сброса выбранного FAQ
     clearSelectedFAQ(state) {
       state.selectedFAQ = null;
     },
@@ -101,4 +101,5 @@ const faqSlice = createSlice({
   },
 });
 
-export default faqSlice.reducer;
+export const { actions: faqActions } = faqSlice;
+export const faqReducer = faqSlice.reducer
