@@ -64,3 +64,6 @@ const metaDataSlice = createSlice({
       });
   },
 });
+
+export const { actions: metaDataActions } = metaDataSlice;
+export const metaDataReducer = metaDataSlice.reducer;
