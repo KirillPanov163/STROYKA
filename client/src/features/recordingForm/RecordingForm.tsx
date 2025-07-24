@@ -6,7 +6,7 @@ import styles from './RecordingForm.module.css';
 import SuccessModal from '../SuccessModal/SuccessModal';
 
 
-interface RecordingFormData {
+export interface RecordingFormData {
   name?: string;
   tel: string;
   message?: string;
