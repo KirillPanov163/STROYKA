@@ -13,3 +13,15 @@ export const fetchFaqs = createAsyncThunk<Faq[]>(
     }
   },
 );
+
+export const createFaq = createAsyncThunk<Faq, { question?: string; answers?: string }>(
+  'faq/createFaq',
+  async (faqData, { rejectWithValue }) => {
+    try {
+      const response = await axios.post<Faq>('/api/faq', faqData);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.message || 'Ошибка создания FAQ');
+    }
+  },
+);
