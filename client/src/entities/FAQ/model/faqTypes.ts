@@ -6,7 +6,7 @@ export interface Faq {
   updatedAt: string;
 }
 
-export interface FaqState {
+export interface FAQState {
   data: Faq[];
   loading: boolean;
   error: string | null;
