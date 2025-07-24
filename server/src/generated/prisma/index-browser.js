@@ -169,6 +169,7 @@ exports.Prisma.ServiceScalarFieldEnum = {
   id: 'id',
   service: 'service',
   description: 'description',
+  image: 'image',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -242,7 +243,8 @@ exports.Prisma.FaqOrderByRelevanceFieldEnum = {
 
 exports.Prisma.ServiceOrderByRelevanceFieldEnum = {
   service: 'service',
-  description: 'description'
+  description: 'description',
+  image: 'image'
 };
 
 exports.Prisma.My_workOrderByRelevanceFieldEnum = {

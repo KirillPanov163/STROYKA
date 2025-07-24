@@ -4296,6 +4296,7 @@ export namespace Prisma {
     id: number | null
     service: string | null
     description: string | null
+    image: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -4304,6 +4305,7 @@ export namespace Prisma {
     id: number | null
     service: string | null
     description: string | null
+    image: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -4312,6 +4314,7 @@ export namespace Prisma {
     id: number
     service: number
     description: number
+    image: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -4330,6 +4333,7 @@ export namespace Prisma {
     id?: true
     service?: true
     description?: true
+    image?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -4338,6 +4342,7 @@ export namespace Prisma {
     id?: true
     service?: true
     description?: true
+    image?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -4346,6 +4351,7 @@ export namespace Prisma {
     id?: true
     service?: true
     description?: true
+    image?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -4441,6 +4447,7 @@ export namespace Prisma {
     id: number
     service: string | null
     description: string | null
+    image: string | null
     createdAt: Date
     updatedAt: Date
     _count: ServiceCountAggregateOutputType | null
@@ -4468,6 +4475,7 @@ export namespace Prisma {
     id?: boolean
     service?: boolean
     description?: boolean
+    image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["service"]>
@@ -4478,11 +4486,12 @@ export namespace Prisma {
     id?: boolean
     service?: boolean
     description?: boolean
+    image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ServiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "service" | "description" | "createdAt" | "updatedAt", ExtArgs["result"]["service"]>
+  export type ServiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "service" | "description" | "image" | "createdAt" | "updatedAt", ExtArgs["result"]["service"]>
 
   export type $ServicePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Service"
@@ -4491,6 +4500,7 @@ export namespace Prisma {
       id: number
       service: string | null
       description: string | null
+      image: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["service"]>
@@ -4865,6 +4875,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Service", 'Int'>
     readonly service: FieldRef<"Service", 'String'>
     readonly description: FieldRef<"Service", 'String'>
+    readonly image: FieldRef<"Service", 'String'>
     readonly createdAt: FieldRef<"Service", 'DateTime'>
     readonly updatedAt: FieldRef<"Service", 'DateTime'>
   }
@@ -7169,6 +7180,7 @@ export namespace Prisma {
     id: 'id',
     service: 'service',
     description: 'description',
+    image: 'image',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -7266,7 +7278,8 @@ export namespace Prisma {
 
   export const ServiceOrderByRelevanceFieldEnum: {
     service: 'service',
-    description: 'description'
+    description: 'description',
+    image: 'image'
   };
 
   export type ServiceOrderByRelevanceFieldEnum = (typeof ServiceOrderByRelevanceFieldEnum)[keyof typeof ServiceOrderByRelevanceFieldEnum]
@@ -7615,6 +7628,7 @@ export namespace Prisma {
     id?: IntFilter<"Service"> | number
     service?: StringNullableFilter<"Service"> | string | null
     description?: StringNullableFilter<"Service"> | string | null
+    image?: StringNullableFilter<"Service"> | string | null
     createdAt?: DateTimeFilter<"Service"> | Date | string
     updatedAt?: DateTimeFilter<"Service"> | Date | string
   }
@@ -7623,6 +7637,7 @@ export namespace Prisma {
     id?: SortOrder
     service?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
+    image?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _relevance?: ServiceOrderByRelevanceInput
@@ -7635,6 +7650,7 @@ export namespace Prisma {
     NOT?: ServiceWhereInput | ServiceWhereInput[]
     service?: StringNullableFilter<"Service"> | string | null
     description?: StringNullableFilter<"Service"> | string | null
+    image?: StringNullableFilter<"Service"> | string | null
     createdAt?: DateTimeFilter<"Service"> | Date | string
     updatedAt?: DateTimeFilter<"Service"> | Date | string
   }, "id">
@@ -7643,6 +7659,7 @@ export namespace Prisma {
     id?: SortOrder
     service?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
+    image?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ServiceCountOrderByAggregateInput
@@ -7659,6 +7676,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"Service"> | number
     service?: StringNullableWithAggregatesFilter<"Service"> | string | null
     description?: StringNullableWithAggregatesFilter<"Service"> | string | null
+    image?: StringNullableWithAggregatesFilter<"Service"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Service"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Service"> | Date | string
   }
@@ -8117,6 +8135,7 @@ export namespace Prisma {
   export type ServiceCreateInput = {
     service?: string | null
     description?: string | null
+    image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -8125,6 +8144,7 @@ export namespace Prisma {
     id?: number
     service?: string | null
     description?: string | null
+    image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -8132,6 +8152,7 @@ export namespace Prisma {
   export type ServiceUpdateInput = {
     service?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8140,6 +8161,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     service?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8148,6 +8170,7 @@ export namespace Prisma {
     id?: number
     service?: string | null
     description?: string | null
+    image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -8155,6 +8178,7 @@ export namespace Prisma {
   export type ServiceUpdateManyMutationInput = {
     service?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8163,6 +8187,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     service?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8674,6 +8699,7 @@ export namespace Prisma {
     id?: SortOrder
     service?: SortOrder
     description?: SortOrder
+    image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -8686,6 +8712,7 @@ export namespace Prisma {
     id?: SortOrder
     service?: SortOrder
     description?: SortOrder
+    image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -8694,6 +8721,7 @@ export namespace Prisma {
     id?: SortOrder
     service?: SortOrder
     description?: SortOrder
+    image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }

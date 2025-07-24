@@ -62,6 +62,7 @@ model Service {
   id                  Int      @id @default(autoincrement())
   service             String?  @db.Text
   description         String?  @db.Text
+  image               String?  @db.Text
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

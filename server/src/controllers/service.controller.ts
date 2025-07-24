@@ -49,9 +49,9 @@ export class ServiceController {
 
   static async createService(req: Request, res: Response) {
     try {
-      const { service, description } = req.body;
+      const { service, description, image } = req.body;
 
-      if (!service || !description) {
+      if (!service || !description || !image) {
         return res
           .status(400)
           .json(formatResponse(400, 'Название и описание сервиса обязательны'));
@@ -60,6 +60,7 @@ export class ServiceController {
       const newService = await ServiceService.createService({
         service,
         description,
+        image,
       });
 
       return res
