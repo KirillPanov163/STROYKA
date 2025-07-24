@@ -67,7 +67,7 @@ const serviceSlice = createSlice({
       })
       .addCase(createService.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload?.message || 'Ошибка создания услуги';
+        state.error =  'Ошибка создания услуги';
       })
 
       .addCase(deleteService.pending, (state) => {
