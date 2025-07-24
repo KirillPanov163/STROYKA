@@ -49,3 +49,15 @@ export const updateFaq = createAsyncThunk<
     return rejectWithValue(error.message || 'Ошибка обновления FAQ');
   }
 });
+
+export const deleteFaq = createAsyncThunk<number, number>(
+  'faq/deleteFaq',
+  async (id, { rejectWithValue }) => {
+    try {
+      await axios.delete(`/api/faq/${id}`);
+      return id;
+    } catch (error: any) {
+      return rejectWithValue(error.message || 'Ошибка удаления FAQ');
+    }
+  },
+);
