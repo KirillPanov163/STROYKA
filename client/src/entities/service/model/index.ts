@@ -1,30 +1,24 @@
 export type ServiceType = {
-  id: string;
-  service: string;
-  description: string;
-  image: string;
-  createdAt: string;
-  updatedAt: string;
+  id?: string | null;
+  service: string | null;
+  description: string | null;
+  image: string | null;
+  createdAt: string | null;
+  updatedAt: string | null;
 };
 
-export type ServiceApiType = {
-  services: ServiceType[];
-};
 
-export type ServiceApiResponseType = {
-  service: ServiceApiType;
-};
 
 export type ServiceStateType = {
   service: ServiceType | null;
-  currentService: ServiceType | null;
+  services: ServiceType[]; 
   isLoading: boolean;
   error: string | null;
 };
 
 export const initialState: ServiceStateType = {
   service: null,
-  currentService: null,
+  services: [], 
   isLoading: false,
   error: null,
 };
