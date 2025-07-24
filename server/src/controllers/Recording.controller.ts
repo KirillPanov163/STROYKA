@@ -5,7 +5,7 @@ export class RecordingController {
   static async sendMessage(req: Request, res: Response) {
     const { name, email, tel, message, personalData, oferta, mailing } = req.body;
     try {
-      await RecordingService.sendMessage({ name, email, tel, message, personalData, oferta, mailing });
+      await RecordingService.sendMessage({ name, tel, message, personalData, oferta });
       return res
         .status(200)
         .json({ success: true, message: 'Заявка успешно отправлена' });
