@@ -57,9 +57,5 @@ export const AlertProvider = ({ children }: { children: React.ReactNode }) => {
     dispatch,
   };
 
-  return (
-    <AlertContext.Provider value={contextValue}>
-      {children}
-    </AlertContext.Provider>
-  );
+  return <AlertContext.Provider value={contextValue}>{children}</AlertContext.Provider>;
 };
