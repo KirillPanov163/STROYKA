@@ -17,6 +17,8 @@ enum CONTACTS_API_URLS {
   WITH_ID = 'contacts/:id',
 }
 
+//& СОЗДАНИЕ-------------------------------------------------
+
 export const createContactThunk = createAsyncThunk<
   ContactType,
   ContactDataType,
@@ -33,6 +35,8 @@ export const createContactThunk = createAsyncThunk<
   }
 });
 
+//& ПОЛУЧИТЬ ВСЕХ-------------------------------------------------
+
 export const getAllContactsThunk = createAsyncThunk<
   ContactType[],
   void,
@@ -47,6 +51,8 @@ export const getAllContactsThunk = createAsyncThunk<
     return rejectWithValue(handleAxiosError(error));
   }
 });
+
+//& ПОЛУЧИТЬ ОДНОГО-------------------------------------------------
 
 export const getContactByIdThunk = createAsyncThunk<
   ContactType,
@@ -63,24 +69,28 @@ export const getContactByIdThunk = createAsyncThunk<
   }
 });
 
+//& ОБНОВЛЕНИЕ-------------------------------------------------
+
 export const updateContactThunk = createAsyncThunk<
   ContactType,
   { id: number; data: ContactDataType },
   { rejectValue: ServerResponseType<null> }
 >(
   CONTACTS_THUNK_TYPES.UPDATE_CONTACT,
-  async ({ id, updateData }, { rejectWithValue }) => {
+  async ({ id, data }, { rejectWithValue }) => {
     try {
-      const { data } = await axiosInstance.put<ServerResponseType<ContactType>>(
+      const { data: responseData } = await axiosInstance.put<ServerResponseType<ContactType>>(
         CONTACTS_API_URLS.WITH_ID.replace(':id', id.toString()),
-        updateData,
+        data,
       );
-      return data.data;
+      return responseData.data;
     } catch (error) {
       return rejectWithValue(handleAxiosError(error));
     }
   },
 );
+
+//& УДАЛЕНИЕ-------------------------------------------------
 
 export const deleteContactThunk = createAsyncThunk<
   number,
