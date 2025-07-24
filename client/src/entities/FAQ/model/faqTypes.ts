@@ -12,4 +12,5 @@ export interface FAQState {
   data: Faq[];
   status: FAQThunkStatus;
   error: string | null;
+  selectedFAQ: Faq | null;
 }

@@ -13,12 +13,20 @@ const initialState: FAQState = {
   data: [],
   status: FAQThunkStatus.IDLE,
   error: null,
+  selectedFAQ: null,
 };
 
 const faqSlice = createSlice({
   name: 'faq',
   initialState,
-  reducers: {},
+  reducers: {
+    setSelectedFAQ(state, action) {
+      state.selectedFAQ = action.payload;
+    },
+    clearSelectedFAQ(state) {
+      state.selectedFAQ = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       // fetchFaqs
