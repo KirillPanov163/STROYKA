@@ -54,7 +54,6 @@ const faqSlice = createSlice({
       })
       .addCase(getFaqById.fulfilled, (state, action) => {
         state.status = FAQThunkStatus.SUCCEEDED;
-        // Можно добавить отдельное поле для выбранного FAQ, если нужно
       })
       .addCase(getFaqById.rejected, (state, action) => {
         state.status = FAQThunkStatus.FAILED;
