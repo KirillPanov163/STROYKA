@@ -1,0 +1,51 @@
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+  background: none;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  background: rgba(30, 30, 30, 0.7);
+  border-radius: 50px;
+  padding: 20px 48px;
+  box-shadow: 0 0 60px 0 rgba(0, 0, 0, 0.4);
+  min-width: 600px;
+}
+
+.logo {
+  font-family: 'Dancing Script', cursive, sans-serif;
+  font-size: 2.0rem;
+  color: #d1a06f;
+  margin-right: 48px;
+  margin-bottom: 9px;
+  letter-spacing: 4px;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  line-height: 1;
+
+}
+
+.menu {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu li {
+  color: #f3f3f3;
+  font-size: 1.3rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.menu li:hover {
+  color: #d1a06f;
+}
