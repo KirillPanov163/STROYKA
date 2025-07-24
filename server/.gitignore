@@ -1,5 +1,4 @@
 # Logs
-src/generated
 logs
 *.log
 npm-debug.log*
@@ -26,8 +25,6 @@ coverage
 
 # nyc test coverage
 .nyc_output
-
-src/generated
 
 # Grunt intermediate storage (https://gruntjs.com/creating-plugins#storing-task-files)
 .grunt

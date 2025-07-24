@@ -21,24 +21,8 @@
 4. Допилить за сегодня сервак
 
 ## Kirill
-1.Добавил Axios в shared
+1.Добваил Axios в shared
 2.Добавил Alert в features
-
-## Vladislav
-1. Header, Header.css
-2. Footer, Footer.css
-3. entities -> FAQ (api, model, slice)
-4. enums -> faqThunkTypes
-
-
-
-## Aza
-1. fix server
-2. entities -> FAQ (api, model, slice)
-
-__________________________________________
-
-
 
 3. Сделать нарисованный макет всего проекта, чтобы утвердить функционал и визуал
 
