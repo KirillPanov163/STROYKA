@@ -25,3 +25,15 @@ export const createFaq = createAsyncThunk<Faq, { question?: string; answers?: st
     }
   },
 );
+
+export const getFaqById = createAsyncThunk<Faq, number>(
+  'faq/getFaqById',
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await axios.get<Faq>(`/api/faq/${id}`);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.message || 'Ошибка получения FAQ по id');
+    }
+  },
+);
