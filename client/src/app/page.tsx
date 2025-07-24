@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import styles from './page.module.css';
+import { RecordingForm } from '../features/recordingForm/RecordingForm';
 
 export default function Home() {
   return (
@@ -71,7 +72,14 @@ export default function Home() {
           <Image aria-hidden src="/globe.svg" alt="Globe icon" width={16} height={16} />
           Go to nextjs.org →
         </a>
+
       </footer>
+
+
+      
+          <RecordingForm />
+        
+      
     </div>
   );
 }
