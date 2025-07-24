@@ -20,9 +20,11 @@ const faqSlice = createSlice({
   name: 'faq',
   initialState,
   reducers: {
+    //  для выбора FAQ (устанавливает объект FAQ в selectedFAQ)
     setSelectedFAQ(state, action) {
       state.selectedFAQ = action.payload;
     },
+    // для сброса выбранного FAQ 
     clearSelectedFAQ(state) {
       state.selectedFAQ = null;
     },
