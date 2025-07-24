@@ -61,7 +61,7 @@ export const updateMetaData = createAsyncThunk<
 >(METADATA_TYPES.UPDATE_METADATA, async (updatedData, { rejectWithValue }) => {
   try {
     const { data } = await axiosInstance.put<ServerResponseType<IMetaData>>(
-      `${METADATA_API_ROUTES.METADATA}/${updatedData.id}`,
+      `${METADATA_API_ROUTES.METADATA}/${updatedData.id}`, updatedData
     );
     return data;
   } catch (error) {
