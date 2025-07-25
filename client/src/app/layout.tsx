@@ -1,5 +1,5 @@
-import type { Metadata, Viewport } from 'next'; // Добавлен Viewport
-import { Geist, Geist_Mono } from 'next/font/google';
+// client/src/app/layout.tsx
+import type { Metadata } from 'next';
 import './globals.css';
 import Navigation from '../widgets/Navigation/Navigation';
 import Footer from '../widgets/Footer/Footer';
@@ -7,78 +7,52 @@ import { Providers } from '@/store/providers';
 import { Feedback } from '@/widgets/Feedback/Feedback';
 
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
+export async function generateMetadata(): Promise<Metadata> {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/metaData`, {
+    cache: 'no-store',
+  });
+  const metaDatas = await res.json();
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
+  const meta = metaDatas.data[0];
+  const rowKeyWords = meta?.keywords;
+  const arr = JSON.parse(rowKeyWords);
+  const keywords = arr.join(', ');
+  console.log(keywords);
+  console.log(meta);
 
-export const metadata: Metadata = {
-  title: 'Профессиональный монтаж вентиляции и кондиционеров | ВашКомфорт',
-  description:
-    'Установка и обслуживание систем вентиляции, кондиционирования и очистки воздуха в Москве и области. Гарантия качества, индивидуальные решения.',
-  keywords: [
-    'установка кондиционеров Москва',
-    'монтаж вентиляции',
-    'климатические системы',
-    'обслуживание кондиционеров',
-    'чистка вентиляции',
-    'VRF системы',
-    'сплит-системы',
-    'умный микроклимат',
-  ],
-  authors: [{ name: 'ВашКомфорт', url: 'https://vash-comfort.ru' }],
-  metadataBase: new URL('https://vash-comfort.ru'),
-  alternates: {
-    canonical: '/',
-  },
-  openGraph: {
-    title: 'Монтаж вентиляции и кондиционеров в Москве | ВашКомфорт',
-    description:
-      'Профессиональная установка климатического оборудования для дома и офиса. Индивидуальный подход, гарантия на работы.',
-    url: 'https://vash-comfort.ru',
-    siteName: 'ВашКомфорт',
-    images: [
-      {
-        url: '/og-image.jpg',
-        width: 1200,
-        height: 630,
-      },
-    ],
-    locale: 'ru_RU',
-    type: 'website',
-  },
-  // Удалено: themeColor перенесен в viewport
-  icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon-16x16.png',
-    apple: '/apple-touch-icon.png',
-  },
-  other: {
-    'geo.region': 'RU-MOW',
-    'geo.placename': 'Москва',
-    'geo.position': '55.7558;37.6173',
-    ICBM: '55.7558, 37.6173',
-  },
-};
+  return {
+    title: meta?.title || 'ВашКомфорт',
+    description: meta?.description || '',
+    keywords: keywords || '',
+    authors: {
+      name: 'Колчин Александр, Садиков Денис, Азамат Болатчиев, Кирилл, Николай Володин, Владислав Бурихин',
+    },
+    openGraph: {
+      title: meta?.openGraph_title || meta?.title,
+      description: meta?.openGraph_description || meta?.description,
+      url: meta?.openGraph_url,
+      siteName: meta?.openGraph_siteName,
+      locale: 'ru_RU',
+      type: 'website',
+    },
+    icons: {
+      icon: meta?.icons_icon,
+      shortcut: meta?.icons_shortcut,
+      apple: meta?.icons_apple,
+    },
+    other: {
+      'geo.region': meta?.other_geo_region,
+      'geo.placename': meta?.other_geo_placename,
+      'geo.position': meta?.other_geo_position,
+      'ICBM': meta?.other_ICBM,
+    },
+  };
+}
 
-// Добавлено: новый блок viewport с themeColor
-export const viewport: Viewport = {
-  themeColor: '#18120e',
-};
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ru">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body>
         <Providers>
           <Navigation />
           {children}
