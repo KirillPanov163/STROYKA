@@ -1,0 +1,265 @@
+.brandsContainer {
+  width: 100%;
+  margin: 48px 0;
+  position: relative;
+}
+
+.title {
+  text-align: center;
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  font-weight: 700;
+  color: var(--gray-900, #111827);
+  margin-bottom: 32px;
+  position: relative;
+}
+
+.title::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background-color: var(--primary-blue, #2563eb);
+  border-radius: 2px;
+}
+
+.sliderWrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  background-color: var(--gray-50, #f9fafb);
+  padding: 24px 0;
+}
+
+.slider {
+  display: flex;
+  gap: 24px;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  padding: 0 24px;
+  width: fit-content;
+}
+
+.slide {
+  flex-shrink: 0;
+  width: 180px;
+  height: 100px;
+}
+
+.brandCard {
+  width: 100%;
+  height: 100%;
+  background-color: var(--white, #ffffff);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  border: 1px solid var(--gray-200, #e5e7eb);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.brandCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: var(--primary-blue, #2563eb);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.brandCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+.brandCard:hover::before {
+  transform: scaleX(1);
+}
+
+.logoContainer {
+  padding: 16px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoContainer img {
+  max-width: 100%;
+  max-height: 100%;
+  filter: grayscale(0.3);
+  transition: filter 0.3s ease;
+}
+
+.brandCard:hover .logoContainer img {
+  filter: grayscale(0);
+}
+
+.brandName {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--gray-700, #374151);
+  text-align: center;
+}
+
+/* Градиенты по краям для эффекта затухания */
+.gradient {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    var(--gray-50, #f9fafb) 0%,
+    transparent 10%,
+    transparent 90%,
+    var(--gray-50, #f9fafb) 100%
+  );
+  border-radius: 16px;
+}
+
+/* Адаптивность */
+@media (max-width: 1024px) {
+  .slide {
+    width: 160px;
+    height: 90px;
+  }
+  
+  .slider {
+    gap: 20px;
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .brandsContainer {
+    margin: 32px 0;
+  }
+  
+  .title {
+    margin-bottom: 24px;
+    font-size: 1.5rem;
+  }
+  
+  .sliderWrapper {
+    padding: 20px 0;
+  }
+  
+  .slide {
+    width: 140px;
+    height: 80px;
+  }
+  
+  .slider {
+    gap: 16px;
+    padding: 0 16px;
+  }
+  
+  .logoContainer {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .slide {
+    width: 120px;
+    height: 70px;
+  }
+  
+  .slider {
+    gap: 12px;
+    padding: 0 12px;
+  }
+  
+  .logoContainer {
+    padding: 8px;
+  }
+  
+  .brandName {
+    font-size: 0.9rem;
+  }
+}
+
+/* Темная тема */
+@media (prefers-color-scheme: dark) {
+  .title {
+    color: var(--gray-100, #f3f4f6);
+  }
+  
+  .sliderWrapper {
+    background-color: var(--gray-800, #1f2937);
+  }
+  
+  .brandCard {
+    background-color: var(--gray-700, #374151);
+    border-color: var(--gray-600, #4b5563);
+  }
+  
+  .brandCard:hover {
+    background-color: var(--gray-600, #4b5563);
+  }
+  
+  .brandName {
+    color: var(--gray-200, #e5e7eb);
+  }
+  
+  .gradient {
+    background: linear-gradient(
+      90deg,
+      var(--gray-800, #1f2937) 0%,
+      transparent 10%,
+      transparent 90%,
+      var(--gray-800, #1f2937) 100%
+    );
+  }
+}
+
+/* Анимации */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.brandCard {
+  animation: slideIn 0.6s ease-out;
+}
+
+/* Улучшенная производительность */
+.slider {
+  will-change: scroll-position;
+}
+
+.brandCard {
+  will-change: transform;
+}
+
+/* Доступность */
+.brandCard:focus {
+  outline: 2px solid var(--primary-blue, #2563eb);
+  outline-offset: 2px;
+}
+
+/* Предотвращение выделения текста при перетаскивании */
+.slider {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
