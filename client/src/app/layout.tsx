@@ -1,9 +1,10 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next'; // Добавлен Viewport
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import Navigation from '../widgets/Navigation/Navigation';
 import Footer from '../widgets/Footer/Footer';
-import { Providers } from '@/store/providers';
+import { Providers } from '@/store/Providers';
+
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
@@ -49,7 +50,7 @@ export const metadata: Metadata = {
     locale: 'ru_RU',
     type: 'website',
   },
-  themeColor: '#18120e',
+  // Удалено: themeColor перенесен в viewport
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon-16x16.png',
@@ -61,6 +62,11 @@ export const metadata: Metadata = {
     'geo.position': '55.7558;37.6173',
     ICBM: '55.7558, 37.6173',
   },
+};
+
+// Добавлено: новый блок viewport с themeColor
+export const viewport: Viewport = {
+  themeColor: '#18120e',
 };
 
 export default function RootLayout({
