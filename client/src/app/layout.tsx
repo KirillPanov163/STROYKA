@@ -1,9 +1,8 @@
-// client/src/app/layout.tsx
 import type { Metadata } from 'next';
 import './globals.css';
 import Navigation from '../widgets/Navigation/Navigation';
 import Footer from '../widgets/Footer/Footer';
-import { Providers } from '@/store/providers';
+import { Providers } from '@/store/Providers';
 import { Feedback } from '@/widgets/Feedback/Feedback';
 
 
