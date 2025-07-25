@@ -41,15 +41,6 @@
 2. Footer, Footer.css
 3. entities -> FAQ (api, model, slice)
 4. enums -> faqThunkTypes
-5. main page
-6. min styles for main page
-6. slider for main page
-
-
-## Aza
-1. fix server
-2. entities -> FAQ (api, model, slice)
-_______________________________________
 
 
 3. Сделать нарисованный макет всего проекта, чтобы утвердить функционал и визуал
