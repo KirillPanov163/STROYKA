@@ -1,36 +1,15 @@
 import Image from 'next/image';
-import dynamic from 'next/dynamic';
 import styles from './page.module.css';
+import BrandsSlider from '../pages/BrandsSlider';
 import { RecordingForm } from '../features/recordingForm/RecordingForm';
 
-// Динамический импорт react-slick (чтобы избежать SSR проблем)
-const Slider = dynamic(() => import('react-slick'), { ssr: false });
-
 export default function Home() {
-  // Настройки для react-slick
-  const sliderSettings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    arrows: true,
-    responsive: [
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 2,
-        },
-      },
-    ],
-  };
-
   return (
     <div className={styles.page}>
       {/* Баннер */}
       <section className={styles.banner}>
         <Image
-          src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80"
+          src="/images/TheOffice_16.jpg"
           alt="Интерьер с вентиляцией"
           fill
           style={{ objectFit: 'cover' }}
@@ -69,40 +48,7 @@ export default function Home() {
 
       {/* Слайдер брендов */}
       <section className={styles.brands}>
-        <Slider {...sliderSettings}>
-          <div className={styles.brandSlide}>
-            <Image
-              src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Mitsubishi_logo.svg"
-              alt="Mitsubishi"
-              width={100}
-              height={40}
-            />
-          </div>
-          <div className={styles.brandSlide}>
-            <Image
-              src="https://upload.wikimedia.org/wikipedia/commons/2/24/Electrolux_logo.svg"
-              alt="Electrolux"
-              width={100}
-              height={40}
-            />
-          </div>
-          <div className={styles.brandSlide}>
-            <Image
-              src="https://upload.wikimedia.org/wikipedia/commons/2/24/Samsung_Logo.svg"
-              alt="Samsung"
-              width={100}
-              height={40}
-            />
-          </div>
-          <div className={styles.brandSlide}>
-            <Image
-              src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Subaru_logo.svg"
-              alt="Subaru"
-              width={100}
-              height={40}
-            />
-          </div>
-        </Slider>
+        <BrandsSlider />
       </section>
 
       {/* Наши услуги */}
