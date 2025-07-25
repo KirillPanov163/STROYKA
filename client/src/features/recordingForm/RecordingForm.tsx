@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styles from './RecordingForm.module.css';
 import SuccessModal from '../SuccessModal/SuccessModal';
+import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
+import { sendRecordingThunk } from '@/entities/recording/api/RecordingFormApi';
 
 
 export interface RecordingFormData {
@@ -21,7 +23,7 @@ const STORAGE_KEY = 'recording_submissions';
 export const RecordingForm = (): React.JSX.Element => {
   const [modalOpen, setModalOpen] = useState(false);
   const [textModal, setTextModal] = useState('');
-
+  const dispatch = useAppDispatch()
   const {
     register,
     handleSubmit,
@@ -68,6 +70,7 @@ export const RecordingForm = (): React.JSX.Element => {
     }
   };
 
+  
   const saveSubmission = (submission: RecordingFormData) => {
     const submissions = getSubmissions();
     submissions.push(submission);
@@ -75,16 +78,18 @@ export const RecordingForm = (): React.JSX.Element => {
   };
 
   const onSubmit = async (data: RecordingFormData) => {
+    
     const existingSubmissions = getSubmissions();
 
     if (existingSubmissions.length >= MAX_SUBMISSIONS) {
+      dispatch(sendRecordingThunk(data))
       setTextModal('Вы уже отправили максимальное количество заявок');
       setModalOpen(true);
       return;
     }
 
     try {
-      // Здесь должна быть логика отправки данных
+      
       console.log('Отправка данных:', data);
       
       saveSubmission(data);
