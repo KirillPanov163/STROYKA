@@ -24,7 +24,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description: meta?.description || '',
     keywords: keywords || '',
     authors: {
-      name: 'Колчин Александр, Садиков Денис, Азамат Болатчиев, Кирилл, Николай Володин, Владислав Бурихин',
+      name: 'Колчин Александр, Садиков Денис, Азамат Болатчиев, Кирилл Панов, Николай Володин, Владислав Бурихин',
     },
     openGraph: {
       title: meta?.openGraph_title || meta?.title,

@@ -1,11 +1,11 @@
 import Image from 'next/image';
 import styles from './page.module.css';
 import { RecordingForm } from '../features/recordingForm/RecordingForm';
+import { ContactsPageComponents } from '@/pages/recordingPage/ContactsPage';
 
 export default function Home() {
   return (
     <div className={styles.page}>
-      <RecordingForm/>
       <main className={styles.main}>
         <Image
           className={styles.logo}
@@ -47,6 +47,7 @@ export default function Home() {
             Read our docs
           </a>
         </div>
+        <ContactsPageComponents/>
       </main>
       <footer className={styles.footer}>
         <a
