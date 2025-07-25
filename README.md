@@ -41,6 +41,9 @@
 2. Footer, Footer.css
 3. entities -> FAQ (api, model, slice)
 4. enums -> faqThunkTypes
+5. main page
+6. min styles for main page
+6. slider for main page
 
 
 ## Aza
