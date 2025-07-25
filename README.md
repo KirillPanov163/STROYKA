@@ -1,4 +1,4 @@
-## На данный момент готово Den
+## На данный момент готово 
 
 1. Сделана регистрация с двухфакторкой
 2. Сделана форма для записи пока только бэк
@@ -41,9 +41,6 @@
 2. Footer, Footer.css
 3. entities -> FAQ (api, model, slice)
 4. enums -> faqThunkTypes
-5. main page
-6. min styles for main page
-6. slider for main page
 
 
 3. Сделать нарисованный макет всего проекта, чтобы утвердить функционал и визуал
