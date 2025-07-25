@@ -5,6 +5,7 @@ import { RecordingForm } from '../features/recordingForm/RecordingForm';
 export default function Home() {
   return (
     <div className={styles.page}>
+      <RecordingForm/>
       <main className={styles.main}>
         <Image
           className={styles.logo}
@@ -74,12 +75,6 @@ export default function Home() {
         </a>
 
       </footer>
-
-
-      
-          <RecordingForm />
-        
-      
     </div>
   );
 }

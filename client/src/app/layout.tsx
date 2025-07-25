@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
-import Navigation from "../widgets/Navigation/Navigation";
+import Navigation from '../widgets/Navigation/Navigation';
 import Footer from '../widgets/Footer/Footer';
+import { Providers } from '@/store/providers';
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
@@ -15,7 +16,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'Профессиональный монтаж вентиляции и кондиционеров | ВашКомфорт',
-  description: 'Установка и обслуживание систем вентиляции, кондиционирования и очистки воздуха в Москве и области. Гарантия качества, индивидуальные решения.',
+  description:
+    'Установка и обслуживание систем вентиляции, кондиционирования и очистки воздуха в Москве и области. Гарантия качества, индивидуальные решения.',
   keywords: [
     'установка кондиционеров Москва',
     'монтаж вентиляции',
@@ -24,7 +26,7 @@ export const metadata: Metadata = {
     'чистка вентиляции',
     'VRF системы',
     'сплит-системы',
-    'умный микроклимат'
+    'умный микроклимат',
   ],
   authors: [{ name: 'ВашКомфорт', url: 'https://vash-comfort.ru' }],
   metadataBase: new URL('https://vash-comfort.ru'),
@@ -33,7 +35,8 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Монтаж вентиляции и кондиционеров в Москве | ВашКомфорт',
-    description: 'Профессиональная установка климатического оборудования для дома и офиса. Индивидуальный подход, гарантия на работы.',
+    description:
+      'Профессиональная установка климатического оборудования для дома и офиса. Индивидуальный подход, гарантия на работы.',
     url: 'https://vash-comfort.ru',
     siteName: 'ВашКомфорт',
     images: [
@@ -56,7 +59,7 @@ export const metadata: Metadata = {
     'geo.region': 'RU-MOW',
     'geo.placename': 'Москва',
     'geo.position': '55.7558;37.6173',
-    'ICBM': '55.7558, 37.6173',
+    ICBM: '55.7558, 37.6173',
   },
 };
 
@@ -68,9 +71,11 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-      <Navigation />
-      {children}
-      <Footer />
+        <Providers>
+          <Navigation />
+          {children}
+          <Footer />
+        </Providers>
       </body>
     </html>
   );
