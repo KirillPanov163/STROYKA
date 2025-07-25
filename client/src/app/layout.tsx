@@ -1,10 +1,8 @@
-import type { Metadata, Viewport } from 'next'; // Добавлен Viewport
+import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import Navigation from "../widgets/Navigation/Navigation";
 import Footer from '../widgets/Footer/Footer';
-import { Providers } from '@/store/Providers';
-
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
@@ -48,7 +46,7 @@ export const metadata: Metadata = {
     locale: 'ru_RU',
     type: 'website',
   },
-  // Удалено: themeColor перенесен в viewport
+  themeColor: '#18120e',
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon-16x16.png',
@@ -62,11 +60,6 @@ export const metadata: Metadata = {
   },
 };
 
-// Добавлено: новый блок viewport с themeColor
-export const viewport: Viewport = {
-  themeColor: '#18120e',
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -75,11 +68,9 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <Providers>
-          <Navigation />
-          {children}
-          <Footer />
-        </Providers>
+      <Navigation />
+      {children}
+      <Footer />
       </body>
     </html>
   );
