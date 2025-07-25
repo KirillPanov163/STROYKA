@@ -10,8 +10,7 @@
 // };
 export default {
   origin: [
-    'http://localhost:5173',
-    'http://localhost:5174',
+    'http://localhost:4000',
     'https://madewlove.ru',
     'https://www.madewlove.ru',
     'http://91.197.97.48:3000'
