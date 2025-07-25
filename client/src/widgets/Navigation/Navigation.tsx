@@ -2,17 +2,18 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import styles from './Navigation.module.css';
 
-const Header = () => {
+export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      setIsScrolled(window.scrollY > 20);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -28,53 +29,67 @@ const Header = () => {
   };
 
   const navItems = [
-    { href: '/', label: 'Главная' },
     { href: '/services', label: 'Услуги' },
-    { href: '/about', label: 'О нас' },
-    { href: '/portfolio', label: 'Портфолио' },
+    { href: '/portfolio', label: 'Наши работы' },
     { href: '/contacts', label: 'Контакты' },
   ];
 
   return (
     <header className={`${styles.header} ${isScrolled ? styles.headerScrolled : ''}`}>
-      <nav className={styles.nav}>
-        <Link href="/" className={styles.logo} onClick={closeMobileMenu}>
-          🚀 WebStudio
-        </Link>
+      <div className={styles.container}>
+        <nav className={styles.nav}>
+          <Link href="/" className={styles.logo} onClick={closeMobileMenu}>
+            <div className={styles.logoContainer}>
+              <div className={styles.logoImage}>
+                <Image
+                  src="/logo_kraska.png"
+                  alt="kraska Logo"
+                  width={110}
+                  height={50}
+                  style={{ objectFit: 'contain' }}
+                  priority
+                  onError={(e) => {
+                    // Fallback если изображение не загрузилось
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                  }}
+                />
+              </div>
+            </div>
+          </Link>
 
-        {/* Desktop Navigation */}
-        <ul className={styles.navLinks}>
-          {navItems.map((item) => (
-            <li key={item.href}>
-              <Link
-                href={item.href}
-                className={`${styles.navLink} ${
-                  pathname === item.href ? styles.active : ''
-                }`}
-              >
-                {item.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
+          {/* Desktop Navigation */}
+          <ul className={styles.navLinks}>
+            {navItems.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className={`${styles.navLink} ${
+                    pathname === item.href ? styles.active : ''
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
 
-        <Link href="/contacts" className={styles.ctaButton}>
-          Связаться с нами
-        </Link>
-
-        {/* Mobile Menu Button */}
-        <button
-          className={styles.mobileMenuButton}
-          onClick={toggleMobileMenu}
-          aria-label="Открыть меню"
-          aria-expanded={isMobileMenuOpen}
-        >
-          <div className={`${styles.hamburger} ${isMobileMenuOpen ? styles.active : ''}`}>
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </button>
+          {/* Mobile Menu Button */}
+          <button
+            className={styles.mobileMenuButton}
+            onClick={toggleMobileMenu}
+            aria-label="Открыть меню"
+            aria-expanded={isMobileMenuOpen}
+          >
+            <div
+              className={`${styles.hamburger} ${isMobileMenuOpen ? styles.active : ''}`}
+            >
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </button>
+        </nav>
 
         {/* Mobile Menu */}
         <div className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.active : ''}`}>
@@ -93,15 +108,8 @@ const Header = () => {
               </li>
             ))}
           </ul>
-          <div className={styles.mobileCta}>
-            <Link href="/contacts" className={styles.ctaButton} onClick={closeMobileMenu}>
-              Связаться с нами
-            </Link>
-          </div>
         </div>
-      </nav>
+      </div>
     </header>
   );
 };
-
-export default Header;
