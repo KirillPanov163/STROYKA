@@ -1,0 +1,56 @@
+.contactsContainer {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.contactItem {
+  display: flex;
+  margin-bottom: 15px;
+  align-items: center;
+}
+
+.label {
+  font-weight: bold;
+  min-width: 100px;
+  color: #555;
+}
+
+.value {
+  color: #0066cc;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.value:hover {
+  color: #004499;
+  text-decoration: underline;
+}
+
+.emptyValue {
+  color: #999;
+  font-style: italic;
+}
+
+.loading,
+.error,
+.empty {
+  text-align: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.error {
+  color: #d32f2f;
+  background-color: #ffebee;
+}
