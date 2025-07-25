@@ -5,6 +5,28 @@ import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
 import { useAppSelector } from '@/shared/Hooks/useAppSelector';
 import { getAllContactsThunk } from '../api/ContactsApi';
 import styles from './Contacts.module.css';
+import Image from 'next/image';
+
+// Функция для форматирования телефонного номера
+const formatPhoneNumber = (phone: string): string => {
+  // Удаляем все нецифровые символы
+  const cleaned = phone.replace(/\D/g, '');
+  
+  // Проверяем длину номера и форматируем соответствующим образом
+  if (cleaned.length === 11) {
+    // Для российских номеров (11 цифр, начинающихся с 8 или 7)
+    return `+7 (${cleaned.substring(1, 4)}) ${cleaned.substring(4, 7)}-${cleaned.substring(7, 9)}-${cleaned.substring(9)}`;
+  } else if (cleaned.length === 10) {
+    // Для номеров без кода страны (предполагаем российский номер)
+    return `+7 (${cleaned.substring(0, 3)}) ${cleaned.substring(3, 6)}-${cleaned.substring(6, 8)}-${cleaned.substring(8)}`;
+  } else if (cleaned.length > 0) {
+    // Для международных номеров (просто добавляем + в начале)
+    return `+${cleaned}`;
+  }
+  
+  // Возвращаем исходное значение, если не удалось отформатировать
+  return phone;
+};
 
 export const Contacts = () => {
   const dispatch = useAppDispatch();
@@ -26,73 +48,65 @@ export const Contacts = () => {
     return <div className={styles.empty}>Контакты не найдены</div>;
   }
 
-  // Берем первый контакт (предполагаем, что в системе только один набор контактов)
   const contact = contacts[0];
 
   return (
     <div className={styles.contactsContainer}>
-      <h2 className={styles.title}>Наши контакты</h2>
-      
-      <div className={styles.contactItem}>
-        <span className={styles.label}>Телефон:</span>
-        {contact.tel ? (
-          <a href={`tel:${contact.tel}`} className={styles.value}>
-            {contact.tel}
-          </a>
-        ) : (
-          <span className={styles.emptyValue}>Не указан</span>
+      <div className={styles.contactInfo}>
+        {contact.tel && (
+          <div className={styles.contactItem}>
+            <a href={`tel:${contact.tel.replace(/\D/g, '')}`} className={styles.value}>
+              {formatPhoneNumber(contact.tel)}
+            </a>
+          </div>
+        )}
+        
+        {contact.email && (
+          <div className={styles.contactItem}>
+            <span className={styles.value}>{contact.email}</span>
+          </div>
+        )}
+        
+        {contact.address && (
+          <div className={styles.contactItem}>
+            <span className={styles.value}>{contact.address}</span>
+          </div>
         )}
       </div>
 
-      <div className={styles.contactItem}>
-        <span className={styles.label}>Email:</span>
-        {contact.email ? (
-          <a href={`mailto:${contact.email}`} className={styles.value}>
-            {contact.email}
-          </a>
-        ) : (
-          <span className={styles.emptyValue}>Не указан</span>
-        )}
-      </div>
-
-      <div className={styles.contactItem}>
-        <span className={styles.label}>Адрес:</span>
-        {contact.address ? (
-          <span className={styles.value}>{contact.address}</span>
-        ) : (
-          <span className={styles.emptyValue}>Не указан</span>
-        )}
-      </div>
-
-      <div className={styles.contactItem}>
-        <span className={styles.label}>WhatsApp:</span>
-        {contact.whatsapp ? (
+      <div className={styles.socialLinks}>
+        {contact.whatsapp && (
           <a 
-            href={`https://wa.me/${contact.whatsapp.replace(/\D/g, '')}`} 
-            target="_blank" 
+            href={`https://wa.me/${contact.whatsapp.replace(/\D/g, '')}`}
+            target="_blank"
             rel="noopener noreferrer"
-            className={styles.value}
+            className={styles.socialLink}
           >
-            {contact.whatsapp}
+            <Image 
+              src="/whatsapp-icon.svg" 
+              alt="WhatsApp" 
+              width={40} 
+              height={40}
+              className={styles.socialIcon}
+            />
           </a>
-        ) : (
-          <span className={styles.emptyValue}>Не указан</span>
         )}
-      </div>
-
-      <div className={styles.contactItem}>
-        <span className={styles.label}>Telegram:</span>
-        {contact.telegram ? (
+        
+        {contact.telegram && (
           <a 
-            href={`https://t.me/${contact.telegram.replace('@', '')}`} 
-            target="_blank" 
+            href={`https://t.me/${contact.telegram.replace('@', '')}`}
+            target="_blank"
             rel="noopener noreferrer"
-            className={styles.value}
+            className={styles.socialLink}
           >
-            {contact.telegram}
+            <Image 
+              src="/telegram-icon.svg" 
+              alt="Telegram" 
+              width={40} 
+              height={40}
+              className={styles.socialIcon}
+            />
           </a>
-        ) : (
-          <span className={styles.emptyValue}>Не указан</span>
         )}
       </div>
     </div>

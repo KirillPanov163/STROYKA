@@ -1,56 +1,86 @@
 .contactsContainer {
-  max-width: 600px;
+  max-width: 500px;
   margin: 0 auto;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
 }
 
-.title {
-  text-align: center;
-  color: #333;
-  margin-bottom: 20px;
+.contactInfo {
+  margin-bottom: 15px;
 }
 
 .contactItem {
-  display: flex;
   margin-bottom: 15px;
-  align-items: center;
+  width: 100%; /* Добавлено */
 }
 
-.label {
-  font-weight: bold;
-  min-width: 100px;
-  color: #555;
+/* Стили для телефона */
+.contactItem:nth-child(1) .value {
+  color: #1a365d;
+  font-weight: 600;
+  font-size: 1.1rem;
+  display: inline-block; /* Изменено с block на inline-block */
+  width: auto; /* Добавлено */
 }
 
-.value {
-  color: #0066cc;
+/* Стили для почты */
+.contactItem:nth-child(2) .value {
+  color: #1a365d;
+  font-weight: 600;
+  font-size: 1.1rem;
+  display: block;
+}
+
+/* Стили для адреса */
+.contactItem:nth-child(3) .value {
+  color: #4a5568;
+  font-weight: 400;
+  font-size: 1rem;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.value a {
   text-decoration: none;
-  transition: color 0.2s;
+  transition: color 0.3s;
+  display: inline-block; /* Добавлено */
 }
 
-.value:hover {
-  color: #004499;
-  text-decoration: underline;
+.value a:hover {
+  color: #2c5282;
 }
 
-.emptyValue {
-  color: #999;
-  font-style: italic;
+.socialLinks {
+  display: flex;
+  gap: 25px;
+  margin-top: 10px;
+  justify-content: flex-start;
+}
+
+.socialLink {
+  transition: transform 0.3s;
+}
+
+.socialLink:hover {
+  transform: scale(1.1);
+}
+
+.socialIcon {
+  filter: grayscale(30%) brightness(0.8);
+  transition: filter 0.3s;
+}
+
+.socialIcon:hover {
+  filter: grayscale(0%) brightness(1);
 }
 
 .loading,
 .error,
 .empty {
   text-align: center;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-}
-
-.error {
-  color: #d32f2f;
-  background-color: #ffebee;
+  padding: 30px;
+  color: #666;
+  font-size: 1.1rem;
 }
