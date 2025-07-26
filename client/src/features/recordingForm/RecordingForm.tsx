@@ -27,6 +27,7 @@ export const RecordingForm = (): React.JSX.Element => {
       console.log('Успешный результат:', result);
       setModalOpen(true);
       setTextModal('Форма успешно отправлена!');
+      reset();
     } catch (error) {
       console.error('Ошибка при отправке:', error);
       setModalOpen(true);
@@ -38,12 +39,8 @@ export const RecordingForm = (): React.JSX.Element => {
     <>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
         <div className={styles.formTitle}>
-          <h3>
-            Оставьте заявку <br />
-          </h3>
-          <span>
-            мы свяжемся с вами
-            <br className={styles.mobileLineBreak} /> как можно скорее
+          <span className={styles.mobileLineBreak}>
+            мы свяжемся с вами как можно скорее
           </span>
         </div>
         <div className={styles.formItem}>
@@ -112,18 +109,6 @@ export const RecordingForm = (): React.JSX.Element => {
           </span>
         </label>
         {errors.oferta && <p className={styles.errorText}>Обязательное согласие</p>}
-        <span className={styles.customCheckbox}></span>
-        <span>
-          Я согласен на получение{' '}
-          <span
-            className={styles.link}
-            onClick={() => {
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-          >
-            рассылки
-          </span>
-        </span>
         <button type="submit" disabled={isSubmitting} className={styles.submitButton}>
           Записаться
         </button>

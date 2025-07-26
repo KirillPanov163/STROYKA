@@ -14,7 +14,7 @@
 .contentWrapper {
   display: flex;
   justify-content: space-between;
-  align-items: center; /* Выравнивание по вертикали по центру */
+  align-items: center;
   gap: 40px;
 }
 
