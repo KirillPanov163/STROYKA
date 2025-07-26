@@ -73,8 +73,13 @@
   animation: spin 1s linear infinite;
 }
 
+.fullWidth {
+  width: 100%;
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);
   }
 }
+
