@@ -2,8 +2,10 @@ import type { Metadata } from 'next';
 import './globals.css';
 import Navigation from '../widgets/Navigation/Navigation';
 import Footer from '../widgets/Footer/Footer';
+
 import { Providers } from '@/store/Providers';
 import { ClientLayoutWrapper } from './ClientLayoutWrapper';
+
 
 
 export async function generateMetadata(): Promise<Metadata> {

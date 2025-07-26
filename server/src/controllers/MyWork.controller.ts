@@ -5,7 +5,11 @@ import formatResponse from '../utils/formatResponse.js';
 export class MyWorkController {
   static async createMyWork(req: Request, res: Response) {
     try {
-      const result = await MyWorkService.createMyWork(req.body);
+      const workData = {
+        ...req.body,
+        image: req.file, // Добавляем загруженный файл
+      };
+      const result = await MyWorkService.createMyWork(workData);
       res.status(201).json(formatResponse(201, 'Работа успешно создана', result));
     } catch (error) {
       console.error(error);
@@ -25,7 +29,7 @@ export class MyWorkController {
 
   static async getMyWorkById(req: Request, res: Response) {
     try {
-      const id = (+req.params.id);
+      const id = +req.params.id;
       if (isNaN(id)) {
         res.status(400).json(formatResponse(400, 'Некорректный ID работы'));
         return;
@@ -45,13 +49,23 @@ export class MyWorkController {
 
   static async updateMyWork(req: Request, res: Response) {
     try {
-      const id = (+req.params.id);
+      const id = +req.params.id;
       if (isNaN(id)) {
         res.status(400).json(formatResponse(400, 'Некорректный ID работы'));
         return;
       }
 
-      const result = await MyWorkService.updateMyWork(id, req.body);
+      const oldWork = await MyWorkService.getMyWorkById(id);
+      const workData = {
+        ...req.body,
+        image: req.file, // Добавляем загруженный файл
+      };
+
+      const result = await MyWorkService.updateMyWork(
+        id,
+        workData,
+        oldWork?.image || undefined,
+      );
       res.status(200).json(formatResponse(200, 'Работа успешно обновлена', result));
     } catch (error) {
       console.error(error);
@@ -61,7 +75,7 @@ export class MyWorkController {
 
   static async deleteMyWork(req: Request, res: Response) {
     try {
-      const id = (+req.params.id);
+      const id = +req.params.id;
       if (isNaN(id)) {
         res.status(400).json(formatResponse(400, 'Некорректный ID работы'));
         return;
