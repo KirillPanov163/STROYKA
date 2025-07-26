@@ -1,3 +1,13 @@
+.error {
+  color: #ef4444;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background-color: #fee2e2;
+  border-radius: 4px;
+}
+
 .collapsedContainer {
   position: fixed;
   right: 0;
