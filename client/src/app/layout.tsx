@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import './globals.css';
 import Navigation from '../widgets/Navigation/Navigation';
 import Footer from '../widgets/Footer/Footer';
-import { Providers } from '@/store/Providers';
 import { Feedback } from '@/widgets/Feedback/Feedback';
 import GoodAppWidget from '@/features/WhatsappButton/WhatsappButton';
+import { Providers } from '@/store/providers';
 
 
 export async function generateMetadata(): Promise<Metadata> {

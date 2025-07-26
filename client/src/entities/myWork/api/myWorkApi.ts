@@ -4,8 +4,6 @@ import { ServerResponseType } from '@/shared/types';
 import { handleAxiosError } from '@/shared/utils/handleAxiosError';
 import { axiosInstance } from '@/shared/lib/axiosInstance';
 
-
-
 enum MY_WORK_THUNK_TYPES {
   CREATE = 'myWork/create',
   GET_ALL = 'myWork/getAll',
@@ -24,13 +22,18 @@ enum MY_WORK_API_URLS {
 
 export const createMyWorkThunk = createAsyncThunk<
   MyWorkType,
-  Partial<MyWorkType>,
+  FormData,
   { rejectValue: ServerResponseType<null> }
->(MY_WORK_THUNK_TYPES.CREATE, async (workData, { rejectWithValue }) => {
+>(MY_WORK_THUNK_TYPES.CREATE, async (formData, { rejectWithValue }) => {
   try {
     const response = await axiosInstance.post<ServerResponseType<MyWorkResponseType>>(
       MY_WORK_API_URLS.CREATE,
-      workData,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      },
     );
     return response.data.data.work;
   } catch (error) {
@@ -60,7 +63,7 @@ export const getMyWorkByIdThunk = createAsyncThunk<
 >(MY_WORK_THUNK_TYPES.GET_BY_ID, async (id, { rejectWithValue }) => {
   try {
     const response = await axiosInstance.get<ServerResponseType<MyWorkResponseType>>(
-      `${MY_WORK_API_URLS.GET_BY_ID}/${id}`
+      `${MY_WORK_API_URLS.GET_BY_ID}/${id}`,
     );
     return response.data.data.work;
   } catch (error) {
@@ -70,13 +73,18 @@ export const getMyWorkByIdThunk = createAsyncThunk<
 
 export const updateMyWorkThunk = createAsyncThunk<
   MyWorkType,
-  { id: number; data: Partial<MyWorkType> },
+  { id: number; formData: FormData },
   { rejectValue: ServerResponseType<null> }
->(MY_WORK_THUNK_TYPES.UPDATE, async ({ id, data }, { rejectWithValue }) => {
+>(MY_WORK_THUNK_TYPES.UPDATE, async ({ id, formData }, { rejectWithValue }) => {
   try {
     const response = await axiosInstance.put<ServerResponseType<MyWorkResponseType>>(
       `${MY_WORK_API_URLS.UPDATE}/${id}`,
-      data
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      },
     );
     return response.data.data.work;
   } catch (error) {
@@ -91,7 +99,7 @@ export const deleteMyWorkThunk = createAsyncThunk<
 >(MY_WORK_THUNK_TYPES.DELETE, async (id, { rejectWithValue }) => {
   try {
     await axiosInstance.delete<ServerResponseType<null>>(
-      `${MY_WORK_API_URLS.DELETE}/${id}`
+      `${MY_WORK_API_URLS.DELETE}/${id}`,
     );
     return id;
   } catch (error) {
