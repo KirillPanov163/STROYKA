@@ -5,6 +5,7 @@ import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
 import { useAppSelector } from '@/shared/Hooks/useAppSelector';
 import { fetchFaqs } from '../api/faqThunkApi';
 import { faqActions } from '../slice/faqSlice';
+import { FAQThunkStatus } from '../../../shared/enums/faqThunkTypes';
 import styles from './FAQ.module.css';
 
 export const FAQ = () => {
@@ -20,43 +21,50 @@ export const FAQ = () => {
     if (selectedFAQ?.id === id) {
       dispatch(faqActions.clearSelectedFAQ());
     } else {
-      const faq = faqs.find((item) => item.id === id);
+      const faq = Array.isArray(faqs) ? faqs.find((item) => item.id === id) : null;
       if (faq) {
         dispatch(faqActions.setSelectedFAQ(faq));
       }
     }
   };
 
-  if (status === 'loading') {
+  if (status === FAQThunkStatus.LOADING) {
     return <div className={styles.loading}>Загрузка вопросов...</div>;
   }
 
-  if (status === 'failed') {
-    return <div className={styles.error}>Ошибка: {error}</div>;
+  if (status === FAQThunkStatus.FAILED) {
+    return <div className={styles.error}>Ошибка: {error || 'Неизвестная ошибка'}</div>;
   }
 
-  if (faqs.length === 0) {
+  if (!Array.isArray(faqs)) {
+    console.error('Ожидался массив faqs, получено:', faqs);
+    return <div className={styles.error}>Ошибка: Неверный формат данных</div>;
+  }
+
+  if (status === FAQThunkStatus.SUCCEEDED && faqs.length === 0) {
     return <div className={styles.empty}>Вопросы не найдены</div>;
   }
 
   return (
     <div className={styles.faqContainer}>
-      <h2 className={styles.title}>FAQ / Вопрос-ответ</h2>
+      <h2 className={styles.title}>Часто задаваемые вопросы</h2>
       <div className={styles.faqList}>
         {faqs.map((faq) => (
           <div key={faq.id} className={styles.faqItem}>
             <div
-              className={`${styles.question} ${selectedFAQ?.id === faq.id ? styles.active : ''}`}
+              className={styles.question}
               onClick={() => toggleFAQ(faq.id)}
             >
               <h3>{faq.question}</h3>
-              <span className={styles.arrow}>{selectedFAQ?.id === faq.id ? '−' : '+'}</span>
-            </div>
-            {selectedFAQ?.id === faq.id && (
-              <div className={styles.answer}>
-                <p>{faq.answers}</p>
+              <div className={`${styles.arrow} ${selectedFAQ?.id === faq.id ? styles.up : styles.down}`}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <path d="M7 10l5 5 5-5z" />
+                </svg>
               </div>
-            )}
+            </div>
+            <div className={`${styles.answer} ${selectedFAQ?.id === faq.id ? styles.active : ''}`}>
+              <p>{faq.answers}</p>
+            </div>
           </div>
         ))}
       </div>

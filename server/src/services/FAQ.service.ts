@@ -6,25 +6,62 @@ export class FAQService {
     question?: string;
     answers?: string;
   }) {
-    const faq = await prisma.faq.create({
-      data: {
-        question: data.question,
-        answers: data.answers,
-      },
-    });
-    return faq;
+    try {
+      const faq = await prisma.faq.create({
+        data: {
+          question: data.question ?? null,
+          answers: data.answers ?? null,
+        },
+      });
+      return {
+        id: faq.id,
+        question: faq.question,
+        answers: faq.answers,
+        createdAt: faq.createdAt.toISOString(),
+        updatedAt: faq.updatedAt.toISOString()
+      };
+    } catch (error) {
+      console.error('Error creating FAQ:', error);
+      throw error;
+    }
   }
 
   static async getAllFAQs() {
-    const faqs = await prisma.faq.findMany();
-    return faqs;
+    try {
+      const faqs = await prisma.faq.findMany({
+        orderBy: { createdAt: 'desc' }
+      });
+      return faqs.map(faq => ({
+        id: faq.id,
+        question: faq.question,
+        answers: faq.answers,
+        createdAt: faq.createdAt.toISOString(),
+        updatedAt: faq.updatedAt.toISOString()
+      }));
+    } catch (error) {
+      console.error('Error getting FAQs:', error);
+      throw error;
+    }
   }
 
   static async getFAQById(id: number) {
-    const faq = await prisma.faq.findUnique({
-      where: { id },
-    });
-    return faq;
+    try {
+      const faq = await prisma.faq.findUnique({
+        where: { id },
+      });
+      if (!faq) return null;
+      
+      return {
+        id: faq.id,
+        question: faq.question,
+        answers: faq.answers,
+        createdAt: faq.createdAt.toISOString(),
+        updatedAt: faq.updatedAt.toISOString()
+      };
+    } catch (error) {
+      console.error('Error getting FAQ by id:', error);
+      throw error;
+    }
   }
 
   static async updateFAQ(
@@ -34,20 +71,42 @@ export class FAQService {
       answers?: string;
     },
   ) {
-    const faq = await prisma.faq.update({
-      where: { id },
-      data: {
-        question: data.question,
-        answers: data.answers,
-      },
-    });
-    return faq;
+    try {
+      const faq = await prisma.faq.update({
+        where: { id },
+        data: {
+          question: data.question ?? undefined,
+          answers: data.answers ?? undefined,
+        },
+      });
+      return {
+        id: faq.id,
+        question: faq.question,
+        answers: faq.answers,
+        createdAt: faq.createdAt.toISOString(),
+        updatedAt: faq.updatedAt.toISOString()
+      };
+    } catch (error) {
+      console.error('Error updating FAQ:', error);
+      throw error;
+    }
   }
 
   static async deleteFAQ(id: number) {
-    const faq = await prisma.faq.delete({
-      where: { id },
-    });
-    return faq;
+    try {
+      const faq = await prisma.faq.delete({
+        where: { id },
+      });
+      return {
+        id: faq.id,
+        question: faq.question,
+        answers: faq.answers,
+        createdAt: faq.createdAt.toISOString(),
+        updatedAt: faq.updatedAt.toISOString()
+      };
+    } catch (error) {
+      console.error('Error deleting FAQ:', error);
+      throw error;
+    }
   }
 }
