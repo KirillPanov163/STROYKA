@@ -2,9 +2,10 @@ import type { Metadata } from 'next';
 import './globals.css';
 import Navigation from '../widgets/Navigation/Navigation';
 import Footer from '../widgets/Footer/Footer';
-import { Feedback } from '@/widgets/Feedback/Feedback';
-import GoodAppWidget from '@/features/WhatsappButton/WhatsappButton';
-import { Providers } from '@/store/providers';
+
+import { Providers } from '@/store/Providers';
+import { ClientLayoutWrapper } from './ClientLayoutWrapper';
+
 
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -52,13 +53,15 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ru">
-      <body>
+      <body className="flex flex-col min-h-screen">
         <Providers>
           <Navigation />
-          {children}
-          <Feedback />
+          <main className="flex-1">
+            <ClientLayoutWrapper>
+              {children}
+            </ClientLayoutWrapper>
+          </main>
           <Footer />
-          <GoodAppWidget />
         </Providers>
       </body>
     </html>
