@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { FAQState, Faq } from '../model/faqTypes';
 import {
   fetchFaqs,
@@ -20,86 +20,86 @@ const faqSlice = createSlice({
   name: 'faq',
   initialState,
   reducers: {
-    //  для выбора FAQ (устанавливает объект FAQ в selectedFAQ)
-    setSelectedFAQ(state, action) {
+    setSelectedFAQ(state, action: PayloadAction<Faq>) {
       state.selectedFAQ = action.payload;
     },
-    // для сброса выбранного FAQ
     clearSelectedFAQ(state) {
       state.selectedFAQ = null;
     },
   },
   extraReducers: (builder) => {
     builder
-      // fetchFaqs
       .addCase(fetchFaqs.pending, (state) => {
         state.status = FAQThunkStatus.LOADING;
         state.error = null;
       })
-      .addCase(fetchFaqs.fulfilled, (state, action) => {
+      .addCase(fetchFaqs.fulfilled, (state, action: PayloadAction<Faq[]>) => {
         state.status = FAQThunkStatus.SUCCEEDED;
-        state.data = action.payload;
+        state.data = action.payload || [];
       })
       .addCase(fetchFaqs.rejected, (state, action) => {
         state.status = FAQThunkStatus.FAILED;
-        state.error = action.payload as string;
+        state.error = action.payload as string ?? 'Failed to fetch FAQs';
       })
-      // createFaq
       .addCase(createFaq.pending, (state) => {
         state.status = FAQThunkStatus.LOADING;
         state.error = null;
       })
-      .addCase(createFaq.fulfilled, (state, action) => {
+      .addCase(createFaq.fulfilled, (state, action: PayloadAction<Faq>) => {
         state.status = FAQThunkStatus.SUCCEEDED;
-        state.data.push(action.payload);
+        if (action.payload) {
+          state.data.push(action.payload);
+        }
       })
       .addCase(createFaq.rejected, (state, action) => {
         state.status = FAQThunkStatus.FAILED;
-        state.error = action.payload as string;
+        state.error = action.payload as string ?? 'Failed to create FAQ';
       })
-      // getFaqById
       .addCase(getFaqById.pending, (state) => {
         state.status = FAQThunkStatus.LOADING;
         state.error = null;
       })
-      .addCase(getFaqById.fulfilled, (state, action) => {
+      .addCase(getFaqById.fulfilled, (state, action: PayloadAction<Faq>) => {
         state.status = FAQThunkStatus.SUCCEEDED;
+        if (action.payload) {
+          state.selectedFAQ = action.payload;
+        }
       })
       .addCase(getFaqById.rejected, (state, action) => {
         state.status = FAQThunkStatus.FAILED;
-        state.error = action.payload as string;
+        state.error = action.payload as string ?? 'Failed to get FAQ by id';
       })
-      // updateFaq
       .addCase(updateFaq.pending, (state) => {
         state.status = FAQThunkStatus.LOADING;
         state.error = null;
       })
-      .addCase(updateFaq.fulfilled, (state, action) => {
+      .addCase(updateFaq.fulfilled, (state, action: PayloadAction<Faq>) => {
         state.status = FAQThunkStatus.SUCCEEDED;
-        const idx = state.data.findIndex((faq) => faq.id === action.payload.id);
-        if (idx !== -1) {
-          state.data[idx] = action.payload;
+        if (action.payload) {
+          const idx = state.data.findIndex((faq) => faq.id === action.payload.id);
+          if (idx !== -1) {
+            state.data[idx] = action.payload;
+          }
         }
       })
       .addCase(updateFaq.rejected, (state, action) => {
         state.status = FAQThunkStatus.FAILED;
-        state.error = action.payload as string;
+        state.error = action.payload as string ?? 'Failed to update FAQ';
       })
-      // deleteFaq
       .addCase(deleteFaq.pending, (state) => {
         state.status = FAQThunkStatus.LOADING;
         state.error = null;
       })
-      .addCase(deleteFaq.fulfilled, (state, action) => {
+      .addCase(deleteFaq.fulfilled, (state, action: PayloadAction<number>) => {
         state.status = FAQThunkStatus.SUCCEEDED;
         state.data = state.data.filter((faq) => faq.id !== action.payload);
       })
       .addCase(deleteFaq.rejected, (state, action) => {
         state.status = FAQThunkStatus.FAILED;
-        state.error = action.payload as string;
+        state.error = action.payload as string ?? 'Failed to delete FAQ';
       });
   },
 });
 
 export const { actions: faqActions } = faqSlice;
-export const faqReducer = faqSlice.reducer
+export const faqReducer = faqSlice.reducer;
