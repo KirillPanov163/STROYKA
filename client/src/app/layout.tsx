@@ -4,6 +4,7 @@ import Navigation from '../widgets/Navigation/Navigation';
 import Footer from '../widgets/Footer/Footer';
 import { Providers } from '@/store/Providers';
 import { Feedback } from '@/widgets/Feedback/Feedback';
+import GoodAppWidget from '@/features/WhatsappButton/WhatsappButton';
 
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -57,6 +58,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
           <Feedback />
           <Footer />
+          <GoodAppWidget />
         </Providers>
       </body>
     </html>

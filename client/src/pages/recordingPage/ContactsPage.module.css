@@ -1,15 +1,15 @@
 .contentWrapper {
   display: flex;
   justify-content: space-between;
-  margin-top: 30px;
-  gap: 30px;
+  margin: 50px 80px;
+  padding: 30px;
+  background-color: rgb(71, 71, 71);
+  color: antiquewhite;
+  border-radius: 20px;
 }
 
 .contentWrapper > div:first-child {
-  margin-left: 0;
-  flex: 1;
   max-width: calc(50% - 15px);
-  padding-right: 100px;
 }
 
 .contentWrapper > div:last-child {
@@ -18,5 +18,9 @@
 }
 
 .contactItem {
-  color: rgb(69, 64, 64);
+  color: antiquewhite;
+}
+
+.h2 {
+  text-align: center;
 }
