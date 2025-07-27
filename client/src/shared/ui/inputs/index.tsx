@@ -2,17 +2,20 @@ import React from 'react';
 import styles from './Input.module.css';
 
 type Props = {
-  value: string;
-  onChange: (value: string) => void;
+  value?: string;
+  onChange: any;
   placeholder?: string;
   className?: string;
   disabled?: boolean;
-  type?: 'text' | 'password' | 'email' | 'number';
+  type?: 'text' | 'password' | 'email' | 'number' | 'tel' | 'checkbox';
   inputMode?: 'text' | 'tel' | 'email' | 'numeric' | 'decimal' | 'search' | 'url';
   size?: 'small' | 'medium' | 'large';
   error?: boolean;
   fullWidth?: boolean;
   required?: boolean;
+  name?: string
+  id?: string
+  checked?: boolean
 };
 
 export const Input: React.FC<Props> = ({
@@ -43,7 +46,7 @@ export const Input: React.FC<Props> = ({
     <input
       className={inputClass}
       value={value}
-      onChange={(e) => onChange(e.target.value)}
+      onChange={onChange}
       placeholder={placeholder}
       disabled={disabled}
       type={type}

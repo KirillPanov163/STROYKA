@@ -8,6 +8,7 @@ import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
 import { useAppSelector } from '@/shared/Hooks/useAppSelector';
 import { getProfileThunk, refreshTokenThunk } from '@/entities/user/api/userThunkApi';
 import styles from './Navigation.module.css';
+import { Button } from '@/shared/ui/button';
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -90,7 +91,7 @@ export default function Header() {
             ))}
           </ul>
 
-          <button
+          <Button
             className={styles.mobileMenuButton}
             onClick={toggleMobileMenu}
             aria-label="Открыть меню"
@@ -103,7 +104,7 @@ export default function Header() {
               <span></span>
               <span></span>
             </div>
-          </button>
+          </Button>
         </nav>
 
         <div className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.active : ''}`}>

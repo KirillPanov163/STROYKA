@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import styles from './FileSystem.module.css';
 import { useRouter } from 'next/navigation';
+import { Title } from '@/shared/ui/title';
 
 interface UrlNode {
   path: string;
@@ -234,7 +235,7 @@ export function FileSystem() {
   return (
     <div className={styles.sidebar}>
       <div className={styles.header}>
-        <h2 className={styles.title}>Файловая система сайта</h2>
+        <Title level={2} size='medium' variant='primary' className={styles.title}>Файловая система сайта</Title>
       </div>
       <div className={styles.treeContainer}>
         {urlStructure.map((node) => renderUrlNode(node))}

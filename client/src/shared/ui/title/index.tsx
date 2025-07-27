@@ -13,7 +13,7 @@ type Props = {
 export const Title: React.FC<Props> = ({
   children,
   className = '',
-  level = 1,
+  level,
   size = 'medium',
   variant = 'primary',
   align = 'left',
@@ -36,6 +36,6 @@ export const Title: React.FC<Props> = ({
     case 3:
       return <h3 className={titleClass}>{children}</h3>;
     default:
-      return <h1 className={titleClass}>{children}</h1>;
+      return <p className={titleClass}>{children}</p>;
   }
 };

@@ -9,6 +9,8 @@ import { useAppSelector } from '@/shared/Hooks/useAppSelector';
 import { useEffect, useState } from 'react';
 import styles from './page.module.css';
 import { useRouter } from 'next/navigation';
+import { Input } from '@/shared/ui/inputs';
+import { Button } from '@/shared/ui/button';
 
 type InputsSignInType = {
   email: string;
@@ -87,7 +89,7 @@ export default function page() {
       {twoFAPending ? (
         <form onSubmit={handle2FASubmit}>
           <div>
-            <input
+            <Input
               type="text"
               placeholder="Введите код 2FA"
               onChange={handle2FAChange}
@@ -97,14 +99,14 @@ export default function page() {
             />
           </div>
           {error && <div className={styles.errorText}>{error}</div>}
-          <button type="submit" className={styles.submitButton}>
+          <Button type="submit" className={styles.submitButton}>
             Подтвердить
-          </button>
+          </Button>
         </form>
       ) : (
         <form onSubmit={handleSubmit}>
           <div>
-            <input
+            <Input
               type="email"
               placeholder="Email"
               onChange={handleChange}
@@ -114,7 +116,7 @@ export default function page() {
             />
           </div>
           <div>
-            <input
+            <Input
               type="password"
               placeholder="Пароль"
               onChange={handleChange}
@@ -126,15 +128,15 @@ export default function page() {
           {error && <div className={styles.errorText}>{error}</div>}
 
           <div className={styles.buttonRow}>
-            <button type="submit" className={styles.submitButton}>
+            <Button type="submit" className={styles.submitButton}>
               Войти
-            </button>
-            <button
+            </Button>
+            <Button
               className={styles.logoutButton}
               onClick={() => dispatch(signOutThunk())}
             >
               Выход
-            </button>
+            </Button>
           </div>
         </form>
       )}
