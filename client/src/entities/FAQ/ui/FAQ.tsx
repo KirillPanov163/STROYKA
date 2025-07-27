@@ -7,6 +7,7 @@ import { fetchFaqs } from '../api/faqThunkApi';
 import { faqActions } from '../slice/faqSlice';
 import { FAQThunkStatus } from '../../../shared/enums/faqThunkTypes';
 import styles from './FAQ.module.css';
+import { Title } from '@/shared/ui/title';
 
 export const FAQ = () => {
   const dispatch = useAppDispatch();
@@ -47,7 +48,7 @@ export const FAQ = () => {
 
   return (
     <div className={styles.faqContainer}>
-      <h2 className={styles.title}>Часто задаваемые вопросы</h2>
+      <Title level={2} size='medium' variant='primary' className={styles.title}>Часто задаваемые вопросы</Title>
       <div className={styles.faqList}>
         {faqs.map((faq) => (
           <div key={faq.id} className={styles.faqItem}>
@@ -55,7 +56,7 @@ export const FAQ = () => {
               className={styles.question}
               onClick={() => toggleFAQ(faq.id)}
             >
-              <h3>{faq.question}</h3>
+              <Title level={3} size='medium' variant='primary'>{faq.question}</Title>
               <div className={`${styles.arrow} ${selectedFAQ?.id === faq.id ? styles.up : styles.down}`}>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                   <path d="M7 10l5 5 5-5z" />

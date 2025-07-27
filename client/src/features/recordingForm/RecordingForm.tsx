@@ -6,6 +6,9 @@ import { sendRecordingThunk } from '@/entities/recording/api/RecordingFormApi';
 import type { RecordingFormData } from '@/entities/recording/model';
 import styles from './RecordingForm.module.css';
 import SuccessModal from '../SuccessModal/SuccessModal';
+import { Input } from '@/shared/ui/inputs';
+import { Title } from '@/shared/ui/title';
+import { Button } from '@/shared/ui/button';
 
 const FORM_STORAGE_KEY = 'recorder_form_draft';
 
@@ -44,7 +47,7 @@ export const RecordingForm = (): React.JSX.Element => {
           </span>
         </div>
         <div className={styles.formItem}>
-          <input
+          <Input
             id="name"
             {...register('name', { required: 'Введите имя' })}
             className={styles.inputField}
@@ -53,7 +56,7 @@ export const RecordingForm = (): React.JSX.Element => {
           {errors.name && <p className={styles.errorText}>{errors.name.message}</p>}
         </div>
         <div className={styles.formItem}>
-          <input
+          <Input
             type="tel"
             placeholder="Телефон"
             id="tel"
@@ -64,7 +67,7 @@ export const RecordingForm = (): React.JSX.Element => {
         </div>
 
         <div className={styles.formItem}>
-          <input
+          <Input
             placeholder="Сообщение"
             id="message"
             {...register('message')}
@@ -72,7 +75,7 @@ export const RecordingForm = (): React.JSX.Element => {
           />
         </div>
         <label htmlFor="personalData" className={styles.checkboxLabel}>
-          <input
+          <Input
             id="personalData"
             type="checkbox"
             className={styles.realCheckbox}
@@ -85,11 +88,11 @@ export const RecordingForm = (): React.JSX.Element => {
           </div>
         </label>
         {errors.personalData && (
-          <p className={styles.errorText}>Обязательное соглашение</p>
+          <Title className={styles.errorText}>Обязательное соглашение</Title>
         )}
 
         <label htmlFor="oferta" className={styles.checkboxLabel}>
-          <input
+          <Input
             id="oferta"
             type="checkbox"
             className={styles.realCheckbox}
@@ -109,9 +112,9 @@ export const RecordingForm = (): React.JSX.Element => {
           </span>
         </label>
         {errors.oferta && <p className={styles.errorText}>Обязательное согласие</p>}
-        <button type="submit" disabled={isSubmitting} className={styles.submitButton}>
+        <Button type="submit" disabled={isSubmitting} className={styles.submitButton}>
           Записаться
-        </button>
+        </Button>
       </form>
       <SuccessModal
         open={modalOpen}

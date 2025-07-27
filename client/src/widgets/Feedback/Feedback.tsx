@@ -76,28 +76,28 @@ export const Feedback = () => {
   if (isCollapsed) {
     return (
       <div className={styles.collapsedContainer}>
-        <button
+        <Button
           className={styles.verticalButton}
           onClick={toggleCollapse}
           aria-label="Развернуть форму обратной связи"
           disabled={isLoading}
         >
           <span>Оставить заявку</span>
-        </button>
+        </Button>
       </div>
     );
   }
 
   return (
     <div className={styles.feedback}>
-      <button
+      <Button
         className={styles.toggleButton}
         onClick={toggleCollapse}
         aria-label="Свернуть форму"
         disabled={isLoading}
       >
         ×
-      </button>
+      </Button>
 
       <Title level={3} size="small" align="center">
         Оставьте заявку на звонок
@@ -109,7 +109,7 @@ export const Feedback = () => {
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.checkboxGroup}>
           <label className={styles.checkboxLabel}>
-            <input
+            <Input
               type="checkbox"
               checked={selectedDays.includes('monday')}
               onChange={() => handleDayToggle('monday')}
@@ -120,7 +120,7 @@ export const Feedback = () => {
           </label>
 
           <label className={styles.checkboxLabel}>
-            <input
+            <Input
               type="checkbox"
               checked={selectedTime}
               onChange={() => setSelectedTime(!selectedTime)}
@@ -154,9 +154,9 @@ export const Feedback = () => {
           Заказать звонок
         </Button>
 
-        <p className={styles.agreement}>
+        <Title className={styles.agreement}>
           Нажимая кнопку, вы соглашаетесь с обработкой персональных данных
-        </p>
+        </Title>
 
         <div className={styles.credits}>
           <span>ВентСтройМонтаж</span>

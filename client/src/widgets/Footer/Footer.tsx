@@ -3,6 +3,7 @@
 import React from 'react';
 import styles from './Footer.module.css';
 import Link from 'next/link';
+import { Title } from '@/shared/ui/title';
 
 export default function Footer() {
   return (
@@ -19,9 +20,9 @@ export default function Footer() {
               </Link>
             </nav>
             <div className={styles.legal}>
-              <p className={styles.legalText}>ИП Черничкина Анастасия Алексеевна</p>
-              <p className={styles.legalText}>ИНН 772453181190</p>
-              <p className={styles.legalText}>ОГРНИП 320774600293334</p>
+              <Title className={styles.legalText}>ИП Черничкина Анастасия Алексеевна</Title>
+              <Title className={styles.legalText}>ИНН 772453181190</Title>
+              <Title className={styles.legalText}>ОГРНИП 320774600293334</Title>
             </div>
           </div>
           
