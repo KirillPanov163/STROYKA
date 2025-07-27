@@ -4,21 +4,35 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
+import { useAppSelector } from '@/shared/Hooks/useAppSelector';
+import { getProfileThunk, refreshTokenThunk } from '@/entities/user/api/userThunkApi';
 import styles from './Navigation.module.css';
 
-export default function Navigation() {
+export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
+  const dispatch = useAppDispatch();
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const { user, isInitialized } = useAppSelector((state) => state.user);
+  const isAdmin = user?.role === 'ADMIN';
+
+  useEffect(() => {
+    if (!isInitialized) {
+      dispatch(refreshTokenThunk()).then((result) => {
+        if (refreshTokenThunk.fulfilled.match(result)) {
+          dispatch(getProfileThunk());
+        }
+      });
+    }
+  }, [dispatch, isInitialized]);  
+
+  if (!isInitialized) {
+    // Можно вернуть лоадер, если хотите
+    return null;
+  }
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -28,11 +42,15 @@ export default function Navigation() {
     setIsMobileMenuOpen(false);
   };
 
-  const navItems = [
+  const baseNavItems = [
     { href: '/services', label: 'Услуги' },
     { href: '/portfolio', label: 'Наши работы' },
     { href: '/contacts', label: 'Контакты' },
   ];
+
+  const navItems = isAdmin
+    ? [...baseNavItems, { href: '/admin/menu', label: 'Админ' }]
+    : baseNavItems;
 
   return (
     <header className={`${styles.header} ${isScrolled ? styles.headerScrolled : ''}`}>
@@ -42,14 +60,13 @@ export default function Navigation() {
             <div className={styles.logoContainer}>
               <div className={styles.logoImage}>
                 <Image
-                  src="/logo_kraska.png"
+                  src="/logo_oktogon.png"
                   alt="kraska Logo"
                   width={110}
                   height={50}
                   style={{ objectFit: 'contain' }}
                   priority
                   onError={(e) => {
-                    // Fallback если изображение не загрузилось
                     const target = e.target as HTMLImageElement;
                     target.style.display = 'none';
                   }}
@@ -58,7 +75,6 @@ export default function Navigation() {
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
           <ul className={styles.navLinks}>
             {navItems.map((item) => (
               <li key={item.href}>
@@ -74,7 +90,6 @@ export default function Navigation() {
             ))}
           </ul>
 
-          {/* Mobile Menu Button */}
           <button
             className={styles.mobileMenuButton}
             onClick={toggleMobileMenu}
@@ -91,7 +106,6 @@ export default function Navigation() {
           </button>
         </nav>
 
-        {/* Mobile Menu */}
         <div className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.active : ''}`}>
           <ul className={styles.mobileNavLinks}>
             {navItems.map((item) => (
@@ -112,4 +126,4 @@ export default function Navigation() {
       </div>
     </header>
   );
-};
+}
