@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { AuthController } from '../controllers/Auth.controller.js';
-import { verifyRefreshToken } from '../middlewares/verifyTokens.js';
+import { verifyAccessToken, verifyRefreshToken } from '../middlewares/verifyTokens.js';
 
 const authRouter = Router();
 
@@ -25,7 +25,7 @@ authRouter.post('/refresh', verifyRefreshToken, async (req, res) => {
 });
 
 // Получение текущего пользователя
-authRouter.get('/me', async (req, res) => {
+authRouter.get('/me', verifyAccessToken, async (req, res) => {
   await AuthController.currentUser(req, res);
 });
 

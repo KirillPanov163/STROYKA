@@ -3,20 +3,19 @@
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  width: calc(100% - 40px);
-  max-width: 550px;
+  /* width: calc(100% - 40px); */
+  /* max-width: 550px; */
   background-color: rgba(60, 56, 54, 0.1);
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(35px);
   border-radius: 999px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   z-index: 1000;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(199, 199, 199, 0.1);
   font-family: Montserrat,system-ui,Avenir,Helvetica,Arial,sans-serif;
 }
 
 .headerScrolled {
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
   transform: translateX(-50%) translateY(-2px);
 }
 
@@ -58,36 +57,8 @@
   letter-spacing: 0.3px;
 }
 
-.navLink::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.05));
-  border-radius: 16px;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.navLink:hover {
-  color: #ffffff;
-  transform: translateY(-1px);
-}
-
-.navLink:hover::before {
-  opacity: 1;
-}
-
 .navLink.active {
   color: #d4af37;
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.08));
-  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
-}
-
-.navLink.active::before {
-  opacity: 1;
 }
 
 /* Mobile Menu Button */
@@ -99,10 +70,6 @@
   padding: 8px;
   border-radius: 12px;
   transition: all 0.3s ease;
-}
-
-.mobileMenuButton:hover {
-  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .hamburger {
@@ -125,16 +92,10 @@
 
 .hamburger.active span:nth-child(1) {
   transform: rotate(45deg) translate(6px, 6px);
-  background-color: #d4af37;
-}
-
-.hamburger.active span:nth-child(2) {
-  opacity: 0;
 }
 
 .hamburger.active span:nth-child(3) {
   transform: rotate(-45deg) translate(6px, -6px);
-  background-color: #d4af37;
 }
 
 /* Mobile Menu */
@@ -146,7 +107,6 @@
   background-color: rgba(60, 56, 54, 0.98);
   backdrop-filter: blur(20px);
   border-radius: 0 0 24px 24px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   transform: translateY(-20px);
   opacity: 0;
   visibility: hidden;
@@ -199,9 +159,7 @@
 
 .mobileNavLink:hover,
 .mobileNavLink.active {
-  color: #d4af37;
   background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.08));
-  border-left-color: #d4af37;
   transform: translateX(4px);
 }
 
@@ -293,28 +251,12 @@
 .navLink:focus,
 .mobileMenuButton:focus,
 .mobileNavLink:focus {
-  outline: 2px solid #d4af37;
   outline-offset: 2px;
   border-radius: 8px;
 }
 
 .mobileMenu.active {
   animation: slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Эффект свечения для активных элементов */
-.navLink.active,
-.mobileNavLink.active {
-  text-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
-}
-
-/* Дополнительные эффекты при наведении */
-/* .logo:hover {
-  transform: scale(1.02);
-} */
-
-.navLink:hover {
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
 }
 
 /* Плавное появление хедера при загрузке */
