@@ -5,7 +5,7 @@ import React from 'react';
 import AchievementsSection from '@/entities/achievements/AchievementsSection';
 
 
-const AchievementsPage: React.FC = () => {
+const AchievementsWidgets: React.FC = () => {
   return (
     <div className="achievements-page">
       <AchievementsSection />
@@ -13,4 +13,4 @@ const AchievementsPage: React.FC = () => {
   );
 };
 
-export default AchievementsPage;
+export default AchievementsWidgets;
