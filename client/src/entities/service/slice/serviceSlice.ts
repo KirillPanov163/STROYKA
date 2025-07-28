@@ -5,6 +5,8 @@ import {
   getOneService,
   updateService,
   deleteService,
+  uploadServiceImage,
+  deleteServiceImage,
 } from '../api/serviceThunkApi';
 import type { IService } from '../model/serviceTypes';
 
@@ -28,7 +30,6 @@ export const serviceSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-
       // Get All
       .addCase(getAllServices.pending, (state) => {
         state.isLoading = true;
@@ -92,7 +93,6 @@ export const serviceSlice = createSlice({
       })
       .addCase(deleteService.fulfilled, (state, action) => {
         state.isLoading = false;
-
         const deletedId = action.payload?.data;
         if (deletedId) {
           state.services = state.services.filter(
@@ -103,9 +103,47 @@ export const serviceSlice = createSlice({
       .addCase(deleteService.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload?.message || 'Ошибка при удалении услуги';
+      })
+
+      // Upload Image
+      .addCase(uploadServiceImage.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(uploadServiceImage.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const updatedService = action.payload.data;
+        state.services = state.services.map((service) =>
+          service.id === updatedService.id ? updatedService : service,
+        );
+        if (state.service.id === updatedService.id) {
+          state.service = updatedService;
+        }
+      })
+      .addCase(uploadServiceImage.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload?.message || 'Ошибка при загрузке изображения';
+      })
+
+      // Delete Image
+      .addCase(deleteServiceImage.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteServiceImage.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const updatedService = action.payload.data;
+        state.services = state.services.map((service) =>
+          service.id === updatedService.id ? updatedService : service,
+        );
+        if (state.service.id === updatedService.id) {
+          state.service = updatedService;
+        }
+      })
+      .addCase(deleteServiceImage.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload?.message || 'Ошибка при удалении изображения';
       });
   },
 });
 
-export const { actions: servicesActions } = serviceSlice
-export const servicesReducer = serviceSlice.reducer
+export const { actions: servicesActions } = serviceSlice;
+export const servicesReducer = serviceSlice.reducer;
