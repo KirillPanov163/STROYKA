@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import ServicesList from '@/entities/service/ui/ServiceList';
 
 interface Service {
@@ -17,7 +18,7 @@ export default async function ServicesPage() {
     if (res.ok) {
       const data = await res.json();
       services = data.data || [];
-      console.log('Services data:', services); 
+      console.log('Services data:', services);
     }
   } catch (error) {
     console.error('Error fetching services:', error);

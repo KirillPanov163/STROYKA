@@ -1,3 +1,5 @@
+ 'use client'
+
 import React from 'react'
 import { FaqListPage } from '../../widgets/FAQ/FaqListPage'
 
