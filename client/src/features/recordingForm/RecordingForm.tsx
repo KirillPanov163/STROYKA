@@ -40,7 +40,7 @@ export const RecordingForm = (): React.JSX.Element => {
       <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
         <div className={styles.formTitle}>
           <span className={styles.mobileLineBreak}>
-            мы свяжемся с вами как можно скорее
+            Мы свяжемся с вами как можно скорее
           </span>
         </div>
         <div className={styles.formItem}>
