@@ -1,8 +1,6 @@
 'use client';
-import {
-  signUpThunk,
-  verifySignUp2FAThunk,
-} from '@/entities/user/api/userThunkApi';
+export const dynamic = 'force-dynamic';
+import { signUpThunk, verifySignUp2FAThunk } from '@/entities/user/api/userThunkApi';
 import { useEffect, useState } from 'react';
 import styles from './page.module.css';
 import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
@@ -32,7 +30,6 @@ const initial2FAInput: TwoFAInputType = {
 };
 
 export default function SignUpForm() {
-
   const [inputs, setInputs] = useState<InputsSignUpType>(initialInputs);
 
   const [twoFAInput, setTwoFAInput] = useState<TwoFAInputType>(initial2FAInput);
@@ -40,7 +37,7 @@ export default function SignUpForm() {
   const dispatch = useAppDispatch();
 
   const { isInitialized, twoFAPending, error, twoFAUserId } = useAppSelector(
-    (state) => state.user
+    (state) => state.user,
   );
   const [isReady, setIsReady] = useState(false);
 
@@ -64,9 +61,7 @@ export default function SignUpForm() {
     setTwoFAInput({ ...twoFAInput, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (
-    e: React.FormEvent<HTMLFormElement>
-  ): Promise<void> => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     if (inputs.password !== inputs.confirmPassword) {
       alert('Пароли не совпадают');
@@ -79,14 +74,12 @@ export default function SignUpForm() {
     }
   };
 
-  const handle2FASubmit = async (
-    e: React.FormEvent<HTMLFormElement>
-  ): Promise<void> => {
+  const handle2FASubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     if (!twoFAUserId) return;
     try {
       await dispatch(
-        verifySignUp2FAThunk({ userId: twoFAUserId, code: twoFAInput.code })
+        verifySignUp2FAThunk({ userId: twoFAUserId, code: twoFAInput.code }),
       ).unwrap();
     } catch (error) {
       console.error(error);
