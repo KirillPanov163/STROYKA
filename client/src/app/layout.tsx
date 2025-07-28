@@ -4,9 +4,10 @@ import Head from 'next/head';
 import './globals.css';
 import Navigation from '../widgets/Navigation/Navigation';
 import Footer from '../widgets/Footer/Footer';
-import { Providers } from '@/store/Providers';
+
 import { ClientLayoutWrapper } from './ClientLayoutWrapper';
 import ServicesList from '@/entities/service/ui/ServiceList';
+import { Providers } from '@/store/providers';
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
