@@ -4,12 +4,13 @@ import ContactsPageComponents from './contacts/ContactsPageComponents';
 import FAQPage from './faq/page';
 import AchievementsPage from './achievements/AchievementsWidgets';
 import Slider from '@/widgets/Slider/Slider';
+import ContactsPage from './contacts/page';
 
 export default function Home() {
   return (
     <div className={styles.page}>
       <AchievementsPage />
-      <ContactsPageComponents />
+      <ContactsPage />
       <Slider/>
       <FAQPage />
     </div>
