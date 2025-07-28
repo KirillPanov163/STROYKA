@@ -5,6 +5,9 @@
   width: 75%;
   border-right: 1px solid #333;
   color: #e0e0e0;
-  height: calc(100vh);
   padding: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
 }

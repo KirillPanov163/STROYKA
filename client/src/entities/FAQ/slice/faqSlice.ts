@@ -39,7 +39,7 @@ const faqSlice = createSlice({
       })
       .addCase(fetchFaqs.rejected, (state, action) => {
         state.status = FAQThunkStatus.FAILED;
-        state.error = action.payload as string ?? 'Failed to fetch FAQs';
+        state.error = (action.payload as string) ?? 'Failed to fetch FAQs';
       })
       .addCase(createFaq.pending, (state) => {
         state.status = FAQThunkStatus.LOADING;
@@ -53,7 +53,7 @@ const faqSlice = createSlice({
       })
       .addCase(createFaq.rejected, (state, action) => {
         state.status = FAQThunkStatus.FAILED;
-        state.error = action.payload as string ?? 'Failed to create FAQ';
+        state.error = (action.payload as string) ?? 'Failed to create FAQ';
       })
       .addCase(getFaqById.pending, (state) => {
         state.status = FAQThunkStatus.LOADING;
@@ -67,7 +67,7 @@ const faqSlice = createSlice({
       })
       .addCase(getFaqById.rejected, (state, action) => {
         state.status = FAQThunkStatus.FAILED;
-        state.error = action.payload as string ?? 'Failed to get FAQ by id';
+        state.error = (action.payload as string) ?? 'Failed to get FAQ by id';
       })
       .addCase(updateFaq.pending, (state) => {
         state.status = FAQThunkStatus.LOADING;
@@ -75,16 +75,26 @@ const faqSlice = createSlice({
       })
       .addCase(updateFaq.fulfilled, (state, action: PayloadAction<Faq>) => {
         state.status = FAQThunkStatus.SUCCEEDED;
-        if (action.payload) {
-          const idx = state.data.findIndex((faq) => faq.id === action.payload.id);
-          if (idx !== -1) {
-            state.data[idx] = action.payload;
-          }
+        const updatedFaq = action.payload;
+
+        console.log('Updated FAQ from server:', updatedFaq);
+
+        if (!updatedFaq || !updatedFaq.id) {
+          console.error('Invalid FAQ data received:', updatedFaq);
+          return;
+        }
+
+        state.data = state.data.map((faq) =>
+          faq.id === updatedFaq.id ? { ...faq, ...updatedFaq } : faq,
+        );
+
+        if (state.selectedFAQ?.id === updatedFaq.id) {
+          state.selectedFAQ = { ...state.selectedFAQ, ...updatedFaq };
         }
       })
       .addCase(updateFaq.rejected, (state, action) => {
         state.status = FAQThunkStatus.FAILED;
-        state.error = action.payload as string ?? 'Failed to update FAQ';
+        state.error = (action.payload as string) ?? 'Failed to update FAQ';
       })
       .addCase(deleteFaq.pending, (state) => {
         state.status = FAQThunkStatus.LOADING;
@@ -96,7 +106,7 @@ const faqSlice = createSlice({
       })
       .addCase(deleteFaq.rejected, (state, action) => {
         state.status = FAQThunkStatus.FAILED;
-        state.error = action.payload as string ?? 'Failed to delete FAQ';
+        state.error = (action.payload as string) ?? 'Failed to delete FAQ';
       });
   },
 });

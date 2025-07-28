@@ -1,23 +1,24 @@
 export interface IMetaData {
-  id?: string | null;
-  title?: string | null;
-  description?: string | null;
-  keywords?: string | null;
-  author_name?: string | null;
-  nataliaBase?: string | null;
-  alternates?: string | null;
-  openGraph_title?: string | null;
-  openGraph_description?: string | null;
-  openGraph_url?: string | null;
-  openGraph_siteName?: string | null;
-  themeColor?: string | null;
-  icons_icon?: string | null;
-  icons_shortcut?: string | null;
-  icons_apple?: string | null;
-  other_geo_region?: string | null;
-  other_geo_placename?: string | null;
-  other_geo_position?: string | null;
-  other_ICBM?: string | null;
+  id: number;
+  title: string;
+  description: string;
+  keywords: string;
+  author_name: string;
+  author_url: string;
+  metadataBase: string;
+  alternates: string;
+  openGraph_title: string;
+  openGraph_description: string;
+  openGraph_url: string;
+  openGraph_siteName: string;
+  themeColor: string;
+  icons_icon: string;
+  icons_shortcut: string;
+  icons_apple: string;
+  other_geo_region: string;
+  other_geo_placename: string;
+  other_geo_position: string;
+  other_ICBM: string;
+  createdAt?: string | null;
+  updatedAt?: string | null;
 }
-
-

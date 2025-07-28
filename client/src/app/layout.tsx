@@ -13,9 +13,7 @@ import { Providers } from '@/store/Providers';
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/metaData`, {
-      cache: 'no-store',
-    });
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/metaData`);
 
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);
