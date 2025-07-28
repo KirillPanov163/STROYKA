@@ -1,9 +1,13 @@
 import type { Metadata } from 'next';
+import { AppProps } from 'next/app';
+import Head from 'next/head';
 import './globals.css';
 import Navigation from '../widgets/Navigation/Navigation';
 import Footer from '../widgets/Footer/Footer';
-import { Providers } from '@/store/Providers';
+
 import { ClientLayoutWrapper } from './ClientLayoutWrapper';
+import ServicesList from '@/entities/service/ui/ServiceList';
+import { Providers } from '@/store/providers';
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
@@ -18,7 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
     const metaDatas = await res.json();
     const meta = metaDatas.data?.[0] || {};
 
-    // Безопасный парсинг keywords
+    // Safe parsing of keywords
     let keywords = '';
     try {
       const rowKeyWords = meta?.keywords || '[]';
@@ -64,7 +68,23 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  let services = [];
+
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/service`, {
+      cache: 'no-store',
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      services = data.data || [];
+      console.log('Fetched services:', services);
+    }
+  } catch (error) {
+    console.error('Error fetching services:', error);
+  }
+
   return (
     <html lang="ru">
       <body className="flex flex-col min-h-screen">

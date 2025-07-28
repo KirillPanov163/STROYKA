@@ -5,10 +5,8 @@ const { service } = prisma;
 type ServisType = {
   service: string;
   description: string;
-  images: string
+  images: string;
 };
-
-
 
 export class ServiceService {
   static async getAllService() {
@@ -37,7 +35,14 @@ export class ServiceService {
   }
 
   static async createService(data: ServisType) {
-    const newService = await service.create({data});
+    const newService = await service.create({ data });
     return newService;
+  }
+
+  static async updateServiceImage(id: number, imagePath: string) {
+    return service.update({
+      where: { id },
+      data: { images: imagePath },
+    });
   }
 }

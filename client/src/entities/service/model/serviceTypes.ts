@@ -1,8 +1,9 @@
 export interface IService {
-  id?: string;
+  id?: number;
   service: string;
   description: string;
   images: string;
   createdAt?: string;
   updatedAt?: string;
+  imageUrl?: string;
 }
