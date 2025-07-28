@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllServices } from '@/entities/service/api/serviceThunkApi';
 import type { RootState, AppDispatch } from '@/store/store'; 
 import type { IService } from '@/entities/service/model/serviceTypes';
+import './ServicePage.module.css';
 
 const ServicesList: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -40,11 +41,15 @@ const ServicesList: React.FC = () => {
   }
 
   return (
-    <div className="services-container">
-      <h2>Список услуг ({services.length})</h2>
-      <div className="services-grid">
-        {services.map((service: IService) => (
-          <ServiceCard key={service.id} service={service} />
+    <div className="services-page">
+      <h1>Услуги</h1>
+      <div className="services-list">
+        {services.map((service) => (
+          <div key={service.id} className="service-item">
+            <img src={service.images} alt={service.service} />
+            <h2>{service.service}</h2>
+            <p>{service.description}</p>
+          </div>
         ))}
       </div>
     </div>
