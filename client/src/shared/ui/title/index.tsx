@@ -1,41 +1,38 @@
 import React from 'react';
 import styles from './Title.module.css';
 
-type Props = {
+type TitleProps = {
   children: React.ReactNode;
   className?: string;
-  level?: 1 | 2 | 3;
-  size?: 'small' | 'medium' | 'large';
-  variant?: 'primary' | 'secondary' | 'danger' | 'success';
+  level?: 1 | 2 | 3 | 4 | 5 | 6;
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  variant?: 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
   align?: 'left' | 'center' | 'right';
+  weight?: 'light' | 'normal' | 'medium' | 'semibold' | 'bold';
 };
 
-export const Title: React.FC<Props> = ({
+export const Title = ({
   children,
   className = '',
   level = 1,
-  size = 'medium',
+  size = 'md',
   variant = 'primary',
   align = 'left',
-}) => {
+  weight = 'semibold',
+}: TitleProps) => {
+  const Tag = `h${level}` as keyof React.JSX.IntrinsicElements;
   const titleClass = [
     styles.title,
     styles[size],
     styles[variant],
     styles[align],
+    styles[weight],
     className,
   ]
     .filter(Boolean)
     .join(' ');
 
-  switch (level) {
-    case 1:
-      return <h1 className={titleClass}>{children}</h1>;
-    case 2:
-      return <h2 className={titleClass}>{children}</h2>;
-    case 3:
-      return <h3 className={titleClass}>{children}</h3>;
-    default:
-      return <h1 className={titleClass}>{children}</h1>;
-  }
+  const HeadingTag = `h${level}` as keyof React.JSX.IntrinsicElements;
+
+  return React.createElement(HeadingTag, { className: titleClass }, children);
 };

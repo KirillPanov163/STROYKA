@@ -4,7 +4,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(34, 30, 24, 0.7);
+  background: #ded9d2b3;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -30,8 +30,8 @@
 }
 
 .okButton {
-  background-color: #ede5dd;
-  color: #2b251f;
+  background-color: #ffffff;
+  color: #808080;
   border: none;
   border-radius: 999px;
   padding: 12px 32px;
