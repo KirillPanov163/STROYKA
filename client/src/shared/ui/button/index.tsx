@@ -1,50 +1,49 @@
+// components/ui/Button.tsx
 import React from 'react';
 import styles from './Button.module.css';
 
-type Props = {
-  children: React.ReactNode;
-  onClick?: () => void;
-  className?: string;
-  disabled?: boolean;
-  loading?: boolean;
-  type?: 'button' | 'submit' | 'reset';
-  variant?: 'primary' | 'secondary' | 'danger';
-  size?: 'small' | 'medium' | 'large';
+type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  size?: 'sm' | 'md' | 'lg';
+  variant?: 'primary' | 'secondary' | 'tertiary' | 'danger' | 'ghost' | 'link';
+  isLoading?: boolean;
   fullWidth?: boolean;
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
 };
 
-export const Button: React.FC<Props> = ({
-  children,
-  onClick,
-  className = '',
-  disabled = false,
-  loading = false,
-  type = 'button',
-  variant = 'primary',
-  size = 'medium',
-  fullWidth = false,
-}) => {
-  const buttonClass = [
-    styles.button,
-    styles[variant],
-    styles[size],
-    disabled ? styles.disabled : '',
-    loading ? styles.loading : '',
-    fullWidth ? styles.fullWidth : '',
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    {
+      children,
+      size = 'md',
+      variant = 'primary',
+      isLoading = false,
+      fullWidth = false,
+      className = '',
+      leftIcon,
+      rightIcon,
+      ...props
+    },
+    ref
+  ) => {
+    const buttonClass = `${styles.button} ${styles[size]} ${styles[variant]} ${
+      isLoading ? styles.loading : ''
+    } ${fullWidth ? styles.fullWidth : ''} ${className}`;
 
-  return (
-    <button
-      className={buttonClass}
-      onClick={onClick}
-      disabled={disabled || loading}
-      type={type}
-    >
-      {loading && <span className={styles.spinner} />}
-      {children}
-    </button>
-  );
-};
+    return (
+      <button
+        ref={ref}
+        className={buttonClass}
+        disabled={isLoading || props.disabled}
+        {...props}
+      >
+        {isLoading && <span className={styles.spinner} />}
+        {leftIcon && !isLoading && <span className={styles.leftIcon}>{leftIcon}</span>}
+        {children}
+        {rightIcon && !isLoading && <span className={styles.rightIcon}>{rightIcon}</span>}
+      </button>
+    );
+  }
+);
+
+Button.displayName = 'Button';

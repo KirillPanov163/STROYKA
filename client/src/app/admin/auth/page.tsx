@@ -8,8 +8,6 @@ import styles from './page.module.css';
 import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
 import { useAppSelector } from '@/shared/Hooks/useAppSelector';
 import { useRouter } from 'next/navigation';
-import { Input } from '@/shared/ui/inputs';
-import { Button } from '@/shared/ui/button';
 
 type InputsSignUpType = {
   name: string;
@@ -100,7 +98,7 @@ export default function SignUpForm() {
       {twoFAPending ? (
         <form onSubmit={handle2FASubmit}>
           <div>
-            <Input
+            <input
               type="text"
               placeholder="Введите код 2FA"
               onChange={handle2FAChange}
@@ -110,14 +108,14 @@ export default function SignUpForm() {
             />
           </div>
           {error && <div className={styles.errorText}>{error}</div>}
-          <Button type="submit" className={styles.submitButton}>
+          <button type="submit" className={styles.submitButton}>
             Подтвердить
-          </Button>
+          </button>
         </form>
       ) : (
         <form onSubmit={handleSubmit}>
           <div>
-            <Input
+            <input
               type="text"
               placeholder="Имя"
               onChange={handleChange}
@@ -127,7 +125,7 @@ export default function SignUpForm() {
             />
           </div>
           <div>
-            <Input
+            <input
               type="email"
               placeholder="Email"
               onChange={handleChange}
@@ -137,7 +135,7 @@ export default function SignUpForm() {
             />
           </div>
           <div>
-            <Input
+            <input
               type="password"
               placeholder="Пароль"
               onChange={handleChange}
@@ -147,7 +145,7 @@ export default function SignUpForm() {
             />
           </div>
           <div>
-            <Input
+            <input
               type="password"
               placeholder="Повторите пароль"
               onChange={handleChange}
@@ -157,9 +155,9 @@ export default function SignUpForm() {
             />
           </div>
           {error && <div className={styles.errorText}>{error}</div>}
-          <Button type="submit" className={styles.submitButton}>
+          <button type="submit" className={styles.submitButton}>
             Зарегистрироваться
-          </Button>
+          </button>
         </form>
       )}
     </div>

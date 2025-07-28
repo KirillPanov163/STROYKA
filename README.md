@@ -27,6 +27,7 @@
 25. Refactor import statement for Providers in layout component
 26. Реорганизовал глобальные стили, обновил макет с помощью GoodAppWidget и улучшил страницу контактов, добавив новые ссылки на юридическую информацию и улучшенный дизайн. Скорректировал стили форм и нижнего колонтитула для большей согласованности пользовательского интерфейса.
 27. Удалите неиспользуемое изображение логотипа и оптимизируйте генерацию метаданных с обработкой ошибок. Обновите навигацию, включив страницу часто задаваемых вопросов, и улучшите структуру файловой системы в меню администратора. Рефакторинг стилей для улучшения пользовательского интерфейса
+28. Refactor various components to use new Input and Title UI elements for improved consistency. Update NotFound, admin forms, and FAQ sections with enhanced styling. Optimize navigation and footer for better user experience.
 
 ## Нужно сделать 
 
