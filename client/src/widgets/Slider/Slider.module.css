@@ -1,0 +1,151 @@
+.sliderContainer {
+  max-width: 1200px;
+  padding: 2rem 1rem;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.sliderTitle {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 2rem;
+}
+
+.sliderWrapper {
+  width: 100%;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.sliderViewport {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.sliderTrack {
+  display: flex;
+  transition: transform 1s ease;
+  will-change: transform;
+}
+
+.slide {
+  flex: 0 0 25%;
+  min-width: 25%;
+  padding: 0 10px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+}
+
+.logo {
+  max-height: 80px;
+  max-width: 160px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: grayscale(30%);
+  transition: all 0.3s ease;
+}
+
+.logo:hover {
+  filter: grayscale(0);
+  transform: scale(1.05);
+}
+
+/* Стили для стрелок */
+.arrowButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+.arrowButton:hover {
+  background: #f8f8f8;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+}
+
+.arrowButton.prev {
+  left: 10px;
+}
+
+.arrowButton.next {
+  right: 10px;
+}
+
+.arrowIcon {
+  display: block;
+  width: 15px;
+  height: 15px;
+  border-top: 2px solid #333;
+  border-left: 2px solid #333;
+}
+
+.arrowButton.prev .arrowIcon {
+  transform: rotate(-45deg);
+  margin-left: 4px;
+}
+
+.arrowButton.next .arrowIcon {
+  transform: rotate(135deg);
+  margin-right: 4px;
+}
+
+/* Адаптивные стили */
+@media (max-width: 991px) {
+  .slide {
+    flex: 0 0 33.33%;
+    min-width: 33.33%;
+  }
+}
+
+@media (max-width: 767px) {
+  .slide {
+    flex: 0 0 50%;
+    min-width: 50%;
+  }
+  
+  .arrowButton {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .arrowIcon {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+@media (max-width: 575px) {
+  .slide {
+    flex: 0 0 100%;
+    min-width: 100%;
+  }
+  
+  .arrowButton {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .sliderTitle {
+    font-size: 1.5rem;
+  }
+}

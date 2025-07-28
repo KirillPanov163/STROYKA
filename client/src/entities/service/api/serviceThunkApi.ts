@@ -6,6 +6,61 @@ import type { IService } from '../model/serviceTypes';
 import { SERVICE_THUNK_TYPES } from '@/shared/enums/serviceThunkTypes';
 import { SERVICE_API_ROUTES } from '@/shared/enums/serviceApiRoutes';
 
+export const uploadServiceImage = createAsyncThunk<
+  ServerResponseType<IService>,
+  { id: number; image: File },
+  { rejectValue: ServerResponseType<null> }
+>(SERVICE_THUNK_TYPES.UPLOAD_IMAGE, async ({ id, image }, { rejectWithValue }) => {
+  try {
+    const formData = new FormData();
+    formData.append('image', image);
+
+    const { data } = await axiosInstance.post<ServerResponseType<IService>>(
+      `${SERVICE_API_ROUTES.SERVICE}/${id}/upload-image`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      },
+    );
+    return data;
+  } catch (error) {
+    const err = error as AxiosError<ServerResponseType<null>>;
+    return rejectWithValue(
+      err.response?.data || {
+        statusCode: 500,
+        message: 'Ошибка загрузки изображения',
+        data: null,
+        error: err.message || 'Unknown error',
+      },
+    );
+  }
+});
+
+export const deleteServiceImage = createAsyncThunk<
+  ServerResponseType<IService>,
+  number,
+  { rejectValue: ServerResponseType<null> }
+>(SERVICE_THUNK_TYPES.DELETE_IMAGE, async (id, { rejectWithValue }) => {
+  try {
+    const { data } = await axiosInstance.delete<ServerResponseType<IService>>(
+      `${SERVICE_API_ROUTES.SERVICE}/${id}/delete-image`,
+    );
+    return data;
+  } catch (error) {
+    const err = error as AxiosError<ServerResponseType<null>>;
+    return rejectWithValue(
+      err.response?.data || {
+        statusCode: 500,
+        message: 'Ошибка удаления изображения',
+        data: null,
+        error: err.message || 'Unknown error',
+      },
+    );
+  }
+});
+
 export const getAllServices = createAsyncThunk<
   ServerResponseType<IService[]>,
   void,

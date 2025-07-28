@@ -46,15 +46,20 @@
 2. Footer, Footer.css
 3. entities -> FAQ (api, model, slice)
 4. enums -> faqThunkTypes
+5. servicePage, servicePage.css
+6. AchievementsWidgets, AchievementsWidgets.css
 
 
 3. Сделать нарисованный макет всего проекта, чтобы утвердить функционал и визуал
 
-## Сделано
+## Nikolay
 
-1. Сделал форму обратной связи RecordingForm
-2. Сделал санку RecordingFormApi ()
-3. Сделал
+1. Сделал форму обратной связи RecordingForm.tsx ()
+2. Положил сайт коммитом )))
+3. Сделал Футер (Добавил Векторную графику SVG иконки)
+4. Сделал PoliticsPage
+5. Сделал ОfertaPage
+6. Cделал Slider (Наши партнеры )
 
 
 ## Aza

@@ -65,7 +65,7 @@ export const Feedback = () => {
   if (isSubmitted) {
     return (
       <div className={`${styles.feedback} ${styles.successMessage}`}>
-        <Title level={3} size="small" align="center">
+        <Title level={3} size="sm" align="center">
           Спасибо за заявку!
         </Title>
         <p className={styles.subtitle}>Мы свяжемся с вами в указанное время</p>
@@ -99,7 +99,7 @@ export const Feedback = () => {
         ×
       </button>
 
-      <Title level={3} size="small" align="center">
+      <Title level={3} size="sm" align="center">
         Оставьте заявку на звонок
       </Title>
       <br />
@@ -133,22 +133,22 @@ export const Feedback = () => {
 
         <Input
           value={phone}
-          onChange={setPhone}
+          // onChange={setPhone}
           placeholder="+7 (___) ___-__-__"
           type="text"
           inputMode="tel"
           required
           fullWidth
-          size="medium"
+          // size="md"
           disabled={isLoading}
         />
 
         <Button
           type="submit"
           variant="primary"
-          size="medium"
+          size="md"
           fullWidth
-          loading={isLoading}
+          isLoading={isLoading}
           disabled={isLoading}
         >
           Заказать звонок

@@ -1,5 +1,3 @@
-"use client"
-
 import style from './page.module.css'
 import { MetaDataEditor } from './widgets/metaData/MetaDataEdit';
 

@@ -1,0 +1,57 @@
+.servicesList {
+  padding: 0px;
+  max-width: 900px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #fff;
+  display: grid;
+  gap: 20px;
+}
+.serviceItem {
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+  backdrop-filter: blur(6px);
+}
+.serviceImage {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 80px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.6);
+}
+.serviceContent {
+  flex: 1;
+}
+.serviceTitle {
+  font-size: 1.4rem;
+  margin: 0 0 8px 0;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+}
+.serviceDescription {
+  font-size: 0.95rem;
+  color: #eee;
+}
+.serviceDescription ul {
+  padding-left: 15px;
+  margin: 0;
+}
+.serviceDescription li {
+  margin-bottom: 4px;
+}
+@media (max-width: 600px) {
+  .serviceItem {
+    flex-direction: column;
+  }
+  .serviceImage {
+    width: 100%;
+    height: auto;
+    max-height: 200px;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+}

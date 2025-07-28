@@ -1,25 +1,31 @@
 import { Router } from 'express';
 import { ServiceController } from '../controllers/service.controller.js';
+
 const serviceRouter = Router();
 
-serviceRouter.get('/', async (req, res) => {
-  await ServiceController.getAllServices(req, res);
-});
+// Получение всех услуг
+serviceRouter.get('/', (req, res) => ServiceController.getAllServices(req, res));
 
-serviceRouter.get('/:id', async (req, res) => {
-  await ServiceController.getOneService(req, res);
-});
+// Получение одной услуги
+serviceRouter.get('/:id', (req, res) => ServiceController.getOneService(req, res));
 
-serviceRouter.post('/', async (req, res) => {
-  await ServiceController.createService(req, res);
-});
+// Создание услуги
+serviceRouter.post('/', (req, res) => ServiceController.createService(req, res));
 
-serviceRouter.put('/:id', async (req, res) => {
-  await ServiceController.updateService(req, res);
-});
+// Обновление услуги
+serviceRouter.put('/:id', (req, res) => ServiceController.updateService(req, res));
 
-serviceRouter.delete('/:id', async (req, res) => {
-  await ServiceController.deleteService(req, res);
-});
+// Удаление услуги
+serviceRouter.delete('/:id', (req, res) => ServiceController.deleteService(req, res));
 
-export default serviceRouter
+// Загрузка изображения
+serviceRouter.post('/:id/upload-image', (req, res) =>
+  ServiceController.uploadServiceImage(req, res),
+);
+
+// Удаление изображения
+serviceRouter.delete('/:id/delete-image', (req, res) =>
+  ServiceController.deleteServiceImage(req, res),
+);
+
+export default serviceRouter;
