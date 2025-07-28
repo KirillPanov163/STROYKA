@@ -1,7 +1,9 @@
 export enum SERVICE_THUNK_TYPES {
-  ALL_SERVICE = 'metaData/all',
-  ONE_SERVICE = 'metaData/one',
-  UPDATE_SERVICE = 'metaData/update',
-  CREATE_SERVICE = 'metaData/create',
-  DELETE_SERVICE = 'metaData/delete',
+  ALL_SERVICE = 'service/allService',
+  ONE_SERVICE = 'service/oneService',
+  CREATE_SERVICE = 'service/createService',
+  UPDATE_SERVICE = 'service/updateService',
+  DELETE_SERVICE = 'service/deleteService',
+  UPLOAD_IMAGE = 'service/uploadImage',
+  DELETE_IMAGE = 'service/deleteImage',
 }

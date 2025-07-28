@@ -80,7 +80,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       services = data.data || [];
       console.log('Fetched services:', services);
     }
-    
   } catch (error) {
     console.error('Error fetching services:', error);
   }

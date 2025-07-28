@@ -1,136 +1,73 @@
-import type { Request, Response } from 'express';
-import { ServiceService } from '../services/Service.service.js';
+import { Request, Response } from 'express';
 import formatResponse from '../utils/formatResponse.js';
-
-type ServisType = {
-  service: string;
-  description: string;
-  images: string
-};
+import { ServiceService } from '../services/Service.service.js';
 
 export class ServiceController {
   static async getAllServices(req: Request, res: Response) {
     try {
       const services = await ServiceService.getAllService();
-      return res
-        .status(200)
-        .json(formatResponse(200, 'Список сервисов получен', services));
+      res.status(200).json(formatResponse(200, 'Услуги получены', services));
     } catch (error) {
-      console.error(error);
-      return res
-        .status(500)
-        .json(formatResponse(500, 'Ошибка сервера при получении списка сервисов'));
+      res.status(500).json(formatResponse(500, 'Ошибка сервера'));
     }
   }
 
   static async getOneService(req: Request, res: Response) {
     try {
       const { id } = req.params;
-
-      if (!id) {
-        return res.status(400).json(formatResponse(400, 'ID сервиса обязателен'));
-      }
-
-      const parsedId = Number(id);
-      if (isNaN(parsedId)) {
-        return res.status(400).json(formatResponse(400, 'ID должен быть числом'));
-      }
-
-      const service = await ServiceService.getOneService(parsedId);
-
-      if (!service) {
-        return res.status(404).json(formatResponse(404, 'Сервис не найден'));
-      }
-      return res
-        .status(200)
-        .json(formatResponse(200, 'Данные сервиса получены', service));
+      const service = await ServiceService.getOneService(Number(id));
+      res.status(200).json(formatResponse(200, 'Услуга получена', service));
     } catch (error) {
-      console.error(error);
-      return res
-        .status(500)
-        .json(formatResponse(500, 'Ошибка сервера при получении сервиса'));
+      res.status(500).json(formatResponse(500, 'Ошибка сервера'));
     }
   }
 
   static async createService(req: Request, res: Response) {
     try {
-      const { service, description, images } = req.body;
-
-      if (!service || !description || !images) {
-        return res
-          .status(400)
-          .json(formatResponse(400, 'Название и описание сервиса обязательны'));
-      }
-      const data: ServisType = { service, description, images };
-      const newService = await ServiceService.createService(data);
-
-      return res
-        .status(201)
-        .json(formatResponse(201, 'Сервис успешно создан', newService));
+      const newService = await ServiceService.createService(req.body);
+      res.status(201).json(formatResponse(201, 'Услуга создана', newService));
     } catch (error) {
-      console.error(error);
-      return res
-        .status(500)
-        .json(formatResponse(500, 'Ошибка сервера при создании сервиса'));
+      res.status(500).json(formatResponse(500, 'Ошибка сервера'));
     }
   }
 
   static async updateService(req: Request, res: Response) {
     try {
-      const { id, ...updateData } = req.body;
-
-      if (!id) {
-        return res.status(400).json(formatResponse(400, 'ID сервиса обязателен'));
-      }
-
-      const parsedId = Number(id);
-      if (isNaN(parsedId)) {
-        return res.status(400).json(formatResponse(400, 'ID должен быть числом'));
-      }
-
-      const existingService = await ServiceService.getOneService(parsedId);
-      if (!existingService) {
-        return res.status(404).json(formatResponse(404, 'Сервис не найден'));
-      }
-
-      const updatedService = await ServiceService.updateService(parsedId, updateData);
-
-      return res
-        .status(200)
-        .json(formatResponse(200, 'Сервис успешно обновлен', updatedService));
+      const { id } = req.params;
+      const updatedService = await ServiceService.updateService(Number(id), req.body);
+      res.status(200).json(formatResponse(200, 'Услуга обновлена', updatedService));
     } catch (error) {
-      console.error(error);
-      return res
-        .status(500)
-        .json(formatResponse(500, 'Ошибка сервера при обновлении сервиса'));
+      res.status(500).json(formatResponse(500, 'Ошибка сервера'));
     }
   }
 
   static async deleteService(req: Request, res: Response) {
     try {
       const { id } = req.params;
-
-      if (!id) {
-        return res.status(400).json(formatResponse(400, 'ID сервиса обязателен'));
-      }
-
-      const parsedId = Number(id);
-      if (isNaN(parsedId)) {
-        return res.status(400).json(formatResponse(400, 'ID должен быть числом'));
-      }
-      const existingService = await ServiceService.getOneService(parsedId);
-      if (!existingService) {
-        return res.status(404).json(formatResponse(404, 'Сервис не найден'));
-      }
-
-      await ServiceService.deleteService(parsedId);
-
-      return res.status(200).json(formatResponse(200, 'Сервис успешно удален', existingService));
+      await ServiceService.deleteService(Number(id));
+      res.status(200).json(formatResponse(200, 'Услуга удалена'));
     } catch (error) {
-      console.error(error);
-      return res
-        .status(500)
-        .json(formatResponse(500, 'Ошибка сервера при удалении сервиса'));
+      res.status(500).json(formatResponse(500, 'Ошибка сервера'));
+    }
+  }
+
+  static async uploadServiceImage(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      // Логика загрузки изображения
+      res.status(200).json(formatResponse(200, 'Изображение загружено'));
+    } catch (error) {
+      res.status(500).json(formatResponse(500, 'Ошибка загрузки изображения'));
+    }
+  }
+
+  static async deleteServiceImage(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      // Логика удаления изображения
+      res.status(200).json(formatResponse(200, 'Изображение удалено'));
+    } catch (error) {
+      res.status(500).json(formatResponse(500, 'Ошибка удаления изображения'));
     }
   }
 }
