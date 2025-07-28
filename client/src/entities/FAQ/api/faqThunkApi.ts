@@ -46,8 +46,8 @@ export const updateFaq = createAsyncThunk<
   { id: number; question?: string; answers?: string }
 >('faq/updateFaq', async ({ id, question, answers }, { rejectWithValue }) => {
   try {
-    const response = await axiosInstance.put<Faq>(`/faq/${id}`, { question, answers });
-    return response.data;
+    const response = await axiosInstance.put<{ data: Faq }>(`/faq/${id}`, { question, answers });
+    return response.data.data;
   } catch (error: any) {
     return rejectWithValue(error.message || 'Ошибка обновления FAQ');
   }

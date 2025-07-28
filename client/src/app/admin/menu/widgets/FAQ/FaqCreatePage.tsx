@@ -39,7 +39,7 @@ export const FaqCreatePage = () => {
   const onSubmit: SubmitHandler<FaqFormValues> = async (data) => {
     try {
       await dispatch(createFaq(data)).unwrap();
-      router.push('/faq/all_answers');
+      router.push('/admin/menu/faq/all_answers');
     } catch (error) {
       console.error('Ошибка при создании:', error);
     }
