@@ -1,0 +1,132 @@
+.container {
+  background-color: rgb(223, 210, 210);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+}
+
+.content {
+  text-align: center;
+  width: 100%;
+}
+
+.errorCode {
+  font-size: 120px;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-top: 100px;
+  margin-bottom: 20px;
+  line-height: 1;
+}
+
+.title {
+  font-size: 32px;
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.message {
+  font-size: 18px;
+  color: #2c3e50;
+  margin-bottom: 30px;
+  line-height: 1.5;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.homeButton {
+  display: inline-block;
+  padding: 12px 30px;
+  background: #3498db;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: background 0.3s ease;
+}
+
+.homeButton:hover {
+  background: #2980b9;
+}
+
+/* Адаптивность как в оферте */
+@media (max-width: 1199px) {
+  .container {
+    padding: 35px;
+  }
+
+  .errorCode {
+    font-size: 100px;
+  }
+}
+
+@media (max-width: 991px) {
+  .container {
+    padding: 30px;
+  }
+
+  .errorCode {
+    font-size: 80px;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 767px) {
+  .container {
+    padding: 25px;
+  }
+
+  .errorCode {
+    font-size: 60px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .message {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 575px) {
+  .container {
+    padding: 20px 15px;
+  }
+
+  .errorCode {
+    font-size: 50px;
+  }
+
+  .title {
+    font-size: 22px;
+  }
+
+  .homeButton {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .errorCode {
+    font-size: 40px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .message {
+    font-size: 14px;
+  }
+}
