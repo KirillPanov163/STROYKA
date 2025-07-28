@@ -1,7 +1,11 @@
-import React from 'react'
+import React from 'react';
+import ServicesList from '@/entities/service/ui/ServiceList';
 
-export default function ServicePage() {
+
+export default function ServicesPage() {
   return (
-    <div>page</div>
-  )
+    <div className="services-page">
+      <ServicesList />
+    </div>
+  );
 }
