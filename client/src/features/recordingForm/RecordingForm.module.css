@@ -117,3 +117,10 @@
 .realCheckbox:checked + .customCheckbox::before {
   transform: translate(-50%, -50%) scale(1);
 }
+.formTitle {
+  margin-bottom: 20px; 
+}
+
+.mobileLineBreak {
+  display: block;
+}
