@@ -1,5 +1,4 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 import { Faq } from '../model/faqTypes';
 import { axiosInstance } from '@/shared/lib/axiosInstance';
 

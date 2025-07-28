@@ -1,57 +1,42 @@
+// components/ui/Input.tsx
 import React from 'react';
 import styles from './Input.module.css';
 
-type Props = {
-  value?: string;
-  onChange: any;
-  placeholder?: string;
-  className?: string;
-  disabled?: boolean;
-  type?: 'text' | 'password' | 'email' | 'number' | 'tel' | 'checkbox';
-  inputMode?: 'text' | 'tel' | 'email' | 'numeric' | 'decimal' | 'search' | 'url';
-  size?: 'small' | 'medium' | 'large';
+type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
+  size?: 'sm' | 'md' | 'lg';
+  variant?: 'default' | 'filled' | 'outline';
   error?: boolean;
   fullWidth?: boolean;
-  required?: boolean;
-  name?: string
-  id?: string
-  checked?: boolean
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
 };
 
-export const Input: React.FC<Props> = ({
-  value,
-  onChange,
-  placeholder = '',
-  className = '',
-  disabled = false,
-  type = 'text',
-  inputMode,
-  size = 'medium',
-  error = false,
-  fullWidth = false,
-  required = false,
-}) => {
-  const inputClass = [
-    styles.input,
-    styles[size],
-    error ? styles.error : '',
-    disabled ? styles.disabled : '',
-    fullWidth ? styles.fullWidth : '',
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+export const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  (
+    {
+      size = 'md',
+      variant = 'default',
+      error = false,
+      fullWidth = false,
+      className = '',
+      leftIcon,
+      rightIcon,
+      ...props
+    },
+    ref
+  ) => {
+    const inputClass = `${styles.input} ${styles[size]} ${styles[variant]} ${
+      error ? styles.error : ''
+    } ${fullWidth ? styles.fullWidth : ''} ${className}`;
 
-  return (
-    <input
-      className={inputClass}
-      value={value}
-      onChange={onChange}
-      placeholder={placeholder}
-      disabled={disabled}
-      type={type}
-      inputMode={inputMode}
-      required={required}
-    />
-  );
-};
+    return (
+      <div className={`${styles.wrapper} ${fullWidth ? styles.fullWidth : ''}`}>
+        {leftIcon && <span className={styles.leftIcon}>{leftIcon}</span>}
+        <input ref={ref} className={inputClass} {...props} />
+        {rightIcon && <span className={styles.rightIcon}>{rightIcon}</span>}
+      </div>
+    );
+  }
+);
+
+Input.displayName = 'Input';

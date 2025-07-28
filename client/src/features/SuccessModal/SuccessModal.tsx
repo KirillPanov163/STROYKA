@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import styles from './SuccessModal.module.css';
-import { Button } from '@/shared/ui/button';
 
 interface SuccessModalProps {
   open: boolean;
@@ -21,9 +20,9 @@ const SuccessModal: React.FC<SuccessModalProps> = ({ open, onClose, textModal })
     <div className={styles.modalOverlay}>
       <div className={styles.modalContent}>
         <div className={styles.modalMessage}>{textModal}</div>
-        <Button className={styles.okButton} onClick={onClose}>
+        <button className={styles.okButton} onClick={onClose}>
           ОК
-        </Button>
+        </button>
       </div>
     </div>
   );

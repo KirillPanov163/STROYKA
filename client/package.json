@@ -18,7 +18,8 @@
     "react-dom": "19.1.0",
     "react-hook-form": "^7.61.1",
     "react-redux": "^9.2.0",
-    "yup": "^1.6.1"
+    "yup": "^1.6.1",
+    "zod": "^4.0.10"
   },
   "devDependencies": {
     "@elbrus/eslint-config": "^1.1.0",
