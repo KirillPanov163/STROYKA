@@ -12,14 +12,13 @@
   margin-left: auto;
   margin-right: auto;
   padding-left: 20px;
-  height: 75vh;
+  min-height: 75vh;
 }
 
 .pageTitle {
   text-align: center;
   font-size: 2rem;
   margin-bottom: 30px;
-  margin: 0 auto;
   color: #333333;
   font-weight: 600;
   letter-spacing: 0.5px;
@@ -41,31 +40,40 @@
 .contentWrapper {
   display: flex;
   gap: 40px;
-  justify-content: space-between;
-  align-items: flex-start;
+  justify-content: center; /* Изменено с space-between на center */
   margin-top: 32px;
   flex-wrap: wrap;
 }
 
-.leftCol {
-  flex: 1 1 300px;
-  min-width: 260px;
+.leftCol,
+.rightCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 500px; /* Фиксированная максимальная ширина */
 }
 
-.rightCol {
-  flex: 1 1 350px;
-  min-width: 300px;
-  max-width: 500px;
+.sectionTitle {
+  text-align: center;
+  width: 100%;
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 1.5rem;
+  font-weight: 600;
+  position: relative;
+  padding-left: 0; /* Убедимся, что нет лишних отступов */
 }
 
 @media (max-width: 900px) {
   .contentWrapper {
     flex-direction: column;
-    gap: 24px;
+    align-items: center; /* Центрируем колонки на мобильных */
+    gap: 40px;
   }
-  .rightCol,
-  .leftCol {
+  
+  .leftCol,
+  .rightCol {
     max-width: 100%;
-    min-width: 0;
   }
 }
