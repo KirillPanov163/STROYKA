@@ -42,9 +42,13 @@
 .contentWrapper {
   display: flex;
   gap: 40px;
-  justify-content: center; /* Изменено с space-between на center */
+  justify-content: center;
   margin-top: 32px;
   flex-wrap: wrap;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 24px;
 }
 
 .leftCol,

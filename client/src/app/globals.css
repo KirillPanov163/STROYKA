@@ -263,11 +263,11 @@ a {
 }
 
 .glass-section {
-  background: rgba(245, 245, 245, 0.85);
-  backdrop-filter: blur(18px);
-  border: 1px solid var(--pearl);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
   border-radius: 28px;
-  box-shadow: var(--shadow-soft);
+  box-shadow: var(--shadow-medium);
   position: relative;
 }
 
