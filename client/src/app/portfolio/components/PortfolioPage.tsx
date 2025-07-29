@@ -1,44 +1,41 @@
 'use client';
 import React, { useState, useEffect, useCallback } from 'react';
-import { MyWorkType } from '@/entities/portfolio/model';
-import { getAllMyWorksThunk } from '@/entities/portfolio/api/portfolio';
+import { MyWork } from '@/entities/portfolio/model';
+import { getAllMyWorks } from '@/entities/portfolio/api/portfolio';
 import Carousel from '../ui/Carousel';
 import WorkCard from './WorkCard';
 import WorkDetail from './WorkDetail';
 import PortfolioLoading from './PortfolioLoading';
 import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
 import { useAppSelector } from '@/shared/Hooks/useAppSelector';
-import { boolean } from 'zod';
 
 interface PortfolioPageProps {
-  initialWorks?: MyWorkType[];
+  initialWorks?: MyWork[];
 }
 
-
-
 const PortfolioPage = ({ initialWorks = [] }: PortfolioPageProps) => {
-  // const dispatch = useAppDispatch();
-  // const { works, isLoading, error } = useAppSelector((state) => ({
-  //   works: state.myWork.works || initialWorks,
-  //   isLoading: state.myWork.isLoading,
-  //   error: state.myWork.error,
-  // };
+  const dispatch = useAppDispatch();
+  const { works, isLoading, error } = useAppSelector((state) => ({
+    works: state.myWork.works || initialWorks,
+    isLoading: state.myWork.loading,
+    error: state.myWork.error,
+  }));
 
-  const [currentWork, setCurrentWork] = useState<MyWorkType | null>(null);
+  const [currentWork, setCurrentWork] = useState<MyWork | null>(null);
 
-  // useEffect(() => {
-  //   // if (!initialWorks.length) {
-  //     dispatch(getAllMyWorksThunk());
-  //   // }
-  // }, []);
+  useEffect(() => {
+    if (!initialWorks.length) {
+      dispatch(getAllMyWorks());
+    }
+  }, []);
 
-  const handleWorkClick = useCallback((work: MyWorkType) => {
+  const handleWorkClick = useCallback((work: MyWork) => {
     setCurrentWork(work);
   }, []);
 
-  // if (isLoading && !works.length) return <PortfolioLoading />;
-  // if (error) return <div className="error-message">Error: {error}</div>;
-  // if (!works?.length) return <div className="empty-message">No works available</div>;
+  if (isLoading && !works.length) return <PortfolioLoading />;
+  if (error) return <div className="error-message">Error: {error}</div>;
+  if (!works?.length) return <div className="empty-message">No works available</div>;
 
   return (
     <div className="portfolio-container">

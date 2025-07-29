@@ -1,10 +1,10 @@
 import React from 'react';
 import Button from '../ui/portfolioButton';
-import { MyWorkType } from '@/entities/portfolio/model';
+import { MyWork } from '@/entities/portfolio/model';
 
 interface WorkCardProps {
-  work: MyWorkType;
-  onClick: (work: MyWorkType) => void;
+  work: MyWork;
+  onClick: (work: MyWork) => void;
   isActive: boolean
 }
 

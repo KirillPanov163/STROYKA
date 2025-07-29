@@ -1,31 +1,13 @@
 import { Router } from 'express';
 import { ServiceController } from '../controllers/service.controller.js';
+import { upload } from '../services/upload.service.js';
 
 const serviceRouter = Router();
 
-// Получение всех услуг
-serviceRouter.get('/', (req, res) => ServiceController.getAllServices(req, res));
-
-// Получение одной услуги
-serviceRouter.get('/:id', (req, res) => ServiceController.getOneService(req, res));
-
-// Создание услуги
-serviceRouter.post('/', (req, res) => ServiceController.createService(req, res));
-
-// Обновление услуги
-serviceRouter.put('/:id', (req, res) => ServiceController.updateService(req, res));
-
-// Удаление услуги
-serviceRouter.delete('/:id', (req, res) => ServiceController.deleteService(req, res));
-
-// Загрузка изображения
-serviceRouter.post('/:id/upload-image', (req, res) =>
-  ServiceController.uploadServiceImage(req, res),
-);
-
-// Удаление изображения
-serviceRouter.delete('/:id/delete-image', (req, res) =>
-  ServiceController.deleteServiceImage(req, res),
-);
+serviceRouter.post('/', upload.single('images'), ServiceController.createService);
+serviceRouter.get('/', ServiceController.getAllServices);
+serviceRouter.get('/:id', ServiceController.getOneService);
+serviceRouter.put('/:id', upload.single('images'), ServiceController.updateService);
+serviceRouter.delete('/:id', ServiceController.deleteService);
 
 export default serviceRouter;

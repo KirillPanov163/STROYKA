@@ -18,7 +18,7 @@ router.use('/contacts', contactsRouter)
 router.use('/faq', faqRouter);
 router.use('/my-work', myWorkRouter);
 router.use((req: Request, res: Response) => {
-  res.status(404).json(formatResponse(404, 'Not found'));
+  res.status(404).json(formatResponse(404, 'Not found' , req.body));
 });
 
 export default router;

@@ -1,4 +1,4 @@
-import { userReducer, myWorkReducer, metaDataReducer, faqReducer, contactsReducer, servicesReducer } from "@/entities";
+import { userReducer, myWorkReducer, metaDataReducer, faqReducer, contactsReducer, serviceReducer } from "@/entities";
 import { configureStore } from '@reduxjs/toolkit';
 import { createWrapper } from "next-redux-wrapper";
 
@@ -9,7 +9,7 @@ const store = configureStore({
     metaData: metaDataReducer,
     faq: faqReducer,
     contacts: contactsReducer,
-    service: servicesReducer,
+    service: serviceReducer,
   }
 })
 

@@ -1,184 +1,152 @@
-import { AxiosError } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { axiosInstance } from '@/shared/lib/axiosInstance';
-import type { ServerResponseType } from '@/shared/types';
-import type { IService } from '../model/serviceTypes';
-import { SERVICE_THUNK_TYPES } from '@/shared/enums/serviceThunkTypes';
-import { SERVICE_API_ROUTES } from '@/shared/enums/serviceApiRoutes';
+import { ServerResponseType } from '@/shared/types';
+import { Service } from '../model/serviceTypes';
+import { AxiosError } from 'axios';
 
-export const uploadServiceImage = createAsyncThunk<
-  ServerResponseType<IService>,
-  { id: number; image: File },
-  { rejectValue: ServerResponseType<null> }
->(SERVICE_THUNK_TYPES.UPLOAD_IMAGE, async ({ id, image }, { rejectWithValue }) => {
-  try {
-    const formData = new FormData();
-    formData.append('image', image);
+export const createService = createAsyncThunk(
+  'service/create',
+  async (formData: FormData, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.post<ServerResponseType<Service>>(
+        '/service',
+        formData,
+      );
+      return data.data;
+    } catch (error: AxiosError | any) {
+      return rejectWithValue(
+        error.response?.data || { message: 'Ошибка при создании услуги' },
+      );
+    }
+  },
+);
 
-    const { data } = await axiosInstance.post<ServerResponseType<IService>>(
-      `${SERVICE_API_ROUTES.SERVICE}/${id}/upload-image`,
-      formData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      },
-    );
-    return data;
-  } catch (error) {
-    const err = error as AxiosError<ServerResponseType<null>>;
-    return rejectWithValue(
-      err.response?.data || {
-        statusCode: 500,
-        message: 'Ошибка загрузки изображения',
-        data: null,
-        error: err.message || 'Unknown error',
-      },
-    );
-  }
-});
+export const getAllServices = createAsyncThunk(
+  'service/getAll',
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.get<ServerResponseType<Service[]>>('/service');
+      return data.data;
+    } catch (error: AxiosError | any) {
+      return rejectWithValue(
+        error.response?.data || { message: 'Ошибка при создании услуги' },
+      );
+    }
+  },
+);
 
-export const deleteServiceImage = createAsyncThunk<
-  ServerResponseType<IService>,
-  number,
-  { rejectValue: ServerResponseType<null> }
->(SERVICE_THUNK_TYPES.DELETE_IMAGE, async (id, { rejectWithValue }) => {
-  try {
-    const { data } = await axiosInstance.delete<ServerResponseType<IService>>(
-      `${SERVICE_API_ROUTES.SERVICE}/${id}/delete-image`,
-    );
-    return data;
-  } catch (error) {
-    const err = error as AxiosError<ServerResponseType<null>>;
-    return rejectWithValue(
-      err.response?.data || {
-        statusCode: 500,
-        message: 'Ошибка удаления изображения',
-        data: null,
-        error: err.message || 'Unknown error',
-      },
-    );
-  }
-});
+export const getOneService = createAsyncThunk(
+  'service/getOne',
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.get<ServerResponseType<Service>>(
+        `/service/${id}`,
+      );
+      return data.data;
+    } catch (error: AxiosError | any) {
+      return rejectWithValue(
+        error.response?.data || { message: 'Ошибка при создании услуги' },
+      );
+    }
+  },
+);
 
-export const getAllServices = createAsyncThunk<
-  ServerResponseType<IService[]>,
-  void,
-  { rejectValue: ServerResponseType<null> }
->(SERVICE_THUNK_TYPES.ALL_SERVICE, async (_, { rejectWithValue }) => {
-  try {
-    const { data } = await axiosInstance.get<ServerResponseType<IService[]>>(
-      SERVICE_API_ROUTES.SERVICE
-    )
-    return data
-  } catch (error) {
-        const err = error as AxiosError<ServerResponseType<null>>;
-    console.error('getAllMetaData error:', err.response?.data);
-    return rejectWithValue(
-      err.response?.data || {
-        statusCode: 500,
-        message: 'Ошибка получения METADATA',
-        data: null,
-        error: err.message || 'Unknown error',
-      },
-    );
-  }
-})
+export const deleteService = createAsyncThunk(
+  'service/delete',
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.delete<ServerResponseType<Service>>(
+        `/service/${id}`,
+      );
+      return data.data;
+    } catch (error: AxiosError | any) {
+      return rejectWithValue(
+        error.response?.data || { message: 'Ошибка при создании услуги' },
+      );
+    }
+  },
+);
 
-export const getOneService = createAsyncThunk<
-  ServerResponseType<IService>,
-  number,
-  { rejectValue: ServerResponseType<null> }
->(SERVICE_THUNK_TYPES.ONE_SERVICE, async (id, { rejectWithValue }) => {
-  try {
-    const { data } = await axiosInstance.get<ServerResponseType<IService>>(
-      `${SERVICE_API_ROUTES.SERVICE}/${id}`
-    )
-    return data
-  } catch (error) {
-        const err = error as AxiosError<ServerResponseType<null>>;
-    console.error('getAllMetaData error:', err.response?.data);
-    return rejectWithValue(
-      err.response?.data || {
-        statusCode: 500,
-        message: 'Ошибка получения METADATA',
-        data: null,
-        error: err.message || 'Unknown error',
-      },
-    );
-  }
-})
+export const getServiceById = createAsyncThunk(
+  'service/getById',
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.get<ServerResponseType<Service>>(
+        `/service/${id}`,
+      );
+      return data.data;
+    } catch (error: AxiosError | any) {
+      return rejectWithValue(
+        error.response?.data || { message: 'Ошибка при создании услуги' },
+      );
+    }
+  },
+);
 
-export const updateService = createAsyncThunk<
-  ServerResponseType<IService>,
-  IService,
-  { rejectValue: ServerResponseType<null> }
->(SERVICE_THUNK_TYPES.UPDATE_SERVICE, async (service, { rejectWithValue }) => {
-  try {
-    const { data } = await axiosInstance.put<ServerResponseType<IService>>(
-      `${SERVICE_API_ROUTES.SERVICE}/${service.id}`,
-      service
-    )
-    return data
-  } catch (error) {
-        const err = error as AxiosError<ServerResponseType<null>>;
-    console.error('getAllMetaData error:', err.response?.data);
-    return rejectWithValue(
-      err.response?.data || {
-        statusCode: 500,
-        message: 'Ошибка получения METADATA',
-        data: null,
-        error: err.message || 'Unknown error',
-      },
-    );
-  }
-})
+export const updateService = createAsyncThunk(
+  'service/update',
+  async ({ id, formData }: { id: number; formData: FormData }, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.put<ServerResponseType<Service>>(
+        `/service/${id}`,
+        formData,
+      );
+      return data.data;
+    } catch (error: AxiosError | any) {
+      return rejectWithValue(
+        error.response?.data || { message: 'Ошибка при создании услуги' },
+      );
+    }
+  },
+);
 
-export const deleteService = createAsyncThunk<
-  ServerResponseType<IService>,
-  number,
-  { rejectValue: ServerResponseType<null> }
->(SERVICE_THUNK_TYPES.DELETE_SERVICE, async (id, { rejectWithValue }) => {
-  try {
-    const { data } = await axiosInstance.delete<ServerResponseType<IService>>(
-      `${SERVICE_API_ROUTES.SERVICE}/${id}`
-    )
-    return data
-  } catch (error) {
-        const err = error as AxiosError<ServerResponseType<null>>;
-    console.error('getAllMetaData error:', err.response?.data);
-    return rejectWithValue(
-      err.response?.data || {
-        statusCode: 500,
-        message: 'Ошибка получения METADATA',
-        data: null,
-        error: err.message || 'Unknown error',
-      },
-    );
-  }
-})
+export const deleteAllServices = createAsyncThunk(
+  'service/deleteAll',
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.delete<ServerResponseType<Service[]>>(
+        '/service',
+      );
+      return data.data;
+    } catch (error: AxiosError | any) {
+      return rejectWithValue(
+        error.response?.data || { message: 'Ошибка при создании услуги' },
+      );
+    }
+  },
+);
 
-export const createService = createAsyncThunk<
-  ServerResponseType<IService>,
-  IService,
-  { rejectValue: ServerResponseType<null> }
->(SERVICE_THUNK_TYPES.CREATE_SERVICE, async (service, { rejectWithValue }) => {
-  try {
-    const { data } = await axiosInstance.post<ServerResponseType<IService>>(
-      SERVICE_API_ROUTES.SERVICE,
-      service
-    )
-    return data
-  } catch (error) {
-        const err = error as AxiosError<ServerResponseType<null>>;
-    console.error('getAllMetaData error:', err.response?.data);
-    return rejectWithValue(
-      err.response?.data || {
-        statusCode: 500,
-        message: 'Ошибка получения METADATA',
-        data: null,
-        error: err.message || 'Unknown error',
-      },
-    );
-  }
-})
+export const uploadServiceImage = createAsyncThunk(
+  'service/uploadImage',
+  async (formData: FormData, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.post<ServerResponseType<Service>>(
+        '/service/upload-image',
+        formData,
+      );
+      return data.data;
+    } catch (error: AxiosError | any) {
+      return rejectWithValue(
+        error.response?.data || { message: 'Ошибка при создании услуги' },
+      );
+    }
+  },
+);
+
+export const deleteServiceImage = createAsyncThunk(
+  'service/deleteImage',
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.delete<ServerResponseType<Service>>(
+        `/service/delete-image/${id}`,
+      );
+      return data.data;
+    } catch (error: AxiosError | any) {
+      return rejectWithValue(
+        error.response?.data || { message: 'Ошибка при создании услуги' },
+      );
+    }
+  },
+);
+
+// Аналогично для остальных операций

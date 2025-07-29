@@ -1,4 +1,4 @@
-export type MyWorkType = {
+export interface MyWork {
   id: number;
   title?: string;
   square?: string;
@@ -6,30 +6,13 @@ export type MyWorkType = {
   time?: string;
   success_work?: string;
   image?: string;
-  imagePath?: string;
-  imageFile?: File;
   createdAt?: string;
   updatedAt?: string;
-};
+}
 
-export type MyWorkResponseType = {
-  work: MyWorkType;
-};
-
-export type MyWorksResponseType = {
-  works: MyWorkType[];
-};
-
-export type MyWorkStateType = {
-  works: MyWorkType[];
-  currentWork: MyWorkType | null;
+export interface MyWorkState {
+  works: MyWork[];
+  currentWork: MyWork | null;
+  loading: boolean;
   error: string | null;
-  isLoading: boolean;
-};
-
-export const initialState: MyWorkStateType = {
-  works: [],
-  currentWork: null,
-  error: null,
-  isLoading: false,
-};
+}

@@ -1,48 +1,66 @@
 import { PrismaClient } from '../generated/prisma/index.js';
 const prisma = new PrismaClient();
-const { service } = prisma;
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
-type ServisType = {
-  service: string;
-  description: string;
-  images: string;
-};
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const uploadsDir = path.join(__dirname, '../../../client/public/uploads');
 
 export class ServiceService {
   static async getAllService() {
-    return service.findMany();
+    return await prisma.service.findMany();
   }
 
   static async getOneService(id: number) {
-    return service.findUnique({
-      where: {
-        id,
+    return await prisma.service.findUnique({ where: { id } });
+  }
+
+  static async createService(data: any) {
+    return await prisma.service.create({
+      data: {
+        service: data.service,
+        description: data.description,
+        images: data.imagesPath || null,
       },
     });
   }
 
-  static async updateService(id: number, data: ServisType) {
-    return service.update({
+  static async updateService(id: number, data: any) {
+    const currentService = await prisma.service.findUnique({ where: { id } });
+    
+    if (data.newImage && currentService?.images) {
+      this.deleteImage(currentService.images);
+    }
+
+    return await prisma.service.update({
       where: { id },
-      data,
+      data: {
+        service: data.service,
+        description: data.description,
+        images: data.newImage || currentService?.images,
+      },
     });
   }
 
   static async deleteService(id: number) {
-    return await service.delete({
-      where: { id },
-    });
+    const service = await prisma.service.findUnique({ where: { id } });
+    if (!service) throw new Error('Service not found');
+
+    if (service.images) {
+      this.deleteImage(service.images);
+    }
+
+    return await prisma.service.delete({ where: { id } });
   }
 
-  static async createService(data: ServisType) {
-    const newService = await service.create({ data });
-    return newService;
-  }
-
-  static async updateServiceImage(id: number, imagePath: string) {
-    return service.update({
-      where: { id },
-      data: { images: imagePath },
-    });
+  private static deleteImage(imagePath: string) {
+    const fullPath = path.join(uploadsDir, path.basename(imagePath));
+    if (fs.existsSync(fullPath)) {
+      fs.unlinkSync(fullPath);
+    }
   }
 }
