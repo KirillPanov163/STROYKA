@@ -1,3 +1,5 @@
+'use client';
+
 export const dynamic = 'force-dynamic';
 import ServicesList from '@/entities/service/ui/ServiceList';
 
@@ -25,7 +27,7 @@ export default async function ServicesPage() {
   }
 
   return (
-    <div className="py-16">
+    <div className="py-16 relative min-h-screen">
       <div className="max-w-4xl mx-auto px-4 text-center mb-12">
         <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
           Наши услуги

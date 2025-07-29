@@ -1,7 +1,8 @@
 .achievements-section {
-  padding: 60px 0 40px 0;
-  /* Уменьшаем отступы, так как теперь есть единый контейнер */
-  /* Используем глобальный фон, локальные стили применяются через .glass-section */
+  padding: 100px 0 40px 0;
+  background: transparent;
+  position: relative;
+  z-index: 1;
 }
 
 .container {
@@ -124,6 +125,11 @@
   border: 1px solid rgba(212, 175, 55, 0.1);
 }
 
+.dark .advantage-item {
+  background: rgba(30, 30, 30, 0.7);
+  border-color: rgba(212, 175, 55, 0.2);
+}
+
 .advantage-item:hover {
   transform: translateY(-8px);
   background: rgba(255, 255, 255, 0.8);
@@ -131,6 +137,14 @@
     0 20px 40px rgba(0, 0, 0, 0.1),
     0 8px 16px rgba(212, 175, 55, 0.15);
   border-color: rgba(212, 175, 55, 0.3);
+}
+
+.dark .advantage-item:hover {
+  background: rgba(40, 40, 40, 0.9);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.3),
+    0 8px 16px rgba(212, 175, 55, 0.2);
+  border-color: rgba(212, 175, 55, 0.4);
 }
 
 .advantage-icon {
@@ -162,6 +176,11 @@
   color: #1f2937;
   margin: 0 0 15px 0;
   line-height: 1.3;
+  transition: color 0.3s ease;
+}
+
+.dark .advantage-title {
+  color: #f5f5f5;
 }
 
 .advantage-description {
@@ -169,6 +188,11 @@
   color: #6b7280;
   line-height: 1.5;
   margin: 0;
+  transition: color 0.3s ease;
+}
+
+.dark .advantage-description {
+  color: #b0b0b0;
 }
 
 /* Нижний блок */

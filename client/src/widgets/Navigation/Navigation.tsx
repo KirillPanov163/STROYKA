@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
 import { useAppSelector } from '@/shared/Hooks/useAppSelector';
 import { getProfileThunk, refreshTokenThunk } from '@/entities/user/api/userThunkApi';
+import { ThemeToggle } from '@/components/ThemeToggle/ThemeToggle';
 import styles from './Navigation.module.css';
 
 export default function Header() {
@@ -90,20 +91,25 @@ export default function Header() {
             ))}
           </ul>
 
-          <button
-            className={styles.mobileMenuButton}
-            onClick={toggleMobileMenu}
-            aria-label="Открыть меню"
-            aria-expanded={isMobileMenuOpen}
-          >
-            <div
-              className={`${styles.hamburger} ${isMobileMenuOpen ? styles.active : ''}`}
-            >
-              <span></span>
-              <span></span>
-              <span></span>
+          <div className={styles.navActions}>
+            <div className={styles.themeToggleContainer}>
+              <ThemeToggle />
             </div>
-          </button>
+            <button
+              className={styles.mobileMenuButton}
+              onClick={toggleMobileMenu}
+              aria-label="Открыть меню"
+              aria-expanded={isMobileMenuOpen}
+            >
+              <div
+                className={`${styles.hamburger} ${isMobileMenuOpen ? styles.active : ''}`}
+              >
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </button>
+          </div>
         </nav>
 
         <div className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.active : ''}`}>
