@@ -20,11 +20,9 @@
 }
 
 .faqItem {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   transition: all 0.3s ease;
+  /* Используем glass-card-subtle через класс */
 }
 
 .question {
@@ -32,13 +30,13 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.25rem 1.5rem;
-  background-color: #e8e8e8c1;
   cursor: pointer;
   transition: all 0.3s ease;
+  /* Фоновые стили применяются через glass-card-subtle */
 }
 
 .question:hover {
-  background-color: #d8d8d8c1;
+  /* Hover эффекты применяются через glass-card-subtle */
 }
 
 .question h3 {

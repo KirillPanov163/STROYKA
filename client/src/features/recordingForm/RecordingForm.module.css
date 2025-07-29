@@ -1,15 +1,12 @@
 .formContainer {
-  background: #dededed9;
-  border-radius: 36px;
   padding: 40px;
   max-width: 600px;
   width: 100%;
-  border: 2px solid transparent;
-  background-clip: padding-box, border-box;
   color: #000000;
   font-family: 'Montserrat', sans-serif;
   position: relative;
   height: 467.84px;
+  /* Используем глобальные стили glass-card */
 }
 
 .formContainer label {

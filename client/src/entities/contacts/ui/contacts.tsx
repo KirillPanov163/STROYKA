@@ -58,7 +58,7 @@ export const Contacts = () => {
   const contact = contacts[0];
 
   return (
-    <div className={styles.contactsContainer}>
+    <div className={`${styles.contactsContainer} glass-card`}>
       <div className={styles.contactInfo}>
         {contact.tel && (
           <div className={styles.contactItem}>

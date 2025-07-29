@@ -5,7 +5,7 @@
   transform: translateX(-50%);
   /* width: calc(100% - 40px); */
   /* max-width: 550px; */
-  background-color: rgba(60, 56, 54, 0.1);
+  background-color: rgba(60, 56, 54, 0.4);
   backdrop-filter: blur(35px);
   border-radius: 999px;
   z-index: 1000;

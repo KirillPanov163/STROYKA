@@ -50,7 +50,7 @@ export const FAQ = () => {
       <h2 className={styles.title}>Часто задаваемые вопросы</h2>
       <div className={styles.faqList}>
         {faqs.map((faq) => (
-          <div key={faq.id} className={styles.faqItem}>
+          <div key={faq.id} className={`${styles.faqItem} glass-card-subtle`}>
             <div
               className={styles.question}
               onClick={() => toggleFAQ(faq.id)}

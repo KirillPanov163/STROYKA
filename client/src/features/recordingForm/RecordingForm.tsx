@@ -37,7 +37,7 @@ export const RecordingForm = (): React.JSX.Element => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
+      <form onSubmit={handleSubmit(onSubmit)} className={`${styles.formContainer} glass-card`}>
         <div className={styles.formTitle}>
           <span className={styles.mobileLineBreak}>
             Мы свяжемся с вами как можно скорее
