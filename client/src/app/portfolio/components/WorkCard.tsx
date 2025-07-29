@@ -1,4 +1,3 @@
-// components/WorkCard.tsx
 import React from 'react';
 import styles from './WorkCard.module.css';
 import { MyWork } from '@/entities/portfolio/model';

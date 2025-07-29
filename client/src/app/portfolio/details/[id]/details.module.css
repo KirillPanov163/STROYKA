@@ -2,6 +2,7 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 40px 20px;
+  margin-bottom: 80px;
 }
 
 .title {
@@ -10,6 +11,7 @@
   margin-bottom: 30px;
   text-align: center;
   margin-top: 90px;
+  margin-bottom: 90px;
 }
 
 .content {
@@ -21,6 +23,7 @@
 .imageContainer {
   flex: 1;
   min-width: 300px;
+  margin-right: 30px;
 }
 
 .image {
