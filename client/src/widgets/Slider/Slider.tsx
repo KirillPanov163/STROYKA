@@ -12,7 +12,7 @@ export default function Slider() {
   const brands: Brand[] = [
     { name: 'Electrolux', logo: '/electrolux-logo.png' },
     { name: 'Samsung', logo: '/samsung-logo.png' },
-    { name: 'Subaru', logo: '/subaru-logo.png' },
+    { name: 'Mitsubishi', logo: '/mitsubishi-logo.png' },
     { name: 'LG', logo: '/lg-logo.png' },
     { name: 'Sony', logo: '/sony-logo.png' },
     { name: 'Panasonic', logo: '/panasonic-logo.png' },
