@@ -4,7 +4,7 @@ import './AchievementsSection.css';
 
 const AchievementsSection: React.FC = () => {
   return (
-    <section className="achievements-section glass-section">
+    <section className="achievements-section">
       <div className="container">
         {/* Заголовок */}
         <div className="section-header">

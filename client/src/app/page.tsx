@@ -89,6 +89,37 @@ export default function Home() {
           
           <div className="section-divider"></div>
           
+          <div className="fade-in-up delay-2" style={{ textAlign: 'center', margin: '10rem 0 2rem', width: '100%' }}>
+            <h2 style={{ 
+              
+              fontSize: '2.3rem',
+              fontWeight: 700,
+              color: 'var(--text-on-dark)',
+              marginBottom: '1.5rem',
+              position: 'relative',
+              display: 'inline-block',
+              paddingBottom: '1rem',
+              width: '100%',
+              maxWidth: '1000px',
+              margin: '0 auto 1.5rem',
+              textAlign: 'center',
+              fontFamily: 'Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+            }}>
+              Наши партнеры
+              <span style={{
+                content: "''",
+                position: 'absolute',
+                bottom: 0,
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: '100%',
+                maxWidth: '1000px',
+                height: '3px',
+                background: 'var(--gradient-accent)',
+                borderRadius: '2px'
+              }}></span>
+            </h2>
+          </div>
           <div className="fade-in-up delay-2">
             <Slider/>
           </div>
