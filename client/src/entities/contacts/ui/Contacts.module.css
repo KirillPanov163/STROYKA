@@ -2,11 +2,9 @@
   max-width: 500px;
   min-height: 480px;
   width: 100%;
-  
   margin: 0 auto;
   padding: 32px;
   font-family: inherit;
-  /* Убираем фиксированную высоту для адаптивности */
   /* Используем глобальные стили glass-card */
 }
 
@@ -17,6 +15,7 @@
 .contactItem {
   margin-bottom: 28px;
   width: 100%;
+  border-radius: 12px;
 }
 
 /* Стили для телефона */

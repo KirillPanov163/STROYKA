@@ -106,12 +106,32 @@
   transition: all 0.3s ease;
   box-shadow: var(--shadow-medium);
   letter-spacing: 0.025em;
+  position: relative;
+  overflow: hidden;
+}
+
+.submitButton::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
 }
 
 .submitButton:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-large);
   background: linear-gradient(135deg, #c19b26, #e6c547);
+}
+
+.submitButton:hover::before {
+  width: 300px;
+  height: 300px;
 }
 
 .submitButton:disabled {
