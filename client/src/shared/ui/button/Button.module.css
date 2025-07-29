@@ -4,11 +4,14 @@
   justify-content: center;
   gap: 0.5rem;
   border: none;
-  border-radius: 6px;
-  font-weight: 500;
+  border-radius: 12px;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  font-family: inherit;
+  letter-spacing: 0.025em;
+  box-shadow: var(--shadow-soft);
 }
 
 .small {
@@ -28,22 +31,29 @@
 
 
 .primary {
-  background-color: #3b82f6;
+  background: var(--gradient-primary);
   color: white;
+  border: 1px solid var(--charcoal);
 }
 
 .primary:hover:not(.disabled) {
-  background-color: #2563eb;
+  background: var(--gradient-accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+  color: var(--charcoal);
 }
 
 .secondary {
-  background-color: #f3f4f6;
-  color: #374151;
-  border: 1px solid #d1d5db;
+  background: var(--surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
 }
 
 .secondary:hover:not(.disabled) {
-  background-color: #e5e7eb;
+  background: var(--pearl);
+  border-color: var(--silver);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-soft);
 }
 
 .danger {

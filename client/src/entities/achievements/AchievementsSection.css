@@ -1,36 +1,40 @@
 .achievements-section {
-  padding: 60px ; /* Увеличиваем верхний отступ для компенсации фиксированного header */
-  margin-top: 50px;/* Используем глобальный фон, локальные стили применяются через .glass-section */
+  padding: 80px 0 60px 0;
+  margin-top: 60px;
+  /* Используем глобальный фон, локальные стили применяются через .glass-section */
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 24px;
 }
 
 /* Заголовок */
 .section-header {
-  margin-bottom: 50px;
+  margin-bottom: 60px;
+  text-align: center;
 }
 
 .section-title {
-  font-size: 32px;
+  font-size: clamp(2rem, 4vw, 2.5rem);
   font-weight: 700;
-  color: #1e293b;
-  margin: 0;
-  padding-left: 20px;
+  color: var(--text-primary);
+  margin: 0 auto;
   position: relative;
+  display: inline-block;
+  letter-spacing: -0.025em;
 }
 
-.section-title::before {
+.section-title::after {
   content: '';
   position: absolute;
+  bottom: -12px;
   left: 0;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-  background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
+  right: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--gradient-accent);
   border-radius: 2px;
 }
 
@@ -38,50 +42,81 @@
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
+  gap: 48px;
   margin-bottom: 80px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .stat-item {
   text-align: center;
+  padding: 0 16px;
 }
 
 .stat-number {
-  font-size: 48px;
+  font-size: clamp(2.5rem, 5vw, 3.5rem); /* Улучшенная адаптивность */
   font-weight: 700;
-  color: #3b82f6;
-  margin-bottom: 15px;
-  line-height: 1;
-  text-shadow: 0 2px 4px rgba(59, 130, 246, 0.1);
+  color: var(--charcoal);
+  margin-bottom: 16px;
+  line-height: 1.1;
+  text-shadow: 0 2px 8px rgba(26, 26, 26, 0.2);
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.achievements-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 3rem;
+  text-align: left;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 8px rgba(26, 26, 26, 0.15);
+  position: relative;
+  letter-spacing: -0.02em;
 }
 
 .stat-line {
-  width: 100%;
+  width: 80%;
   height: 3px;
-  background: linear-gradient(90deg, #3b82f6 0%, #60a5fa 50%, #93c5fd 100%);
-  margin-bottom: 20px;
+  background: var(--gradient-accent);
+  margin: 0 auto 24px auto;
   border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
 }
 
 .stat-description {
-  font-size: 16px;
-  color: #475569;
-  line-height: 1.4;
+  font-size: 1.125rem; /* Увеличено с 16px для лучшей читаемости */
+  color: var(--text-secondary);
+  line-height: 1.5;
   font-weight: 500;
+  letter-spacing: 0.01em;
+  max-width: 200px;
+  margin: 0 auto;
 }
 
 /* Преимущества */
 .advantages-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
+  gap: 48px;
   margin-bottom: 60px;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .advantage-item {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  text-align: center;
+  padding: 0 16px;
 }
 
 .advantage-icon {
@@ -169,7 +204,11 @@
   }
   
   .stat-number {
-    font-size: 36px;
+    font-size: clamp(2rem, 4vw, 2.5rem); /* Адаптивный размер */
+  }
+  
+  .stats-grid {
+    gap: 32px;
   }
   
   .advantage-item {
@@ -191,15 +230,25 @@
 
 @media (max-width: 480px) {
   .container {
-    padding: 0 15px;
+    padding: 0 20px;
   }
   
   .section-title {
-    font-size: 20px;
+    font-size: clamp(1.5rem, 5vw, 2rem); /* Адаптивный размер */
   }
   
   .stat-number {
-    font-size: 28px;
+    font-size: clamp(1.75rem, 6vw, 2.25rem); /* Улучшенная читаемость на мобильных */
+  }
+  
+  .stats-grid {
+    gap: 24px;
+    grid-template-columns: 1fr;
+  }
+  
+  .stat-description {
+    font-size: 1rem;
+    max-width: 280px;
   }
   
   .advantage-title {

@@ -9,9 +9,24 @@
 
 .sliderTitle {
   font-size: 2rem;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 3rem;
+  text-align: center;
+  letter-spacing: -0.025em;
+  position: relative;
+}
+
+.sliderTitle::after {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--gradient-accent);
+  border-radius: 2px;
 }
 
 .sliderWrapper {

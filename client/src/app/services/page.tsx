@@ -25,9 +25,19 @@ export default async function ServicesPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Наши услуги</h1>
-      <ServicesList services={services} />
+    <div className="page-container">
+      <div className="container mx-auto px-6">
+        <div className="text-center mb-16">
+          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+            Наши услуги
+          </h1>
+          <div className="w-24 h-1 bg-gradient-to-r from-yellow-600 to-yellow-400 mx-auto rounded-full"></div>
+          <p className="text-lg text-gray-600 mt-6 max-w-2xl mx-auto">
+            Профессиональные строительные услуги высочайшего качества
+          </p>
+        </div>
+        <ServicesList services={services} />
+      </div>
     </div>
   );
 }

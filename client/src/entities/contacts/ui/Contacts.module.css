@@ -1,45 +1,48 @@
 .contactsContainer {
   max-width: 500px;
+  min-height: 475px;
+  width: 100%;
+  
   margin: 0 auto;
-  padding: 30px;
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  height: 467.84px;
+  padding: 32px;
+  font-family: inherit;
+  /* Убираем фиксированную высоту для адаптивности */
   /* Используем глобальные стили glass-card */
 }
 
 .contactInfo {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .contactItem {
-  margin-bottom: 15px;
-  width: 100%; /* Добавлено */
+  margin-bottom: 28px;
+  width: 100%;
 }
 
 /* Стили для телефона */
 .contactItem:nth-child(1) .value {
-  color: #000000;
+  color: var(--text-primary);
   font-weight: 600;
-  font-size: 1.1rem;
-  display: inline-block; /* Изменено с block на inline-block */
-  width: auto; /* Добавлено */
+  font-size: 1.25rem; /* Увеличено для лучшей читаемости */
+  display: inline-block;
+  width: auto;
 }
 
 /* Стили для почты */
 .contactItem:nth-child(2) .value {
-  color: #000000;
+  color: var(--text-primary);
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 1.125rem; /* Увеличено для лучшей читаемости */
   display: block;
 }
 
 /* Стили для адреса */
 .contactItem:nth-child(3) .value {
-  color: #4a5568;
-  font-weight: 400;
-  font-size: 1rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 1.125rem; /* Увеличено для лучшей читаемости */
   display: block;
-  margin-bottom: 20px;
+  margin-bottom: 28px;
 }
 
 .value a {
@@ -55,7 +58,7 @@
 .socialLinks {
   display: flex;
   gap: 25px;
-  margin-top: 10px;
+  margin-top: 16px;
   justify-content: flex-start;
 }
 
@@ -125,4 +128,5 @@
   margin: 0;
   font-size: 14px;
   opacity: 0.8;
+  
 }
