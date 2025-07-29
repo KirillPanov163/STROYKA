@@ -1,149 +1,140 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
-  getAllServices,
   createService,
+  getAllServices,
   getOneService,
   updateService,
   deleteService,
   uploadServiceImage,
   deleteServiceImage,
 } from '../api/serviceThunkApi';
-import type { IService } from '../model/serviceTypes';
+import { ServiceState } from '../model/serviceTypes';
 
-interface IServiceState {
-  services: IService[];
-  service: IService;
-  isLoading: boolean;
-  error: string;
-}
-
-const initialState: IServiceState = {
+const initialState: ServiceState = {
   services: [],
-  service: {} as IService,
-  isLoading: false,
-  error: '',
+  currentService: null,
+  loading: false,
+  error: null,
 };
 
-export const serviceSlice = createSlice({
+const serviceSlice = createSlice({
   name: 'service',
   initialState,
-  reducers: {},
+  reducers: {
+    clearCurrentService: (state) => {
+      state.currentService = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
-      // Get All
-      .addCase(getAllServices.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(getAllServices.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.services = action.payload.data;
-      })
-      .addCase(getAllServices.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload?.message || 'Ошибка при получении списка услуг';
-      })
-
       // Create
       .addCase(createService.pending, (state) => {
-        state.isLoading = true;
+        state.loading = true;
+        state.error = null;
       })
       .addCase(createService.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.services.push(action.payload.data);
+        state.loading = false;
+        state.services.push(action.payload);
       })
       .addCase(createService.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload?.message || 'Ошибка при создании услуги';
+        state.loading = false;
+        state.error =
+          (action.payload as { message: string }).message || 'Ошибка при создании работы';
+      })
+
+      // Get All
+      .addCase(getAllServices.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getAllServices.fulfilled, (state, action) => {
+        state.loading = false;
+        state.services = action.payload;
+      })
+      .addCase(getAllServices.rejected, (state, action) => {
+        state.loading = false;
+        state.error =
+          (action.payload as { message: string }).message || 'Ошибка при создании работы';
       })
 
       // Get One
       .addCase(getOneService.pending, (state) => {
-        state.isLoading = true;
+        state.loading = true;
+        state.error = null;
       })
       .addCase(getOneService.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.service = action.payload.data;
+        state.loading = false;
+        state.currentService = action.payload;
       })
       .addCase(getOneService.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload?.message || 'Ошибка при получении услуги';
+        state.loading = false;
+        state.error =
+          (action.payload as { message: string }).message || 'Ошибка при создании работы';
       })
 
       // Update
       .addCase(updateService.pending, (state) => {
-        state.isLoading = true;
+        state.loading = true;
+        state.error = null;
       })
       .addCase(updateService.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.services = state.services.map((service) => {
-          if (service.id === action.payload.data.id) {
-            return action.payload.data;
-          }
-          return service;
-        });
+        state.loading = false;
+        state.currentService = action.payload;
       })
       .addCase(updateService.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload?.message || 'Ошибка при обновлении услуги';
+        state.loading = false;
+        state.error =
+          (action.payload as { message: string }).message || 'Ошибка при создании работы';
       })
 
       // Delete
       .addCase(deleteService.pending, (state) => {
-        state.isLoading = true;
+        state.loading = true;
+        state.error = null;
       })
       .addCase(deleteService.fulfilled, (state, action) => {
-        state.isLoading = false;
-        const deletedId = action.payload?.data;
-        if (deletedId) {
-          state.services = state.services.filter(
-            (service) => service.id && service.id !== deletedId?.id,
-          );
-        }
+        state.loading = false;
+        state.services = state.services.filter(
+          (service) => service.id !== action.payload.id,
+        );
       })
       .addCase(deleteService.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload?.message || 'Ошибка при удалении услуги';
+        state.loading = false;
+        state.error =
+          (action.payload as { message: string }).message || 'Ошибка при создании работы';
       })
 
       // Upload Image
       .addCase(uploadServiceImage.pending, (state) => {
-        state.isLoading = true;
+        state.loading = true;
+        state.error = null;
       })
       .addCase(uploadServiceImage.fulfilled, (state, action) => {
-        state.isLoading = false;
-        const updatedService = action.payload.data;
-        state.services = state.services.map((service) =>
-          service.id === updatedService.id ? updatedService : service,
-        );
-        if (state.service.id === updatedService.id) {
-          state.service = updatedService;
-        }
+        state.loading = false;
+        state.currentService = action.payload;
       })
       .addCase(uploadServiceImage.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload?.message || 'Ошибка при загрузке изображения';
+        state.loading = false;
+        state.error =
+          (action.payload as { message: string }).message || 'Ошибка при создании работы';
       })
 
       // Delete Image
       .addCase(deleteServiceImage.pending, (state) => {
-        state.isLoading = true;
+        state.loading = true;
+        state.error = null;
       })
       .addCase(deleteServiceImage.fulfilled, (state, action) => {
-        state.isLoading = false;
-        const updatedService = action.payload.data;
-        state.services = state.services.map((service) =>
-          service.id === updatedService.id ? updatedService : service,
-        );
-        if (state.service.id === updatedService.id) {
-          state.service = updatedService;
-        }
+        state.loading = false;
+        state.currentService = action.payload;
       })
       .addCase(deleteServiceImage.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload?.message || 'Ошибка при удалении изображения';
+        state.loading = false;
+        state.error =
+          (action.payload as { message: string }).message || 'Ошибка при создании работы';
       });
   },
 });
 
-export const { actions: servicesActions } = serviceSlice;
-export const servicesReducer = serviceSlice.reducer;
+export const { clearCurrentService } = serviceSlice.actions;
+export const serviceReducer = serviceSlice.reducer;

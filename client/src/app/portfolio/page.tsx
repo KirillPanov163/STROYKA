@@ -2,10 +2,10 @@
 import React, { useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { useAppSelector } from '@/shared/Hooks/useAppSelector';
-import { MyWorkType } from '@/entities/portfolio/model';
+import { MyWork } from '@/entities/portfolio/model';
 import PortfolioLoading from './components/PortfolioLoading';
 import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
-import { getAllMyWorksThunk } from '@/entities/portfolio/api/portfolio';
+import { getAllMyWorks } from '@/entities/portfolio/api/portfolio';
 
 // Динамическая загрузка с fallback
 const PortfolioPage = dynamic(() => import('./components/PortfolioPage'), {
@@ -15,15 +15,15 @@ const PortfolioPage = dynamic(() => import('./components/PortfolioPage'), {
 
 const Portfolio = () => {
   const { works, isLoading, error } = useAppSelector((state) => ({
-    works: state.myWork.works as MyWorkType[],
-    isLoading: state.myWork.isLoading,
+    works: state.myWork.works as MyWork[],
+    isLoading: state.myWork.loading,
     error: state.myWork.error,
   }));
 const dispatch = useAppDispatch();
 
   useEffect(() => {
     // if (!initialWorks.length) {
-      dispatch(getAllMyWorksThunk());
+      dispatch(getAllMyWorks());
     // }
   }, []);
   if (isLoading) return <PortfolioLoading />;

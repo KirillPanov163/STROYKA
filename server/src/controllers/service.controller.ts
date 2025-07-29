@@ -22,22 +22,37 @@ export class ServiceController {
     }
   }
 
-  static async createService(req: Request, res: Response) {
+  static async createService(req: Request, res: Response): Promise<void> {
     try {
-      const newService = await ServiceService.createService(req.body);
-      res.status(201).json(formatResponse(201, 'Услуга создана', newService));
+      const serviceData = {
+        ...req.body,
+        images: req.file ? `/uploads/${req.file.filename}` : null,
+      };
+
+      const result = await ServiceService.createService(serviceData);
+      res.status(201).json(formatResponse(201, 'Service created', result));
     } catch (error) {
-      res.status(500).json(formatResponse(500, 'Ошибка сервера'));
+      res.status(500).json(formatResponse(500, 'Server error'));
     }
   }
 
-  static async updateService(req: Request, res: Response) {
+  static async updateService(req: Request, res: Response): Promise<void> {
     try {
-      const { id } = req.params;
-      const updatedService = await ServiceService.updateService(Number(id), req.body);
-      res.status(200).json(formatResponse(200, 'Услуга обновлена', updatedService));
+      const id = Number(req.params.id);
+      if (isNaN(id)) {
+        res.status(400).json(formatResponse(400, 'Invalid ID'));
+        return;
+      }
+
+      const serviceData = {
+        ...req.body,
+        newImage: req.file ? `/uploads/${req.file.filename}` : undefined,
+      };
+
+      const result = await ServiceService.updateService(id, serviceData);
+      res.status(200).json(formatResponse(200, 'Service updated', result));
     } catch (error) {
-      res.status(500).json(formatResponse(500, 'Ошибка сервера'));
+      res.status(500).json(formatResponse(500, 'Server error'));
     }
   }
 

@@ -20,7 +20,6 @@ import { Form, FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { metaDataSchema } from './metaDataSchema';
-import { is } from 'zod/locales';
 
 type MetaDataFormValues = z.infer<typeof metaDataSchema>;
 
@@ -155,14 +154,7 @@ export const MetaDataEditor = ({ index }: MetaDataEditorProps) => {
   }
 
   if (!metaDatas?.[index]) {
-    return (
-      <div className="p-4">
-        <AlertDialog>
-          Метаданные не найдены для индекса {index}
-          {apiError && <div className="text-sm text-red-500">{apiError}</div>}
-        </AlertDialog>
-      </div>
-    );
+    return <div className="p-4">{apiError && <AlertDialog>{apiError}</AlertDialog>}</div>;
   }
 
   return (

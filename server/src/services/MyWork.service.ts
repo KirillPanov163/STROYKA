@@ -3,16 +3,23 @@ const prisma = new PrismaClient();
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
-// Настройка хранилища для Multer
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Общие настройки для загрузки изображений
+const uploadsDir = path.join(__dirname, '../../../client/public/uploads');
+
+// Создаем папку для загрузок, если ее нет
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadPath = path.join(__dirname, '../../../client/public/uploads');
-    // Создаем папку, если она не существует
-    if (!fs.existsSync(uploadPath)) {
-      fs.mkdirSync(uploadPath, { recursive: true });
-    }
-    cb(null, uploadPath);
+    cb(null, uploadsDir);
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
@@ -20,29 +27,27 @@ const storage = multer.diskStorage({
   },
 });
 
-// Фильтр для проверки типа файла
 const fileFilter = (req: any, file: any, cb: any) => {
   if (file.mimetype.startsWith('image/')) {
     cb(null, true);
   } else {
-    cb(new Error('Неверный тип файла. Разрешены только изображения.'), false);
+    cb(new Error('Only image files are allowed!'), false);
   }
 };
 
 export const upload = multer({
   storage,
   fileFilter,
-  limits: {
-    fileSize: 5 * 1024 * 1024, // Ограничение 5MB
-  },
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
 });
 
 export class MyWorkService {
+  static upload: any;
   static async createMyWork(data: any) {
-    // Обработка загруженного файла
-    const imagePath = data.image ? `/uploads/${data.image.filename}` : null;
+    // теперь data.image — это сразу строка '/uploads/...'
+    const imagePath: string | null = data.image || null;
 
-    const myWork = await prisma.my_work.create({
+    return await prisma.my_work.create({
       data: {
         title: data.title,
         square: data.square,
@@ -52,41 +57,28 @@ export class MyWorkService {
         image: imagePath,
       },
     });
-    return myWork;
   }
 
   static async getAllMyWorks() {
-    const myWorks = await prisma.my_work.findMany({
-      orderBy: {
-        createdAt: 'desc',
-      },
+    return await prisma.my_work.findMany({
+      orderBy: { createdAt: 'desc' },
     });
-    return myWorks;
   }
 
   static async getMyWorkById(id: number) {
-    const myWork = await prisma.my_work.findUnique({
-      where: { id },
-    });
-    return myWork;
+    return await prisma.my_work.findUnique({ where: { id } });
   }
 
-  static async updateMyWork(id: number, data: any, oldImagePath?: string) {
-    // Удаляем старое изображение, если загружено новое
-    if (data.image && oldImagePath) {
-      const oldImageFullPath = path.join(
-        __dirname,
-        '../../../client/public',
-        oldImagePath,
-      );
-      if (fs.existsSync(oldImageFullPath)) {
-        fs.unlinkSync(oldImageFullPath);
-      }
+  static async updateMyWork(id: number, data: any) {
+    const currentWork = await prisma.my_work.findUnique({ where: { id } });
+    // Если пришла новая строка-путь, удаляем старый файл
+    if (data.newImage && currentWork?.image) {
+      const oldImagePath = path.join(uploadsDir, path.basename(currentWork.image));
+      if (fs.existsSync(oldImagePath)) fs.unlinkSync(oldImagePath);
     }
-
-    const imagePath = data.image ? `/uploads/${data.image.filename}` : oldImagePath;
-
-    const myWork = await prisma.my_work.update({
+    // data.newImage — это '/uploads/имя_файла', либо undefined
+    const imagePath = data.newImage ?? currentWork?.image ?? null;
+    return prisma.my_work.update({
       where: { id },
       data: {
         title: data.title,
@@ -97,31 +89,20 @@ export class MyWorkService {
         image: imagePath,
       },
     });
-    return myWork;
   }
 
   static async deleteMyWork(id: number) {
-    // Сначала получаем работу, чтобы удалить связанное изображение
-    const work = await prisma.my_work.findUnique({
-      where: { id },
-    });
+    const work = await prisma.my_work.findUnique({ where: { id } });
+    if (!work) throw new Error('Work not found');
 
-    if (!work) {
-      throw new Error('Работа не найдена');
-    }
-
-    // Удаляем изображение, если оно есть
+    // Удаляем изображение если оно есть
     if (work.image) {
-      const imagePath = path.join(__dirname, '../../../client/public', work.image);
+      const imagePath = path.join(uploadsDir, path.basename(work.image));
       if (fs.existsSync(imagePath)) {
         fs.unlinkSync(imagePath);
       }
     }
 
-    // Удаляем запись из БД
-    const deletedWork = await prisma.my_work.delete({
-      where: { id },
-    });
-    return deletedWork;
+    return await prisma.my_work.delete({ where: { id } });
   }
 }

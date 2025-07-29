@@ -1,10 +1,10 @@
 import React from 'react';
-import { MyWorkType } from '@/entities/portfolio/model/index';
+import { MyWork } from '@/entities/portfolio/model/index';
 import ImageGallery from '../ui/ImageGallery';
 import { Button } from '@/shared/ui';
 
 interface WorkDetailProps {
-  work: MyWorkType;
+  work: MyWork;
 }
 
 const WorkDetail = ({ work }: WorkDetailProps) => {

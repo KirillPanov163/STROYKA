@@ -1,12 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
-  createMyWorkThunk,
-  getAllMyWorksThunk,
-  getMyWorkByIdThunk,
-  updateMyWorkThunk,
-  deleteMyWorkThunk,
+  createMyWork,
+  getAllMyWorks,
+  getMyWorkById,
+  updateMyWork,
+  deleteMyWork,
 } from '../api/portfolio';
-import { initialState } from '../model';
+import { MyWorkState } from '../model';
+
+const initialState: MyWorkState = {
+  works: [],
+  currentWork: null,
+  loading: false,
+  error: null,
+};
 
 const myWorkSlice = createSlice({
   name: 'myWork',
@@ -16,85 +23,88 @@ const myWorkSlice = createSlice({
       state.currentWork = null;
     },
   },
-  extraReducers: (builder) =>
+  extraReducers: (builder) => {
     builder
       // Create
-      .addCase(createMyWorkThunk.pending, (state) => {
-        state.isLoading = true;
+      .addCase(createMyWork.pending, (state) => {
+        state.loading = true;
         state.error = null;
       })
-      .addCase(createMyWorkThunk.fulfilled, (state, action) => {
-        state.isLoading = false;
+      .addCase(createMyWork.fulfilled, (state, action) => {
+        state.loading = false;
         state.works.push(action.payload);
       })
-      .addCase(createMyWorkThunk.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload?.error ?? null;
+      .addCase(createMyWork.rejected, (state, action) => {
+        state.loading = false;
+        state.error =
+          (action.payload as { message: string }).message || 'Ошибка при создании работы';
       })
-      
+
       // Get All
-      .addCase(getAllMyWorksThunk.pending, (state) => {
-        state.isLoading = true;
+      .addCase(getAllMyWorks.pending, (state) => {
+        state.loading = true;
         state.error = null;
       })
-      .addCase(getAllMyWorksThunk.fulfilled, (state, action) => {
-        state.isLoading = false;
+      .addCase(getAllMyWorks.fulfilled, (state, action) => {
+        state.loading = false;
         state.works = action.payload;
       })
-      .addCase(getAllMyWorksThunk.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload?.error ?? null;
+      .addCase(getAllMyWorks.rejected, (state, action) => {
+        state.loading = false;
+        state.error =
+          (action.payload as { message: string }).message || 'Ошибка при создании работы';
       })
-      
+
       // Get By Id
-      .addCase(getMyWorkByIdThunk.pending, (state) => {
-        state.isLoading = true;
+      .addCase(getMyWorkById.pending, (state) => {
+        state.loading = true;
         state.error = null;
       })
-      .addCase(getMyWorkByIdThunk.fulfilled, (state, action) => {
-        state.isLoading = false;
+      .addCase(getMyWorkById.fulfilled, (state, action) => {
+        state.loading = false;
         state.currentWork = action.payload;
       })
-      .addCase(getMyWorkByIdThunk.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload?.error ?? null;
+      .addCase(getMyWorkById.rejected, (state, action) => {
+        state.loading = false;
+        state.error =
+          (action.payload as { message: string }).message || 'Ошибка при создании работы';
       })
-      
+
       // Update
-      .addCase(updateMyWorkThunk.pending, (state) => {
-        state.isLoading = true;
+      .addCase(updateMyWork.pending, (state) => {
+        state.loading = true;
         state.error = null;
       })
-      .addCase(updateMyWorkThunk.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.works = state.works.map(work => 
-          work.id === action.payload.id ? action.payload : work
+      .addCase(updateMyWork.fulfilled, (state, action) => {
+        state.loading = false;
+        state.works = state.works.map((work) =>
+          work.id === action.payload.id ? action.payload : work,
         );
         if (state.currentWork?.id === action.payload.id) {
           state.currentWork = action.payload;
         }
       })
-      .addCase(updateMyWorkThunk.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload?.error ?? null;
+      .addCase(updateMyWork.rejected, (state, action) => {
+        state.loading = false;
+        state.error =
+          (action.payload as { message: string }).message || 'Ошибка при создании работы';
       })
-      
+
       // Delete
-      .addCase(deleteMyWorkThunk.pending, (state) => {
-        state.isLoading = true;
+      .addCase(deleteMyWork.pending, (state) => {
+        state.loading = true;
         state.error = null;
       })
-      .addCase(deleteMyWorkThunk.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.works = state.works.filter(work => work.id !== action.payload);
-        if (state.currentWork?.id === action.payload) {
-          state.currentWork = null;
-        }
+      .addCase(deleteMyWork.fulfilled, (state, action) => {
+        state.loading = false;
+        state.works = state.works.filter((work) => work.id !== action.payload.id); // ← 🔥 вот тут проблема
       })
-      .addCase(deleteMyWorkThunk.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload?.error ?? null;
-      }),
+      .addCase(deleteMyWork.rejected, (state, action) => {
+        state.loading = false;
+        state.error =
+          (action.payload as { message: string }).message || 'Ошибка при создании работы';
+      });
+  },
 });
 
 export const { clearCurrentWork } = myWorkSlice.actions;

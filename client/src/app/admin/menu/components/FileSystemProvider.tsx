@@ -71,7 +71,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
               isOpen: false,
             },
             {
-              path: '/admin/menu/services/all_services/(alias)',
+              path: '/admin/menu/services/all_services/[alias]',
               name: 'Управление всеми услугами',
               isOpen: false,
             },
