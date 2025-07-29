@@ -1,5 +1,3 @@
-'use client';
-
 export const dynamic = 'force-dynamic';
 import ServicesList from '@/entities/service/ui/ServiceList';
 

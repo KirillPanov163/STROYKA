@@ -42,7 +42,7 @@
 
 .question h3 {
   margin: 0;
-  font-size: 1.25rem; /* Увеличено с 1.1rem для лучшей читаемости */
+  font-size: 1.3rem; /* Увеличено с 1.1rem для лучшей читаемости */
   font-weight: 600;
   color: var(--text-primary);
   flex: 1;
@@ -90,7 +90,8 @@
   line-height: 1.7;
   color: var(--text-secondary);
   padding-top: 1.25rem;
-  font-size: 1.125rem; /* Увеличено для лучшей читаемости */
+  font-size: 1.15rem; /* Увеличено для лучшей читаемости */
+  font-weight: 500;
 }
 
 .loading,

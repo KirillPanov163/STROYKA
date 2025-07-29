@@ -62,29 +62,43 @@ export function ThemeToggle() {
   }
 
   return (
-    <button
-      onClick={toggleTheme}
-      className={`w-10 h-10 rounded-full flex items-center justify-center 
-                 transition-all duration-300 ease-in-out
-                 focus:outline-none focus:ring-2 focus:ring-accent-gold
-                 ${
-                   theme === 'light' 
-                     ? 'bg-yellow-100 hover:bg-yellow-200 text-yellow-600' 
-                     : 'bg-gray-800 hover:bg-gray-700 text-yellow-300'
-                 }`}
-      style={{
-        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-        border: 'none',
-        outline: 'none',
-        flexShrink: 0
-      }}
-      aria-label={theme === 'light' ? 'Переключить на темную тему' : 'Переключить на светлую тему'}
-    >
-      {theme === 'light' ? (
-        <MoonIcon />
-      ) : (
-        <SunIcon />
-      )}
-    </button>
+    <div style={{
+      position: 'fixed',
+      top: '80%',
+      right: '32px',
+      zIndex: 50,
+      backgroundColor: 'transparent',
+      pointerEvents: 'auto'
+    }}>
+      <button
+        onClick={toggleTheme}
+        className={`w-10 h-10 rounded-full flex items-center justify-center 
+                   transition-all duration-300 ease-in-out
+                   focus:outline-none focus:ring-2 focus:ring-accent-gold
+                   ${theme === 'dark' ? 'hover:bg-gray-700 text-yellow-300' : 'hover:bg-gray-700 text-gray-100'}`}
+        style={{
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+          border: 'none',
+          outline: 'none',
+          flexShrink: 0,
+          position: 'relative',
+          zIndex: 50,
+          borderRadius: '50%',
+          width: '65px',
+          height: '65px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: theme === 'light' ? '#333333' : '#ffffff' // #333 for light theme, gray-800 for dark
+        }}
+        aria-label={theme === 'light' ? 'Переключить на темную тему' : 'Переключить на светлую тему'}
+      >
+        {theme === 'light' ? (
+          <MoonIcon />
+        ) : (
+          <SunIcon />
+        )}
+      </button>
+    </div>
   );
 }

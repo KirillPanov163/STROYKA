@@ -7,7 +7,6 @@ import { usePathname } from 'next/navigation';
 import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
 import { useAppSelector } from '@/shared/Hooks/useAppSelector';
 import { getProfileThunk, refreshTokenThunk } from '@/entities/user/api/userThunkApi';
-import { ThemeToggle } from '@/components/ThemeToggle/ThemeToggle';
 import styles from './Navigation.module.css';
 
 export default function Header() {
@@ -92,9 +91,6 @@ export default function Header() {
           </ul>
 
           <div className={styles.navActions}>
-            <div className={styles.themeToggleContainer}>
-              <ThemeToggle />
-            </div>
             <button
               className={styles.mobileMenuButton}
               onClick={toggleMobileMenu}
