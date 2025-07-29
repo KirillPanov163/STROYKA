@@ -8,39 +8,42 @@ import WorkDetail from './WorkDetail';
 import PortfolioLoading from './PortfolioLoading';
 import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
 import { useAppSelector } from '@/shared/Hooks/useAppSelector';
+import { boolean } from 'zod';
 
 interface PortfolioPageProps {
   initialWorks?: MyWorkType[];
 }
 
+
+
 const PortfolioPage = ({ initialWorks = [] }: PortfolioPageProps) => {
-  const dispatch = useAppDispatch();
-  const { works, isLoading, error } = useAppSelector((state) => ({
-    works: state.myWork.works || initialWorks,
-    isLoading: state.myWork.isLoading,
-    error: state.myWork.error,
-  }));
+  // const dispatch = useAppDispatch();
+  // const { works, isLoading, error } = useAppSelector((state) => ({
+  //   works: state.myWork.works || initialWorks,
+  //   isLoading: state.myWork.isLoading,
+  //   error: state.myWork.error,
+  // };
 
   const [currentWork, setCurrentWork] = useState<MyWorkType | null>(null);
 
-  useEffect(() => {
-    if (!initialWorks.length) {
-      dispatch(getAllMyWorksThunk());
-    }
-  }, [dispatch, initialWorks.length]);
+  // useEffect(() => {
+  //   // if (!initialWorks.length) {
+  //     dispatch(getAllMyWorksThunk());
+  //   // }
+  // }, []);
 
   const handleWorkClick = useCallback((work: MyWorkType) => {
     setCurrentWork(work);
   }, []);
 
-  if (isLoading && !works.length) return <PortfolioLoading />;
-  if (error) return <div className="error-message">Error: {error}</div>;
-  if (!works?.length) return <div className="empty-message">No works available</div>;
+  // if (isLoading && !works.length) return <PortfolioLoading />;
+  // if (error) return <div className="error-message">Error: {error}</div>;
+  // if (!works?.length) return <div className="empty-message">No works available</div>;
 
   return (
     <div className="portfolio-container">
       <Carousel>
-        {works.map((work) => (
+        {initialWorks.map((work) => (
           <WorkCard
             key={work.id}
             work={work}

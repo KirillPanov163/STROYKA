@@ -8,7 +8,8 @@ import Footer from '../widgets/Footer/Footer';
 
 import { ClientLayoutWrapper } from './ClientLayoutWrapper';
 import ServicesList from '@/entities/service/ui/ServiceList';
-import { Providers } from '@/store/providers';
+import { Providers } from '@/store/Providers';
+
 
 export async function generateMetadata(): Promise<Metadata> {
   try {

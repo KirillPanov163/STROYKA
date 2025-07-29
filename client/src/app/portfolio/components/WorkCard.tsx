@@ -5,6 +5,7 @@ import { MyWorkType } from '@/entities/portfolio/model';
 interface WorkCardProps {
   work: MyWorkType;
   onClick: (work: MyWorkType) => void;
+  isActive: boolean
 }
 
 const WorkCard = ({ work, onClick }: WorkCardProps) => {

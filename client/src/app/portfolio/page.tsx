@@ -1,9 +1,11 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { useAppSelector } from '@/shared/Hooks/useAppSelector';
 import { MyWorkType } from '@/entities/portfolio/model';
 import PortfolioLoading from './components/PortfolioLoading';
+import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
+import { getAllMyWorksThunk } from '@/entities/portfolio/api/portfolio';
 
 // Динамическая загрузка с fallback
 const PortfolioPage = dynamic(() => import('./components/PortfolioPage'), {
@@ -17,10 +19,16 @@ const Portfolio = () => {
     isLoading: state.myWork.isLoading,
     error: state.myWork.error,
   }));
+const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    // if (!initialWorks.length) {
+      dispatch(getAllMyWorksThunk());
+    // }
+  }, []);
   if (isLoading) return <PortfolioLoading />;
   if (error) return <div className="error-message">Error: {error}</div>;
-  if (!works?.length) return <div className="empty-message">No works found</div>;
+  // if (!works?.length) return <div className="empty-message">No works found</div>;
 
   return <PortfolioPage initialWorks={works} />;
 };
