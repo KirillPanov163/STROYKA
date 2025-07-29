@@ -1,10 +1,13 @@
 .sliderContainer {
-  max-width: 1200px;
+  max-width: 1000px;
   padding: 2rem 1rem;
   margin: 0 auto;
   text-align: center;
   position: relative;
   overflow: hidden;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e6f0ff 100%);
+  border-radius: 14px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
 }
 
 .sliderTitle {
@@ -27,140 +30,101 @@
   height: 3px;
   background: var(--gradient-accent);
   border-radius: 2px;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  width: 100%;
 }
 
 .sliderWrapper {
   width: 100%;
-  margin-bottom: 2rem;
+  margin: 0 auto;
   position: relative;
 }
 
 .sliderViewport {
   width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
   overflow: hidden;
+  padding: 1rem 0;
 }
 
 .sliderTrack {
   display: flex;
-  transition: transform 1s ease;
   will-change: transform;
 }
 
 .slide {
-  flex: 0 0 25%;
-  min-width: 25%;
-  padding: 0 10px;
+  flex: 0 0 auto;
+  padding: 0 30px;
   box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 120px;
+  height: 100px;
 }
 
 .logo {
-  max-height: 80px;
-  max-width: 160px;
+  max-height: 60px;
+  max-width: 120px;
   width: auto;
   height: auto;
   object-fit: contain;
   filter: grayscale(30%);
-  transition: all 0.3s ease;
+  transition: all 0.4s ease;
+  opacity: 0.9;
 }
 
 .logo:hover {
   filter: grayscale(0);
-  transform: scale(1.05);
-}
-
-/* Стили для стрелок */
-.arrowButton {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
-  background: white;
-  border: 1px solid #e0e0e0;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 10;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  transition: all 0.3s ease;
-}
-
-.arrowButton:hover {
-  background: #f8f8f8;
-  box-shadow: 0 3px 12px rgba(0,0,0,0.15);
-}
-
-.arrowButton.prev {
-  left: 10px;
-}
-
-.arrowButton.next {
-  right: 10px;
-}
-
-.arrowIcon {
-  display: block;
-  width: 15px;
-  height: 15px;
-  border-top: 2px solid #333;
-  border-left: 2px solid #333;
-}
-
-.arrowButton.prev .arrowIcon {
-  transform: rotate(-45deg);
-  margin-left: 4px;
-}
-
-.arrowButton.next .arrowIcon {
-  transform: rotate(135deg);
-  margin-right: 4px;
+  transform: scale(1.1);
+  opacity: 1;
 }
 
 /* Адаптивные стили */
 @media (max-width: 991px) {
+  .sliderContainer{
+    width: 100%;
+  }
   .slide {
-    flex: 0 0 33.33%;
-    min-width: 33.33%;
+    padding: 0 25px;
+    height: 90px;
+  }
+  .logo {
+    max-height: 50px;
+    max-width: 100px;
   }
 }
 
 @media (max-width: 767px) {
+  .sliderContainer{
+    width: 100%;
+  }
+  .sliderTitle {
+    font-size: 1.6rem;
+  }
   .slide {
-    flex: 0 0 50%;
-    min-width: 50%;
+    padding: 0 20px;
+    height: 80px;
   }
-  
-  .arrowButton {
-    width: 35px;
-    height: 35px;
-  }
-  
-  .arrowIcon {
-    width: 12px;
-    height: 12px;
+  .logo {
+    max-height: 40px;
+    max-width: 80px;
   }
 }
 
 @media (max-width: 575px) {
-  .slide {
-    flex: 0 0 100%;
-    min-width: 100%;
+  .sliderContainer{
+    width: 100%;
   }
-  
-  .arrowButton {
-    width: 30px;
-    height: 30px;
-  }
-  
   .sliderTitle {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
+  }
+  .slide {
+    padding: 0 15px;
+    height: 70px;
+  }
+  .logo {
+    max-height: 30px;
+    max-width: 60px;
   }
 }
