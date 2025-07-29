@@ -24,43 +24,68 @@ const metaDataSlice = createSlice({
     builder
       .addCase(getAllMetaData.pending, (state) => {
         state.isLoading = true;
+        state.error = null;
       })
       .addCase(getAllMetaData.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.metaDatas = action.payload.data;
+        // Проверяем структуру ответа
+        if (action.payload?.data && Array.isArray(action.payload.data)) {
+          state.metaDatas = action.payload.data;
+        } else {
+          state.error = 'Неверный формат полученных данных';
+          console.error('Invalid meta data format:', action.payload);
+        }
       })
       .addCase(getAllMetaData.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload?.message || 'Ошибка при получении списка цен';
+        state.error = action.payload?.message || 'Ошибка при получении метаданных';
       })
 
       .addCase(getOneMetaData.pending, (state) => {
         state.isLoading = true;
+        state.error = null;
       })
       .addCase(getOneMetaData.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.metaData = action.payload.data;
+        if (action.payload?.data) {
+          state.metaData = action.payload.data;
+        } else {
+          state.error = 'Неверный формат полученных данных';
+          console.error('Invalid single meta data format:', action.payload);
+        }
       })
       .addCase(getOneMetaData.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload?.message || 'Ошибка при получении списка цен';
+        state.error = action.payload?.message || 'Ошибка при получении метаданных';
       })
 
       .addCase(updateMetaData.pending, (state) => {
         state.isLoading = true;
+        state.error = null;
       })
       .addCase(updateMetaData.fulfilled, (state, action) => {
         state.isLoading = false;
-        const updated = action.payload.data;
+        const response = action.payload;
+        const updatedData = response.data;
+
+        if (!updatedData) {
+          const errorMsg = 'Received invalid metadata format from server';
+          state.error = errorMsg;
+          console.error(errorMsg, {
+            payload: action.payload,
+            responseData: response,
+          });
+          return;
+        }
         if (state.metaDatas) {
           state.metaDatas = state.metaDatas.map((item) =>
-            item.id === updated.id ? updated : item,
+            item.id === updatedData.id ? { ...item, ...updatedData } : item,
           );
         }
       })
-      .addCase(updateMetaData.rejected, (state, action) => {
+      .addCase(updateMetaData.rejected, (state, action: { payload: any }) => {
         state.isLoading = false;
-        state.error = action.payload?.message || 'Ошибка при обновлении цены';
+        state.error = action.payload.message || 'Ошибка при обновлении метаданных';
       });
   },
 });

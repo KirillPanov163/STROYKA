@@ -4,7 +4,7 @@ import styles from './Button.module.css';
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   size?: 'sm' | 'md' | 'lg';
-  variant?: 'primary' | 'secondary' | 'tertiary' | 'danger' | 'ghost' | 'link';
+  variant?: 'primary' | 'secondary' | 'tertiary' | 'danger' | 'ghost' | 'link' | 'outline';
   isLoading?: boolean;
   fullWidth?: boolean;
   leftIcon?: React.ReactNode;

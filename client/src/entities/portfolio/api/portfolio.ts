@@ -50,6 +50,7 @@ export const getAllMyWorksThunk = createAsyncThunk<
     const response = await axiosInstance.get<ServerResponseType<MyWorksResponseType>>(
       MY_WORK_API_URLS.GET_ALL,
     );
+    console.log(response.data.data.works);
     return response.data.data.works;
   } catch (error) {
     return rejectWithValue(handleAxiosError(error));

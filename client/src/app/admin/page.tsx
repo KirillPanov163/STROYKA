@@ -44,11 +44,11 @@ export default function page() {
     setIsReady(true);
   }, []);
 
-  useEffect(() => {
-    if (isReady && isInitialized) {
-      router.push('/admin/menu/');
-    }
-  }, [isReady, isInitialized, router]);
+  // useEffect(() => {
+  //   if (isReady && isInitialized) {
+  //     router.push('/admin/menu/');
+  //   }
+  // }, [isReady, isInitialized, router]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });

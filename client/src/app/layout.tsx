@@ -8,14 +8,11 @@ import Footer from '../widgets/Footer/Footer';
 
 import { ClientLayoutWrapper } from './ClientLayoutWrapper';
 import ServicesList from '@/entities/service/ui/ServiceList';
-import { Providers } from '@/store/Providers';
-// import { Providers } from '@/store/providers';
+import { Providers } from '@/store/providers';
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/metaData`, {
-      cache: 'no-store',
-    });
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/metaData`);
 
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);

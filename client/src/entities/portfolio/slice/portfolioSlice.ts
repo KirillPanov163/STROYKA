@@ -5,7 +5,7 @@ import {
   getMyWorkByIdThunk,
   updateMyWorkThunk,
   deleteMyWorkThunk,
-} from '../api/myWorkApi';
+} from '../api/portfolio';
 import { initialState } from '../model';
 
 const myWorkSlice = createSlice({

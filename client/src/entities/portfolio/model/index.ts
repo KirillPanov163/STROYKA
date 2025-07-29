@@ -6,6 +6,7 @@ export type MyWorkType = {
   time?: string;
   success_work?: string;
   image?: string;
+  imagePath?: string;
   imageFile?: File;
   createdAt?: string;
   updatedAt?: string;

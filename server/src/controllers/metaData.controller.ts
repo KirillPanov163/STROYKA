@@ -59,7 +59,7 @@ export class MetaDataController {
       }
       const updatedMeta = await MetaDataService.updateMetaData(parsedId, updateData);
 
-      return res.status(201).json(formatResponse(201, 'Данные обновлены', updateData));
+      return res.status(201).json(formatResponse(201, 'Данные обновлены', updatedMeta));
     } catch (error) {
       console.error(error);
       return res
