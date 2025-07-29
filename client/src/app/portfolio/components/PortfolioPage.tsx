@@ -5,6 +5,7 @@ import Carousel from '../ui/Carousel';
 import WorkCard from './WorkCard';
 import WorkDetail from './WorkDetail';
 import styles from './PortfolioPage.module.css';
+import Link from 'next/link';
 
 interface PortfolioPageProps {
   initialWorks?: MyWork[];
@@ -36,6 +37,12 @@ const PortfolioPage = ({ initialWorks = [] }: PortfolioPageProps) => {
             />
           ))}
         </Carousel>
+      </div>
+
+      <div className={styles.allWorksButtonContainer}>
+        <Link href="/portfolio/all-works" className={styles.allWorksButton}>
+          Все наши работы
+        </Link>
       </div>
 
       {currentWork && (

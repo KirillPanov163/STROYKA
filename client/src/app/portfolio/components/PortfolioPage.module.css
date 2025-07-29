@@ -8,12 +8,32 @@
   text-align: center;
   margin-top: 90px;
   margin-bottom: 90px;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .carouselWrapper {
   margin-bottom: 40px;
   width: 100%;
+}
+
+.allWorksButtonContainer {
+  text-align: center;
+  margin: 40px 0;
+}
+
+.allWorksButton {
+  display: inline-block;
+  padding: 12px 24px;
+  background: #c19b26;
+  color: white;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.allWorksButton:hover {
+  background: #e6c547;
 }
 
 .workDetailWrapper {

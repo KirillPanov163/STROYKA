@@ -45,15 +45,15 @@
 .detailsButton {
   margin: 15px auto;
   padding: 8px 16px;
-  background: #0070f3;
+  background: #c19b26;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 50px;
   cursor: pointer;
   transition: background 0.3s ease;
   width: fit-content;
 }
 
 .detailsButton:hover {
-  background: #005bb5;
+  background: #e6c547;
 }
