@@ -37,7 +37,7 @@ export const RecordingForm = (): React.JSX.Element => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
+      <form onSubmit={handleSubmit(onSubmit)} className={`${styles.formContainer} glass-card`}>
         <div className={styles.formTitle}>
           <span className={styles.mobileLineBreak}>
             Мы свяжемся с вами как можно скорее
@@ -79,10 +79,10 @@ export const RecordingForm = (): React.JSX.Element => {
             {...register('personalData', { required: true })}
           />
           <span className={styles.customCheckbox}></span>
-          <div>
+          <span>
             Я согласен на обработку персональных данных, с условиями{' '}
             <span className={styles.link}>Политики</span> ознакомлен
-          </div>
+          </span>
         </label>
         {errors.personalData && (
           <p className={styles.errorText}>Обязательное соглашение</p>
