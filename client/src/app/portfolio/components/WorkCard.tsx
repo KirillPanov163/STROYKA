@@ -1,6 +1,8 @@
+// components/WorkCard.tsx
 import React from 'react';
 import styles from './WorkCard.module.css';
 import { MyWork } from '@/entities/portfolio/model';
+import Link from 'next/link';
 
 interface WorkCardProps {
   work: MyWork;
@@ -21,12 +23,12 @@ const WorkCard = ({ work, onClick }: WorkCardProps) => {
           />
         </div>
       )}
-      <button 
+      <Link 
+        href={`/portfolio/details/${work.id}`}
         className={styles.detailsButton}
-        onClick={() => onClick(work)}
       >
         Подробнее
-      </button>
+      </Link>
     </div>
   );
 };
