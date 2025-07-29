@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './Slider.module.css';
@@ -12,72 +12,64 @@ export default function Slider() {
   const brands: Brand[] = [
     { name: 'Electrolux', logo: '/electrolux-logo.png' },
     { name: 'Samsung', logo: '/samsung-logo.png' },
-    { name: 'Subaru', logo: '/subaru-logo.png' },
+    { name: 'Mitsubishi', logo: '/mitsubishi-logo.png' },
     { name: 'LG', logo: '/lg-logo.png' },
     { name: 'Sony', logo: '/sony-logo.png' },
     { name: 'Panasonic', logo: '/panasonic-logo.png' },
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(true);
+  const [visibleItems, setVisibleItems] = useState(4);
+  const transitionDuration = 1000;
+  const autoplaySpeed = 3000;
   const sliderRef = useRef<HTMLDivElement>(null);
-  const visibleItems = 4;
-  const transitionDuration = 1000; // Плавная анимация (1 секунда)
-  const autoplaySpeed = 3000; // Интервал между переходами (3 секунды)
+  const [isTransitioning, setIsTransitioning] = useState(true);
 
-  // Дублируем элементы для бесшовной прокрутки
-  const duplicatedBrands = [...brands, ...brands.slice(0, visibleItems)];
+  // Создаем расширенный массив для бесшовной прокрутки
+  const extendedBrands = [...brands, ...brands.slice(0, visibleItems)];
 
-  // Автопрокрутка
+  // Адаптивность
+  useEffect(() => {
+    const updateVisibleItems = () => {
+      const width = window.innerWidth;
+      if (width < 576) setVisibleItems(2);
+      else if (width < 768) setVisibleItems(3);
+      else setVisibleItems(4);
+    };
+    updateVisibleItems();
+    window.addEventListener('resize', updateVisibleItems);
+    return () => window.removeEventListener('resize', updateVisibleItems);
+  }, []);
+
+  // Автопрокрутка с бесшовным переходом
   useEffect(() => {
     const interval = setInterval(() => {
       setIsTransitioning(true);
       setCurrentIndex(prev => {
         const newIndex = prev + 1;
-        // Если достигли конца дублированного массива, незаметно переходим к началу
+        
+        // Когда достигаем конца оригинального массива
         if (newIndex >= brands.length) {
+          // После анимации мгновенно возвращаемся к началу без анимации
           setTimeout(() => {
             setIsTransitioning(false);
             setCurrentIndex(0);
           }, transitionDuration);
-          return newIndex;
         }
         return newIndex;
       });
     }, autoplaySpeed);
     return () => clearInterval(interval);
-  }, [brands.length]);
-
-  // Ручное управление
-  const handleScroll = (direction: 'left' | 'right') => {
-    setIsTransitioning(true);
-    setCurrentIndex(prev => {
-      if (direction === 'left') {
-        return prev <= 0 ? brands.length - 1 : prev - 1;
-      } else {
-        return prev >= brands.length - 1 ? 0 : prev + 1;
-      }
-    });
-  };
+  }, [brands.length, visibleItems]);
 
   return (
     <div className={styles.sliderContainer}>
       <h2 className={styles.sliderTitle}>Наши партнеры</h2>
-      
       <div className={styles.sliderWrapper}
            onMouseEnter={() => setIsTransitioning(false)}
            onMouseLeave={() => setIsTransitioning(true)}>
-        
-        <button 
-          onClick={() => handleScroll('left')}
-          className={`${styles.arrowButton} ${styles.prev}`}
-          aria-label="Предыдущие логотипы"
-        >
-          <span className={styles.arrowIcon}></span>
-        </button>
-
         <div className={styles.sliderViewport}>
-          <div 
+          <div
             ref={sliderRef}
             className={styles.sliderTrack}
             style={{
@@ -85,15 +77,15 @@ export default function Slider() {
               transition: isTransitioning ? `transform ${transitionDuration}ms ease` : 'none',
             }}
           >
-            {duplicatedBrands.map((brand, index) => (
-              <div 
+            {extendedBrands.map((brand, index) => (
+              <div
                 key={`${brand.name}-${index}`}
                 className={styles.slide}
                 style={{ width: `${100 / visibleItems}%` }}
               >
-                <img 
-                  src={brand.logo} 
-                  alt={brand.name} 
+                <img
+                  src={brand.logo}
+                  alt={brand.name}
                   className={styles.logo}
                   loading="lazy"
                 />
@@ -101,14 +93,6 @@ export default function Slider() {
             ))}
           </div>
         </div>
-
-        <button 
-          onClick={() => handleScroll('right')}
-          className={`${styles.arrowButton} ${styles.next}`}
-          aria-label="Следующие логотипы"
-        >
-          <span className={styles.arrowIcon}></span>
-        </button>
       </div>
     </div>
   );
