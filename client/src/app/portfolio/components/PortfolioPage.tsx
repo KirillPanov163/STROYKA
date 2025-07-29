@@ -1,55 +1,48 @@
 'use client';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { MyWork } from '@/entities/portfolio/model';
-import { getAllMyWorks } from '@/entities/portfolio/api/portfolio';
 import Carousel from '../ui/Carousel';
 import WorkCard from './WorkCard';
 import WorkDetail from './WorkDetail';
-import PortfolioLoading from './PortfolioLoading';
-import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
-import { useAppSelector } from '@/shared/Hooks/useAppSelector';
+import styles from './PortfolioPage.module.css';
 
 interface PortfolioPageProps {
   initialWorks?: MyWork[];
 }
 
 const PortfolioPage = ({ initialWorks = [] }: PortfolioPageProps) => {
-  const dispatch = useAppDispatch();
-  const { works, isLoading, error } = useAppSelector((state) => ({
-    works: state.myWork.works || initialWorks,
-    isLoading: state.myWork.loading,
-    error: state.myWork.error,
-  }));
-
   const [currentWork, setCurrentWork] = useState<MyWork | null>(null);
-
-  useEffect(() => {
-    if (!initialWorks.length) {
-      dispatch(getAllMyWorks());
-    }
-  }, []);
 
   const handleWorkClick = useCallback((work: MyWork) => {
     setCurrentWork(work);
   }, []);
 
-  if (isLoading && !works.length) return <PortfolioLoading />;
-  if (error) return <div className="error-message">Error: {error}</div>;
-  if (!works?.length) return <div className="empty-message">No works available</div>;
+  if (!initialWorks?.length) {
+    return <div className={styles.emptyMessage}>No works available</div>;
+  }
 
   return (
-    <div className="portfolio-container">
-      <Carousel>
-        {initialWorks.map((work) => (
-          <WorkCard
-            key={work.id}
-            work={work}
-            onClick={handleWorkClick}
-            isActive={currentWork?.id === work.id}
-          />
-        ))}
-      </Carousel>
-      {currentWork && <WorkDetail work={currentWork} />}
+    <div className={styles.portfolioContainer}>
+      <h1 className={styles.portfolioTitle}>Наши работы</h1>
+      
+      <div className={styles.carouselWrapper}>
+        <Carousel autoPlay interval={3000} visibleItems={3}>
+          {initialWorks.map((work) => (
+            <WorkCard
+              key={work.id}
+              work={work}
+              onClick={handleWorkClick}
+              isActive={currentWork?.id === work.id}
+            />
+          ))}
+        </Carousel>
+      </div>
+
+      {currentWork && (
+        <div className={styles.workDetailWrapper}>
+          <WorkDetail work={currentWork} />
+        </div>
+      )}
     </div>
   );
 };
