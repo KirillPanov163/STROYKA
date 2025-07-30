@@ -18,7 +18,7 @@ const WorkDetailsPage = () => {
       dispatch(getMyWorkById(Number(id)));
     }
   }, [id, dispatch]);
-
+//
   if (loading) {
     return <div className={styles.loading}>Загрузка...</div>;
   }
