@@ -1,120 +1,58 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { Form, Input, Button } from 'antd';
 import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
 import { createContactThunk } from '@/entities/contacts/api/ContactsApi';
-import {
-  Button,
-  Input,
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-} from '@/shared/ui';
 import { ContactDataType } from '@/entities/contacts/model';
-import { contactSchema } from './contactSchema';
+import { useForm } from 'antd/es/form/Form';
+import { message } from 'antd';
 
-export const CreateContactForm = () => {
+export const CreateContactFormAntd = () => {
+  const [form] = useForm();
   const dispatch = useAppDispatch();
-  const form = useForm<ContactDataType>({
-    resolver: zodResolver(contactSchema),
-    defaultValues: {
-      email: '',
-      tel: '',
-      address: '',
-      whatsapp: '',
-      telegram: '',
-    },
-  });
 
-  const onSubmit = async (data: ContactDataType) => {
+  const onFinish = async (data: ContactDataType) => {
     try {
       await dispatch(createContactThunk(data)).unwrap();
-      form.reset();
-      alert('Контакт успешно создан!');
+      message.success('Контакт успешно создан!');
+      form.resetFields();
     } catch (error) {
-      console.error('Ошибка при создании контакта:', error);
+      message.error('Ошибка при создании контакта');
     }
   };
 
   return (
-    <Form methods={form} onSubmit={onSubmit} className="space-y-4">
-      <FormField
-        control={form.control}
-        name="email"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Email</FormLabel>
-            <FormControl>
-              <Input placeholder="Введите email" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+    <Form
+      form={form}
+      layout="vertical"
+      onFinish={onFinish}
+      style={{ maxWidth: 400, margin: '0 auto', padding: 16 }}
+    >
+      <Form.Item name="email" label="Email" rules={[{ required: true, message: 'Введите email' }]}>
+        <Input placeholder="Введите email" />
+      </Form.Item>
 
-      <FormField
-        control={form.control}
-        name="tel"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Телефон</FormLabel>
-            <FormControl>
-              <Input placeholder="Введите телефон" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+      <Form.Item name="tel" label="Телефон">
+        <Input placeholder="Введите телефон" />
+      </Form.Item>
 
-      <FormField
-        control={form.control}
-        name="address"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Адрес</FormLabel>
-            <FormControl>
-              <Input placeholder="Введите адрес" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+      <Form.Item name="address" label="Адрес">
+        <Input placeholder="Введите адрес" />
+      </Form.Item>
 
-      <FormField
-        control={form.control}
-        name="whatsapp"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>WhatsApp</FormLabel>
-            <FormControl>
-              <Input placeholder="Введите WhatsApp" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+      <Form.Item name="whatsapp" label="WhatsApp">
+        <Input placeholder="Введите WhatsApp" />
+      </Form.Item>
 
-      <FormField
-        control={form.control}
-        name="telegram"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Telegram</FormLabel>
-            <FormControl>
-              <Input placeholder="Введите Telegram" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+      <Form.Item name="telegram" label="Telegram">
+        <Input placeholder="Введите Telegram" />
+      </Form.Item>
 
-      <Button type="submit" disabled={form.formState.isSubmitting}>
-        {form.formState.isSubmitting ? 'Создание...' : 'Создать контакт'}
-      </Button>
+      <Form.Item>
+        <Button type="primary" htmlType="submit">
+          Создать контакт
+        </Button>
+      </Form.Item>
     </Form>
   );
 };

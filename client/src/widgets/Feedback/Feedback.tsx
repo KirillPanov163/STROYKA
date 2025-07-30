@@ -1,167 +1,161 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from '@/shared/ui/button';
-import { Input } from '@/shared/ui/inputs';
-import { Title } from '@/shared/ui/title';
-import styles from './Feedback.module.css';
+import { Button, Modal, Form, Input, Checkbox, message, theme } from 'antd';
+import { PhoneOutlined, CloseOutlined } from '@ant-design/icons';
 import { sendRecordingThunk } from '@/entities/recording/api/RecordingFormApi';
 import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
 
+const { TextArea } = Input;
+
 export const Feedback = () => {
   const dispatch = useAppDispatch();
-  const [phone, setPhone] = useState('');
-  const [selectedDays, setSelectedDays] = useState<string[]>([]);
-  const [selectedTime, setSelectedTime] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [form] = Form.useForm();
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const { token } = theme.useToken();
 
-  const handleDayToggle = (day: string) => {
-    setSelectedDays((prev) =>
-      prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day],
-    );
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError('');
-
+  const onFinish = async (values: any) => {
+    setLoading(true);
     try {
-      const selectedTimeText = selectedTime ? 'с 9:00 до 20:00' : 'не указано';
-      const selectedDaysText =
-        selectedDays.length > 0 ? selectedDays.join(', ') : 'не указаны';
-
       await dispatch(
         sendRecordingThunk({
           name: 'Форма обратной связи',
-          tel: phone,
-          message: `Предпочтительное время звонка: ${selectedTimeText}. Дни: ${selectedDaysText}`,
+          tel: values.phone,
+          message: `Предпочтительное время звонка: ${values.time ? 'с 9:00 до 20:00' : 'не указано'}. Дни: ${values.weekdays ? 'Не беспокоить в выходные' : 'не указаны'}`,
           personalData: 'true',
           oferta: 'true',
-        }),
+        })
       ).unwrap();
 
-      setIsSubmitted(true);
+      message.success('Спасибо за заявку! Мы свяжемся с вами в указанное время');
+      setSubmitted(true);
+      form.resetFields();
       setTimeout(() => {
-        setIsSubmitted(false);
-        setIsCollapsed(true);
+        setOpen(false);
+        setSubmitted(false);
       }, 3000);
     } catch (err) {
-      setError('Ошибка при отправке формы. Пожалуйста, попробуйте позже.');
+      message.error('Ошибка при отправке формы. Пожалуйста, попробуйте позже.');
       console.error('Ошибка отправки формы:', err);
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
-  const toggleCollapse = (e?: React.MouseEvent) => {
-    e?.stopPropagation();
-    setIsCollapsed(!isCollapsed);
+  const toggleModal = () => {
+    setOpen(!open);
+    if (!open) {
+      form.resetFields();
+      setSubmitted(false);
+    }
   };
 
-  if (isSubmitted) {
-    return (
-      <div className={`${styles.feedback} ${styles.successMessage}`}>
-        <Title level={3} size="sm" align="center">
-          Спасибо за заявку!
-        </Title>
-        <p className={styles.subtitle}>Мы свяжемся с вами в указанное время</p>
-      </div>
-    );
-  }
-
-  if (isCollapsed) {
-    return (
-      <div className={styles.collapsedContainer}>
-        <button
-          className={styles.verticalButton}
-          onClick={toggleCollapse}
-          aria-label="Развернуть форму обратной связи"
-          disabled={isLoading}
-        >
-          <span>Оставить заявку</span>
-        </button>
-      </div>
-    );
-  }
-
   return (
-    <div className={styles.feedback}>
-      <button
-        className={styles.toggleButton}
-        onClick={toggleCollapse}
-        aria-label="Свернуть форму"
-        disabled={isLoading}
+    <>
+      <Button
+        type="primary"
+        onClick={toggleModal}
+        style={{
+          position: 'fixed',
+          right: 40,
+          bottom: 300,
+          zIndex: 1000,
+          transform: 'rotate(90deg)',
+          transformOrigin: 'right bottom',
+          backgroundColor: '#c19b26',
+          color: 'white',
+          padding: '0 24px',
+          height: 40,
+          borderRadius: '4px 4px 0 0',
+        }}
       >
-        ×
-      </button>
+        Оставить заявку
+      </Button>
 
-      <Title level={3} size="sm" align="center">
-        Оставьте заявку на звонок
-      </Title>
-      <br />
+      <Modal
+        title="Оставьте заявку на звонок"
+        open={open}
+        onCancel={toggleModal}
+        footer={null}
+        closeIcon={<CloseOutlined style={{ color:'#c19b26'}} />}
+        width={400}
+        styles={{
+          header: {
+            background: '#bfbfbf',
+            borderBottom: `1px solid #c19b26`,
+          },
+          content: {
+            background: '#bfbfbf',
+          },
+        }}
+      >
+        {submitted ? (
+          <div style={{ textAlign: 'center', padding: '24px 0' }}>
+            <p style={{ fontSize: 16, color: token.colorPrimary }}>
+              Спасибо за заявку!
+            </p>
+            <p>Мы свяжемся с вами в указанное время</p>
+          </div>
+        ) : (
+          <Form
+            form={form}
+            layout="vertical"
+            onFinish={onFinish}
+            initialValues={{ weekdays: false, time: false }}
+          >
+            <Form.Item name="weekdays" valuePropName="checked">
+              <Checkbox style={{ color: token.colorTextSecondary }}>
+                Не беспокоить в выходные дни
+              </Checkbox>
+            </Form.Item>
 
-      {error && <p className={styles.error}>{error}</p>}
+            <Form.Item name="time" valuePropName="checked">
+              <Checkbox style={{ color: token.colorTextSecondary }}>
+                с 9:00 до 20:00
+              </Checkbox>
+            </Form.Item>
 
-      <form onSubmit={handleSubmit} className={styles.form}>
-        <div className={styles.checkboxGroup}>
-          <label className={styles.checkboxLabel}>
-            <input
-              type="checkbox"
-              checked={selectedDays.includes('monday')}
-              onChange={() => handleDayToggle('monday')}
-              className={styles.checkbox}
-              disabled={isLoading}
-            />
-            <span>Не беспокоить в выходные дни</span>
-          </label>
+            <Form.Item
+              name="phone"
+              rules={[
+                { required: true, message: 'Пожалуйста, введите ваш телефон' },
+                {
+                  pattern: /^\+?[0-9\s\-\(\)]+$/,
+                  message: 'Пожалуйста, введите корректный номер телефона',
+                },
+              ]}
+            >
+              <Input
+                prefix={<PhoneOutlined style={{ color: '#c19b26' }} />}
+                placeholder="+7 (___) ___-__-__"
+                style={{ background: 'white' }}
+              />
+            </Form.Item>
 
-          <label className={styles.checkboxLabel}>
-            <input
-              type="checkbox"
-              checked={selectedTime}
-              onChange={() => setSelectedTime(!selectedTime)}
-              className={styles.checkbox}
-              disabled={isLoading}
-            />
-            <span>с 9:00 до 20:00</span>
-          </label>
-        </div>
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+                loading={loading}
+                block
+                style={{ height: 40, background: '#c19b26' }}
+              >
+                Заказать звонок
+              </Button>
+            </Form.Item>
 
-        <Input
-          value={phone}
-          // onChange={setPhone}
-          placeholder="+7 (___) ___-__-__"
-          type="text"
-          inputMode="tel"
-          required
-          fullWidth
-          // size="md"
-          disabled={isLoading}
-        />
+            <p style={{ fontSize: 12, color: token.colorTextSecondary }}>
+              Нажимая кнопку, вы соглашаетесь с обработкой персональных данных
+            </p>
 
-        <Button
-          type="submit"
-          variant="primary"
-          size="md"
-          fullWidth
-          isLoading={isLoading}
-          disabled={isLoading}
-        >
-          Заказать звонок
-        </Button>
-
-        <p className={styles.agreement}>
-          Нажимая кнопку, вы соглашаетесь с обработкой персональных данных
-        </p>
-
-        <div className={styles.credits}>
-          <span>ВентСтройМонтаж</span>
-        </div>
-      </form>
-    </div>
+            <div style={{ textAlign: 'center', marginTop: 16,  color: '#c19b26' }}>
+              <span style={{ color: '#c19b26' }}>ВентСтройМонтаж</span>
+            </div>
+          </Form>
+        )}
+      </Modal>
+    </>
   );
 };

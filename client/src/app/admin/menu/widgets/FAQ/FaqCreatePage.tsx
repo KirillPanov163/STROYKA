@@ -1,33 +1,31 @@
 'use client';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+
 import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
-import { createFaq } from '@/entities/FAQ/api/faqThunkApi';
-import {
-  Button,
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-  Input,
-  Textarea,
-} from '@/shared/ui';
 import { useRouter } from 'next/navigation';
-import { faqSchema } from './faqSchema';
+import { createFaq } from '@/entities/FAQ/api/faqThunkApi';
+import { Button, Form, Input, Layout, Typography, Space, Card } from 'antd';
+import { Controller, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { faqSchema } from './faqSchema';
 import { SubmitHandler } from 'react-hook-form';
 
-// Определяем тип формы на основе схемы валидации
+const { Content } = Layout;
+const { Text, Title } = Typography;
+const { TextArea } = Input;
+
 type FaqFormValues = z.infer<typeof faqSchema>;
 
 export const FaqCreatePage = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  
-  // Типизируем форму с помощью FaqFormValues
-  const form = useForm<FaqFormValues>({
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm<FaqFormValues>({
     resolver: zodResolver(faqSchema),
     defaultValues: {
       question: '',
@@ -35,10 +33,13 @@ export const FaqCreatePage = () => {
     },
   });
 
-  // Типизируем обработчик отправки формы
+  const [form] = Form.useForm();
+
   const onSubmit: SubmitHandler<FaqFormValues> = async (data) => {
     try {
       await dispatch(createFaq(data)).unwrap();
+      reset();
+      form.resetFields();
       router.push('/admin/menu/faq/all_answers');
     } catch (error) {
       console.error('Ошибка при создании:', error);
@@ -46,56 +47,108 @@ export const FaqCreatePage = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Добавить новый вопрос</h1>
-      
-      {/* Передаем методы формы и обработчик onSubmit */}
-      <Form methods={form} onSubmit={onSubmit} className="space-y-4">
-          <FormField
-            control={form.control}
-            name="question"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Вопрос</FormLabel>
-                <FormControl>
-                  <Input placeholder="Введите вопрос" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+    <Layout style={{ minHeight: '100vh', background: 'transparent' }}>
+      <Content
+        style={{
+          width: '80%',
+          margin: '120px auto',
+          background: 'linear-gradient(135deg, #1e293b 0%, #334155 25%, #475569 50%, #64748b 75%, #94a3b8 100%)',
+          height: 'auto',
+          padding: 16,
+          borderRadius: 8,
+        }}
+      >
+        <Card
+          title={<Text style={{ color: '#69b1ff', fontSize: 18 }}>Добавить новый вопрос</Text>}
+          style={{
+            background: 'transparent',
+            padding: 16,
+            borderRadius: 8,
+            color: '#69b1ff',
+          }}
+          styles={{ body: { padding: 16 } }}
+        >
+          <Form
+            form={form}
+            layout="vertical"
+            onFinish={handleSubmit(onSubmit)}
+            style={{
+              color: '#69b1ff',
+              background: 'transparent',
+              padding: 16,
+              borderRadius: 8,
+            }}
+          >
+            <Form.Item
+              label={<Text style={{ color: '#69b1ff' }}>Вопрос</Text>}
+              validateStatus={errors.question ? 'error' : ''}
+              help={errors.question?.message}
+            >
+              <Controller
+                name="question"
+                control={control}
+                render={({ field }) => (
+                  <Input
+                    {...field}
+                    placeholder="Введите вопрос"
+                    style={{
+                      background: '#334155',
+                      color: '#69b1ff',
+                      border: '1px solid #64748b',
+                      borderRadius: 4,
+                    }}
+                  />
+                )}
+              />
+            </Form.Item>
 
-          <FormField
-            control={form.control}
-            name="answers"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Ответ</FormLabel>
-                <FormControl>
-                  <Textarea
+            <Form.Item
+              label={<Text style={{ color: '#69b1ff' }}>Ответ</Text>}
+              validateStatus={errors.answers ? 'error' : ''}
+              help={errors.answers?.message}
+            >
+              <Controller
+                name="answers"
+                control={control}
+                render={({ field }) => (
+                  <TextArea
+                    {...field}
                     placeholder="Введите ответ"
                     rows={5}
-                    {...field}
+                    style={{
+                      background: '#334155',
+                      color: '#69b1ff',
+                      border: '1px solid #64748b',
+                      borderRadius: 4,
+                    }}
                   />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                )}
+              />
+            </Form.Item>
 
-          <div className="flex justify-end gap-2 pt-4">
-            <Button
-              variant="primary"
-              type="button"
-              onClick={() => router.push('/faq')}
-            >
-              Отмена
-            </Button>
-            <Button type="submit" disabled={form.formState.isSubmitting}>
-              {form.formState.isSubmitting ? 'Создание...' : 'Создать вопрос'}
-            </Button>
-          </div>
-      </Form>
-    </div>
+            <Form.Item>
+              <Space style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <Button
+                  type="text"
+                  onClick={() => router.push('/faq')}
+                  style={{ color: '#fd9b9b', padding: 0 }}
+                >
+                  Отмена
+                </Button>
+                <Button
+                  type="text"
+                  htmlType="submit"
+                  loading={isSubmitting}
+                  disabled={isSubmitting}
+                  style={{ color: '#69b1ff', padding: 0 }}
+                >
+                  {isSubmitting ? 'Создание...' : 'Создать вопрос'}
+                </Button>
+              </Space>
+            </Form.Item>
+          </Form>
+        </Card>
+      </Content>
+    </Layout>
   );
 };

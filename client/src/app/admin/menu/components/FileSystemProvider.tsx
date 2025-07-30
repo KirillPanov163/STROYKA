@@ -2,7 +2,6 @@
 
 import { createContext, useContext, useState, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
-import styles from './FileSystem.module.css';
 
 interface UrlNode {
   path: string;
@@ -66,12 +65,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
           isOpen: false,
           children: [
             {
-              path: '/admin/menu/services/all_services/add_service',
-              name: 'Добавить услугу',
-              isOpen: false,
-            },
-            {
-              path: '/admin/menu/services/all_services/[alias]',
+              path: '/admin/menu/services/all_services',
               name: 'Управление всеми услугами',
               isOpen: false,
             },
@@ -91,7 +85,7 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
           children: [
             {
               path: '/admin/menu/portfolio/metadata/main',
-              name: 'Управление метаданными главной наших работ',
+              name: 'Управление метаданными "/portfolio"',
               isOpen: false,
             },
             {
@@ -111,11 +105,6 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
           name: 'Все работы',
           isOpen: false,
           children: [
-            {
-              path: '/admin/menu/portfolio/all_work/add_work',
-              name: 'Опубликовать работу',
-              isOpen: false,
-            },
             {
               path: '/admin/menu/portfolio/all_work/works',
               name: 'Управление всеми работами',

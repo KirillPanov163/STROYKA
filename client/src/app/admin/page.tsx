@@ -1,143 +1,219 @@
 'use client';
+export const dynamic = 'force-dynamic';
+
+import { useEffect, useState } from 'react';
+import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
+import { useAppSelector } from '@/shared/Hooks/useAppSelector';
+import { useRouter } from 'next/navigation';
 import {
   signInThunk,
   signOutThunk,
   verifySignIn2FAForAdminThunk,
 } from '@/entities/user/api/userThunkApi';
-import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
-import { useAppSelector } from '@/shared/Hooks/useAppSelector';
-import { useEffect, useState } from 'react';
-import styles from './page.module.css';
-import { useRouter } from 'next/navigation';
+import { Button, Form, Input, Layout, Typography, Space, Card, message } from 'antd';
+import type { FormProps } from 'antd';
 
-type InputsSignInType = {
+const { Content } = Layout;
+const { Text } = Typography;
+
+type SignInFormValues = {
   email: string;
   password: string;
 };
 
-type TwoFAInputType = {
+type TwoFAFormValues = {
   code: string;
 };
 
-const initialInputs: InputsSignInType = {
-  email: '',
-  password: '',
-};
-
-const initial2FAInput: TwoFAInputType = {
-  code: '',
-};
-
-export default function page() {
+export default function SignInForm() {
   const dispatch = useAppDispatch();
   const { twoFAPending, twoFAUserId, error, isInitialized } = useAppSelector(
     (state) => state.user,
   );
-
-  const [inputs, setInputs] = useState<InputsSignInType>(initialInputs);
-  const [twoFAInput, setTwoFAInput] = useState<TwoFAInputType>(initial2FAInput);
-  const [isReady, setIsReady] = useState(false);
-
   const router = useRouter();
+  const [isReady, setIsReady] = useState(false);
+  const [signInForm] = Form.useForm<SignInFormValues>();
+  const [twoFAForm] = Form.useForm<TwoFAFormValues>();
 
   useEffect(() => {
     setIsReady(true);
   }, []);
 
-  // useEffect(() => {
-  //   if (isReady && isInitialized) {
-  //     router.push('/admin/menu/');
-  //   }
-  // }, [isReady, isInitialized, router]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setInputs({ ...inputs, [e.target.name]: e.target.value });
-  };
-
-  const handle2FAChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setTwoFAInput({ ...twoFAInput, code: e.target.value });
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault();
+  const onSignInSubmit: FormProps<SignInFormValues>['onFinish'] = async (values) => {
     try {
-      await dispatch(signInThunk(inputs)).unwrap();
-    } catch (error) {
-      console.error(error);
+      await dispatch(signInThunk(values)).unwrap();
+      signInForm.resetFields();
+    } catch (err) {
+      message.error('Ошибка входа');
+      console.error('Ошибка входа:', err);
     }
   };
 
-  const handle2FASubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault();
-    if (!twoFAUserId) return;
+  const onTwoFASubmit: FormProps<TwoFAFormValues>['onFinish'] = async (values) => {
+    if (!twoFAUserId) {
+      message.error('Не найден ID пользователя');
+      return;
+    }
     try {
       await dispatch(
-        verifySignIn2FAForAdminThunk({
-          userId: twoFAUserId,
-          code: twoFAInput.code,
-        }),
+        verifySignIn2FAForAdminThunk({ userId: twoFAUserId, code: values.code }),
       ).unwrap();
-    } catch (error) {
-      console.error(error);
+      twoFAForm.resetFields();
+      router.push('/admin/menu');
+    } catch (err) {
+      message.error('Ошибка подтверждения 2FA');
+      console.error('Ошибка 2FA:', err);
+    }
+  };
+
+  const onSignOut = async () => {
+    try {
+      await dispatch(signOutThunk()).unwrap();
+    } catch (err) {
+      console.error('Ошибка выхода:', err);
     }
   };
 
   return (
-    <div className={styles.formContainer}>
-      {twoFAPending ? (
-        <form onSubmit={handle2FASubmit}>
-          <div>
-            <input
-              type="text"
-              placeholder="Введите код 2FA"
-              onChange={handle2FAChange}
-              name="code"
-              value={twoFAInput.code}
-              className={styles.inputField}
-            />
-          </div>
-          {error && <div className={styles.errorText}>{error}</div>}
-          <button type="submit" className={styles.submitButton}>
-            Подтвердить
-          </button>
-        </form>
-      ) : (
-        <form onSubmit={handleSubmit}>
-          <div>
-            <input
-              type="email"
-              placeholder="Email"
-              onChange={handleChange}
-              name="email"
-              value={inputs.email}
-              className={styles.inputField}
-            />
-          </div>
-          <div>
-            <input
-              type="password"
-              placeholder="Пароль"
-              onChange={handleChange}
-              name="password"
-              value={inputs.password}
-              className={styles.inputField}
-            />
-          </div>
-          {error && <div className={styles.errorText}>{error}</div>}
-
-          <div className={styles.buttonRow}>
-            <button type="submit" className={styles.submitButton}>
-              Войти
-            </button>
-            <button
-              className={styles.logoutButton}
-              onClick={() => dispatch(signOutThunk())}
+    <Layout style={{ background: 'transparent' }}>
+      <Content
+        style={{
+          width: '80%',
+          margin: '120px auto',
+          background: 'linear-gradient(135deg, #1e293b 0%, #334155 25%, #475569 50%, #64748b 75%, #94a3b8 100%)',
+          height: 'auto',
+          padding: 16,
+          borderRadius: 8,
+        }}
+      >
+        <Card
+          title={<Text style={{ color: '#69b1ff', fontSize: 18 }}>Вход</Text>}
+          style={{
+            background: 'transparent',
+            padding: 16,
+            borderRadius: 8,
+            color: '#69b1ff',
+          }}
+          styles={{ body: { padding: 16 } }}
+        >
+          {twoFAPending ? (
+            <Form
+              form={twoFAForm}
+              layout="vertical"
+              onFinish={onTwoFASubmit}
+              style={{
+                color: '#69b1ff',
+                background: 'transparent',
+                padding: 16,
+                borderRadius: 8,
+              }}
             >
-              Выход
-            </button>
-          </div>
-        </form>
-      )}
-    </div>
+              <Form.Item
+                label={<Text style={{ color: '#69b1ff' }}>Код 2FA</Text>}
+                name="code"
+                rules={[{ required: true, message: 'Код 2FA обязателен' }]}
+              >
+                <Input
+                  placeholder="Введите код 2FA"
+                  style={{
+                    background: '#334155',
+                    color: '#69b1ff',
+                    border: '1px solid #64748b',
+                    borderRadius: 4,
+                  }}
+                />
+              </Form.Item>
+              {error && (
+                <Form.Item>
+                  <Text style={{ color: '#fd9b9b' }}>{error}</Text>
+                </Form.Item>
+              )}
+              <Form.Item>
+                <Button
+                  type="text"
+                  htmlType="submit"
+                  style={{ color: '#69b1ff', padding: 0 }}
+                >
+                  Подтвердить
+                </Button>
+              </Form.Item>
+            </Form>
+          ) : (
+            <Form
+              form={signInForm}
+              layout="vertical"
+              onFinish={onSignInSubmit}
+              style={{
+                color: '#69b1ff',
+                background: 'transparent',
+                padding: 16,
+                borderRadius: 8,
+              }}
+            >
+              <Form.Item
+                label={<Text style={{ color: '#69b1ff' }}>Email</Text>}
+                name="email"
+                rules={[
+                  { required: true, message: 'Email обязателен' },
+                  { type: 'email', message: 'Некорректный email' },
+                ]}
+              >
+                <Input
+                  type="email"
+                  placeholder="Email"
+                  style={{
+                    background: '#334155',
+                    color: '#69b1ff',
+                    border: '1px solid #64748b',
+                    borderRadius: 4,
+                  }}
+                />
+              </Form.Item>
+              <Form.Item
+                label={<Text style={{ color: '#69b1ff' }}>Пароль</Text>}
+                name="password"
+                rules={[
+                  { required: true, message: 'Пароль обязателен' },
+                  { min: 6, message: 'Пароль должен содержать минимум 6 символов' },
+                ]}
+              >
+                <Input.Password
+                  placeholder="Пароль"
+                  style={{
+                    background: '#334155',
+                    color: '#69b1ff',
+                    border: '1px solid #64748b',
+                    borderRadius: 4,
+                  }}
+                />
+              </Form.Item>
+              {error && (
+                <Form.Item>
+                  <Text style={{ color: '#fd9b9b' }}>{error}</Text>
+                </Form.Item>
+              )}
+              <Form.Item>
+                <Space>
+                  <Button
+                    type="text"
+                    htmlType="submit"
+                    style={{ color: '#69b1ff', padding: 0 }}
+                  >
+                    Войти
+                  </Button>
+                  <Button
+                    type="text"
+                    onClick={onSignOut}
+                    style={{ color: '#fd9b9b', padding: 0 }}
+                  >
+                    Выход
+                  </Button>
+                </Space>
+              </Form.Item>
+            </Form>
+          )}
+        </Card>
+      </Content>
+    </Layout>
   );
 }
