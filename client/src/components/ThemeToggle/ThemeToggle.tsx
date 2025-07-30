@@ -72,12 +72,15 @@ export function ThemeToggle() {
     }}>
       <button
         onClick={toggleTheme}
-        className={`w-10 h-10 rounded-full flex items-center justify-center 
-                   transition-all duration-300 ease-in-out
+        className={`rounded-full flex items-center justify-center 
+                   transition-all duration-300 ease-in-out transform
                    focus:outline-none focus:ring-2 focus:ring-accent-gold
-                   ${theme === 'dark' ? 'hover:bg-gray-700 text-yellow-300' : 'hover:bg-gray-700 text-gray-100'}`}
+                   hover:scale-110 hover:shadow-lg
+                   ${theme === 'dark' ? 'text-yellow-300 hover:bg-opacity-20 hover:bg-gray-700' : 'text-gray-100 hover:bg-opacity-10 hover:bg-gray-800'}`}
         style={{
-          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+          boxShadow: theme === 'light' 
+            ? '0 2px 12px rgba(0, 0, 0, 0.15)' 
+            : '0 2px 12px rgba(251, 191, 36, 0.2)',
           border: 'none',
           outline: 'none',
           flexShrink: 0,
@@ -87,9 +90,12 @@ export function ThemeToggle() {
           width: '65px',
           height: '65px',
           display: 'flex',
+          cursor: 'pointer',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: theme === 'light' ? '#333333' : '#ffffff' // #333 for light theme, gray-800 for dark
+          backgroundColor: theme === 'light' ? '#333333' : '#ffffff',
+          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          willChange: 'transform, box-shadow'
         }}
         aria-label={theme === 'light' ? 'Переключить на темную тему' : 'Переключить на светлую тему'}
       >

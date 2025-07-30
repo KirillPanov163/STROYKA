@@ -84,14 +84,6 @@ export default function Home() {
           
           <div className="section-divider"></div>
           
-          <div className="fade-in-up delay-1">
-            <ContactsPage />
-          </div>
-
-          {/* <PortfolioManager/> */}
-          
-          <div className="section-divider"></div>
-          
           <div className="fade-in-up delay-2" style={{ textAlign: 'center', margin: '10rem 0 2rem', width: '100%' }}>
             <h2 style={{ 
               
@@ -123,10 +115,24 @@ export default function Home() {
               }}></span>
             </h2>
           </div>
-          <div className="fade-in-up delay-2">
+          <div className="fade-in-up delay-2" style={{ 
+            width: '100%',
+            maxWidth: '1200px',
+            margin: '0 auto',
+            padding: '0 1rem 4rem',
+            boxSizing: 'border-box'
+          }}>
             <Slider/>
           </div>
-          
+
+          <div className="section-divider"></div>
+
+          <div className="fade-in-up delay-1">
+            <ContactsPage />
+          </div>
+
+          {/* <PortfolioManager/> */}
+
           <div className="section-divider"></div>
           
           <div className="fade-in-up delay-3">

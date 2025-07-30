@@ -8,7 +8,6 @@ import Footer from '../widgets/Footer/Footer';
 
 import { ClientLayoutWrapper } from './ClientLayoutWrapper';
 import ServicesList from '@/entities/service/ui/ServiceList';
-import { Providers } from '@/store/Providers';
 
 
 
@@ -71,6 +70,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { ThemeToggle } from '@/components/ThemeToggle/ThemeToggle';
+import { Providers } from '@/store/providers';
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   let services = [];
