@@ -145,8 +145,6 @@ export default function Home() {
             <ContactsPage />
           </div>
 
-          {/* <PortfolioManager/> */}
-
           <div className="section-divider"></div>
 
           <div className="fade-in-up delay-3">
