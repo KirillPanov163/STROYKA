@@ -90,20 +90,22 @@ export default function Header() {
             ))}
           </ul>
 
-          <button
-            className={styles.mobileMenuButton}
-            onClick={toggleMobileMenu}
-            aria-label="Открыть меню"
-            aria-expanded={isMobileMenuOpen}
-          >
-            <div
-              className={`${styles.hamburger} ${isMobileMenuOpen ? styles.active : ''}`}
+          <div className={styles.navActions}>
+            <button
+              className={styles.mobileMenuButton}
+              onClick={toggleMobileMenu}
+              aria-label="Открыть меню"
+              aria-expanded={isMobileMenuOpen}
             >
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-          </button>
+              <div
+                className={`${styles.hamburger} ${isMobileMenuOpen ? styles.active : ''}`}
+              >
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </button>
+          </div>
         </nav>
 
         <div className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.active : ''}`}>
