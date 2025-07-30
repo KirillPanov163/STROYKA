@@ -1,12 +1,12 @@
 .pageContainer {
   width: 100%;
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 80px 20px;
   /* Убираем фиксированный фон, чтобы использовать глобальный */
 }
 
 .contentContainer {
-  padding-top: 70px;
+  padding-bottom: 80px;
   margin-top: 20px;
   max-width: 1200px;
   margin-left: auto;
@@ -56,8 +56,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
-  max-width: 500px; /* Фиксированная максимальная ширина */
+  flex: 1;
+  min-width: 300px;
+  max-width: 500px;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .sectionTitle {
@@ -74,13 +77,14 @@
 @media (max-width: 900px) {
   .contentWrapper {
     flex-direction: column;
-    align-items: center; /* Центрируем колонки на мобильных */
+    align-items: center;
     gap: 40px;
   }
   
   .leftCol,
   .rightCol {
-    max-width: 100%;
+    width: 100%;
+    max-width: 500px;
   }
 }
 

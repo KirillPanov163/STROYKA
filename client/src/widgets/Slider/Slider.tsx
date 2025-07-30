@@ -63,8 +63,7 @@ export default function Slider() {
   }, [brands.length, visibleItems]);
 
   return (
-    <div className={styles.sliderContainer}>
-      <h2 className={styles.sliderTitle}>Наши партнеры</h2>
+    <div className={styles.sliderContainer} style={{ backgroundColor: '#ffffff' }}>
       <div className={styles.sliderWrapper}
            onMouseEnter={() => setIsTransitioning(false)}
            onMouseLeave={() => setIsTransitioning(true)}>

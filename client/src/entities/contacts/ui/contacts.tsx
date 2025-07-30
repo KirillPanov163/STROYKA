@@ -123,15 +123,14 @@ export const Contacts = () => {
           <p className={styles.legalText}>ИНН 772453181190</p>
           <p className={styles.legalText}>ОГРНИП 320774600293334</p>
         </div>
-        <nav className={styles.navLinks}>
-          <Link href="/privacy-policy" className={styles.link}>
+        <div className={styles.legal}>
+          <Link href="/privacy-policy" className={styles.legalText} style={{ textDecoration: 'underline' }}>
             Политика конфиденциальности
           </Link>
-          <br />
-          <Link href="/oferta" className={styles.link}>
+          <Link href="/oferta" className={styles.legalText} style={{ textDecoration: 'underline' }}>
             Оферта
           </Link>
-        </nav>
+        </div>
       </div>
     </div>
   );
