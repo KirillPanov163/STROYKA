@@ -572,7 +572,7 @@ a {
 }
 
 /* Темная тема */
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --white: #1f2937;
     --gray-50: #374151;
@@ -602,4 +602,4 @@ a {
     background: rgba(31, 41, 55, 0.6);
     border-color: rgba(107, 114, 128, 0.25);
   }
-}
+} */
