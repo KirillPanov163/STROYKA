@@ -60,15 +60,32 @@ export const Feedback = () => {
         style={{
           position: 'fixed',
           right: 40,
-          bottom: 300,
-          zIndex: 1000,
+          bottom: '50%',
+          zIndex: 100,
           transform: 'rotate(90deg)',
           transformOrigin: 'right bottom',
-          backgroundColor: '#c19b26',
+          backgroundColor: 'rgb(51, 51, 51)',
           color: 'white',
           padding: '0 24px',
           height: 40,
-          borderRadius: '4px 4px 0 0',
+          whiteSpace: 'nowrap',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderRadius: '0px 0px 8px 8px',
+          transition: 'all 0.3s ease-in-out',
+          cursor: 'pointer',
+          overflow: 'hidden',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'rotate(90deg) translateY(20px)';
+          e.currentTarget.style.height = '60px';
+          e.currentTarget.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.2)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'rotate(90deg)';
+          e.currentTarget.style.height = '40px';
+          e.currentTarget.style.boxShadow = 'none';
         }}
       >
         Оставить заявку

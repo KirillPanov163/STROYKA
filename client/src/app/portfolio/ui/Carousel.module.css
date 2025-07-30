@@ -34,13 +34,13 @@ flex: 0 0 calc(33.333% - 10.66px);
 
 .prevButton,
 .nextButton {
-  background: rgba(0, 0, 0, 0.5);
-  color: white;
+  background: none;
+  color: #d4af37;
   border: none;
   padding: 10px 15px;
   border-radius: 50%;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 50px;
   z-index: 1;
   transition: background 0.3s ease;
   margin: 0 px;
@@ -48,7 +48,7 @@ flex: 0 0 calc(33.333% - 10.66px);
 
 .prevButton:hover,
 .nextButton:hover {
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(55, 54, 51, 0.095);
 }
 
 .dotsContainer {

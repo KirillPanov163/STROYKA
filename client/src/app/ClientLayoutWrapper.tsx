@@ -6,6 +6,7 @@ const Feedback = dynamic(
   () => import('@/widgets/Feedback/Feedback').then(mod => mod.Feedback),
   { ssr: false }
 )
+const YandexMetrika = dynamic(() => import('@/features/WhatsappButton/YandexMetrica').then(mod => mod.YandexMetrika), { ssr: false })
 import GoodAppWidget from '@/features/WhatsappButton/WhatsappButton';
 
 export function ClientLayoutWrapper({ children }: { children: React.ReactNode }) {
@@ -17,6 +18,7 @@ export function ClientLayoutWrapper({ children }: { children: React.ReactNode })
       {children}
       {!isAdminPath && <Feedback />}
       {!isAdminPath && <GoodAppWidget />}
+      <YandexMetrika />
     </>
   );
 }

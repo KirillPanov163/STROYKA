@@ -68,7 +68,7 @@
 }
 
 .workCard {
-  background-color: #fff;
+  background: rgba(255, 255, 255, 0.078);
   border-radius: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 30px;
@@ -168,7 +168,7 @@
   padding: 8px 16px;
   width: 60%;
   text-align: center;
-  background: #c19b26;
+  background: #05040072;
   color: white;
   border: none;
   border-radius: 20px;
@@ -177,5 +177,5 @@
 }
 
 .detailsButton:hover {
-  background: #e6c547;
+  background: #00000028;
 }
