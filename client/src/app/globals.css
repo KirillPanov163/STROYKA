@@ -1,6 +1,6 @@
 /* Основной контейнер с отступами по бокам */
 main {
-  padding: 0 80px;
+  padding: 0 px;
   max-width: 100%;
   width: 100%;
   box-sizing: border-box;
@@ -46,6 +46,14 @@ main {
   --gradient-primary: linear-gradient(135deg, var(--charcoal) 0%, var(--dark-gray) 100%);
   --gradient-surface: linear-gradient(135deg, var(--pearl) 0%, var(--snow) 100%);
   --gradient-accent: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-gold-light) 100%);
+  
+  /* Цвета для темной темы */
+  --dark-bg: #121212;
+  --dark-surface: #1e1e1e;
+  --dark-surface-elevated: #2d2d2d;
+  --dark-text-primary: #f5f5f5;
+  --dark-text-secondary: #b0b0b0;
+  --dark-border: #333333;
 }
 
 * {
@@ -139,6 +147,42 @@ body {
   background: linear-gradient(135deg, var(--snow) 0%, var(--pearl) 25%, #ffffff 50%, var(--pearl) 75%, var(--snow) 100%);
   background-attachment: fixed;
   color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dark theme overrides */
+.dark body {
+  background: linear-gradient(135deg, var(--dark-bg) 0%, #1a1a1a 100%);
+  color: var(--dark-text-primary);
+}
+
+.dark h1,
+.dark h2,
+.dark h3,
+.dark h4,
+.dark h5,
+.dark h6 {
+  color: var(--dark-text-primary);
+}
+
+.dark p,
+.dark .text-muted {
+  color: var(--dark-text-secondary);
+}
+
+/* .dark .main-content-wrapper {
+  background: var(--dark-surface);
+  border-color: var(--dark-border);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+} */
+
+.dark .section-divider {
+  background: linear-gradient(90deg, transparent 0%, var(--dark-border) 20%, var(--accent-gold) 50%, var(--dark-border) 80%, transparent 100%);
+}
+
+/* Smooth transitions for theme changes */
+* {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
 /* Обеспечиваем правильное позиционирование футера */
@@ -269,10 +313,10 @@ a {
 /* Премиальные стили компонентов */
 
 /* Единый премиальный контейнер для основных секций */
-.main-content-wrapper {
+/* .main-content-wrapper {
   margin: 0;
   padding: 40px 80px;
-  background: rgba(255, 255, 255, 0.98);
+  background: rgb(255, 255, 255);
   backdrop-filter: blur(24px);
   border: 1px solid rgba(212, 175, 55, 0.2);
   border-radius: 0;
@@ -307,7 +351,7 @@ a {
   background: radial-gradient(circle at 30% 70%, rgba(212, 175, 55, 0.03) 0%, transparent 50%);
   z-index: -1;
   animation: containerGlow 20s ease-in-out infinite;
-}
+} */
 
 @keyframes containerGlow {
   0%, 100% { transform: translate(0, 0) rotate(0deg); opacity: 0.03; }

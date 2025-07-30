@@ -43,11 +43,13 @@
 
 ## Vladislav
 1. Header, Header.css
-2. Footer, Footer.css
+2. Footer, min Footer.css
 3. entities -> FAQ (api, model, slice)
 4. enums -> faqThunkTypes
 5. servicePage, servicePage.css
 6. AchievementsWidgets, AchievementsWidgets.css
+7. Стили для всего проекта
+8. Темная-светлая тема
 
 
 3. Сделать нарисованный макет всего проекта, чтобы утвердить функционал и визуал

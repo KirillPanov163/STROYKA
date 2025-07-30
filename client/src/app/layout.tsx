@@ -69,6 +69,9 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
+import { ThemeProvider } from '@/contexts/ThemeContext';
+import { ThemeToggle } from '@/components/ThemeToggle/ThemeToggle';
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   let services = [];
 
@@ -87,14 +90,17 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   }
 
   return (
-    <html lang="ru">
-      <body className="flex flex-col min-h-screen">
+    <html lang="ru" suppressHydrationWarning>
+      <body className="flex flex-col min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200 relative">
         <Providers>
-          <Navigation />
-          <main className="flex-1">
-            <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
-          </main>
-          <Footer />
+          <ThemeProvider>
+            <ThemeToggle />
+            <Navigation />
+            <main className="flex-1 relative z-0">
+              <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
+            </main>
+            <Footer />
+          </ThemeProvider>
         </Providers>
       </body>
     </html>
