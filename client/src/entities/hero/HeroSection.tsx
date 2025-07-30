@@ -1,14 +1,14 @@
-'use client';
 import React from 'react';
 import styles from './HeroSection.module.css';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
+
+// Динамический импорт клиентского компонента с отключением SSR
+const HeroForm = dynamic(() => import('./HeroForm'), {
+  ssr: false,
+});
 
 const HeroSection = () => {
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission here
-  };
-
   return (
     <section className={styles.hero}>
       <div className={styles.heroBackground}>
@@ -23,19 +23,8 @@ const HeroSection = () => {
             Работаем по всей России с гарантией качества.
           </p>
           
-          <form onSubmit={handleSubmit} className={styles.contactForm}>
-            <div className={styles.formGroup}>
-              <input 
-                type="tel" 
-                placeholder="+7 (___) ___-__-__" 
-                className={styles.phoneInput}
-                required
-              />
-              <button type="submit" className={styles.ctaButton}>
-                Заказать расчет
-              </button>
-            </div>
-          </form>
+          {/* Используем клиентский компонент формы */}
+          <HeroForm />
         </div>
         
         <div className={styles.features}>

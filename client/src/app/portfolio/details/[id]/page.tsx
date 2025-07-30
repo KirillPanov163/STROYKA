@@ -1,3 +1,11 @@
+import { Metadata } from 'next';
+import { generatePageMetadata } from '@/shared/utils/metadata';
+
+// Generate metadata for the portfolio details page
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+  return generatePageMetadata('/portfolio/details/[id]');
+}
+
 'use client';
 
 import React, { useEffect } from 'react';

@@ -1,0 +1,112 @@
+.achievementsSection {
+  padding: 60px 0;
+  background-color: #f9f9f9;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.sectionTitle {
+  font-size: 2.5rem;
+  color: #333;
+  margin: 0;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 15px;
+}
+
+.sectionTitle::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background-color: #0070f3;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-bottom: 60px;
+}
+
+.statItem {
+  text-align: center;
+  padding: 30px 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.statItem:hover {
+  transform: translateY(-5px);
+}
+
+.statNumber {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #0070f3;
+  margin-bottom: 15px;
+}
+
+.statLine {
+  width: 50px;
+  height: 3px;
+  background-color: #0070f3;
+  margin: 0 auto 15px;
+}
+
+.statDescription {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.advantagesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.advantageItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 30px 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.advantageIcon {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.advantageTitle {
+  font-size: 1.3rem;
+  color: #333;
+  margin: 0 0 15px;
+}
+
+.advantageDescription {
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}

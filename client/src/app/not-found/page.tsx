@@ -1,4 +1,14 @@
+import { Metadata } from 'next';
+import { generatePageMetadata } from '@/shared/utils/metadata';
+
 export const dynamic = "force-dynamic";
+
+// Generate metadata for the not-found page
+export async function generateMetadata(): Promise<Metadata> {
+  // Using default index 0 as not-found page doesn't have a specific index
+  return generatePageMetadata('/');
+}
+
 import Link from 'next/link';
 import styles from './NotFoundPage.module.css';
 

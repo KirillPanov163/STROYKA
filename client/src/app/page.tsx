@@ -1,4 +1,5 @@
 'use client';
+
 import styles from './page.module.css';
 import FAQPage from './faq/page';
 import AchievementsPage from './achievements/AchievementsWidgets';

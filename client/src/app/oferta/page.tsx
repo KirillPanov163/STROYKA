@@ -1,5 +1,13 @@
+import { Metadata } from 'next';
+import { generatePageMetadata } from '@/shared/utils/metadata';
 import React from 'react';
 import styles from './Oferta.module.css';
+
+// Generate metadata for the oferta page
+export async function generateMetadata(): Promise<Metadata> {
+  // Using default index 0 as oferta doesn't have a specific index in the provided list
+  return generatePageMetadata('/');
+}
 
 export default function Oferta() {
   return (
