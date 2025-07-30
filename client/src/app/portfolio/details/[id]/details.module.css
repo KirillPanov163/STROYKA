@@ -43,6 +43,7 @@
   position: relative;
   width: 100%; /* Занимает всю ширину */
   margin: 0; /* Убираем стандартные отступы */
+  font-weight: 300;
 }
 
 .title::after {
