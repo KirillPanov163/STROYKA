@@ -64,7 +64,8 @@ export const Feedback = () => {
           zIndex: 1000,
           transform: 'rotate(90deg)',
           transformOrigin: 'right bottom',
-          backgroundColor: '#c19b26',
+          backgroundColor: '#05040072',
+
           color: 'white',
           padding: '0 24px',
           height: 40,
