@@ -25,7 +25,6 @@
   line-height: 1.2;
   position: relative;
   padding-bottom: 16px;
-  font-weight: 300;
 }
 
 .pageTitle::after {
