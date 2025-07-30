@@ -6,6 +6,7 @@ import Slider from '@/widgets/Slider/Slider';
 import ContactsPage from './contacts/page';
 import { useEffect } from 'react';
 import HeroSection from '@/entities/hero/HeroSection';
+import ServiceManager from './admin/menu/services/all_services/page';
 
 export default function Home() {
   // Обработчик прогресс-бара скролла
@@ -127,6 +128,7 @@ export default function Home() {
           }}>
             <Slider/>
           </div>
+          <ServiceManager/>
 
           <div className="section-divider"></div>
 
