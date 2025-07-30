@@ -22,7 +22,7 @@ export default function Footer() {
             <div className={styles.legal}>
               <p className={styles.legalText}>ВентСтройМонтаж</p>
               <p className={styles.legalText}>ИНН Этой информации еще нет (((( </p>
-              <p className={styles.legalText}>ОГРНИП Этой информации еще нет ((((</p>
+              <p className={styles.legalText}>ОГРНИП Этой информации еще нет (((((</p>
             </div>
           </div>
 
