@@ -20,10 +20,14 @@ export default function Footer() {
               </Link>
             </nav>
             <div className={styles.legal}>
-              <p className={styles.legalText}>ИП Черничкина Анастасия Алексеевна</p>
-              <p className={styles.legalText}>ИНН 772453181190</p>
-              <p className={styles.legalText}>ОГРНИП 320774600293334</p>
+              <p className={styles.legalText}>ВентСтройМонтаж</p>
+              <p className={styles.legalText}>ИНН Этой информации еще нет (((( </p>
+              <p className={styles.legalText}>ОГРНИП Этой информации еще нет (((((</p>
             </div>
+          </div>
+
+          <div className="logoFooter">
+            <a href="/"><img src="logo_oktogon.png" alt="Логотип" style={{ height: '80px' }} /></a>
           </div>
 
           <div className={styles.iconsContainer}>
