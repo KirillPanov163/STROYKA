@@ -88,7 +88,7 @@ export default function Home() {
             <ContactsPage />
           </div>
 
-          <PortfolioManager/>
+          {/* <PortfolioManager/> */}
           
           <div className="section-divider"></div>
           
