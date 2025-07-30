@@ -3,6 +3,7 @@ interface Service {
   id: number;
   service: string;
   description: string;
+  images: string;
 }
 
 interface ServiceListProps {
@@ -26,10 +27,11 @@ export default function ServicesList({ services }: ServiceListProps) {
         return (
           <div key={service.id} className={styles.serviceItem}>
             <img
-              src={`https://placehold.co/200x200/EEE/333?text=${encodeURIComponent(
-                service.service,
-              )}`}
-              alt={`Изображение услуги: ${service.service}`}
+              // src={`https://placehold.co/200x200/EEE/333?text=${encodeURIComponent(
+              //   service.images,
+              // )}`}
+              src={service.images}
+              alt={`Изображение услуги: ${service.images}`}
               className={styles.serviceImage}
             />
             <div className={styles.serviceContent}>

@@ -14,15 +14,18 @@ export default async function ServicesPage() {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/service`, {
       cache: 'no-store',
     });
+    
 
     if (res.ok) {
       const data = await res.json();
       services = data.data || [];
       console.log('Services data:', services);
+      console.log(data, '===========================')
     }
   } catch (error) {
     console.error('Error fetching services:', error);
   }
+  
 
   return (
     <div className="py-16 relative min-h-screen">
