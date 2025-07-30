@@ -1,21 +1,12 @@
-import { Metadata } from 'next';
-import { generatePageMetadata } from '@/shared/utils/metadata';
-
-// Generate metadata for the portfolio details page
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  return generatePageMetadata('/portfolio/details/[id]');
-}
-
 'use client';
 
 import React, { useEffect } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useAppSelector } from '@/shared/Hooks/useAppSelector';
 import { getMyWorkById } from '@/entities/portfolio/api/portfolio';
 import { MyWork } from '@/entities/portfolio/model';
 import styles from './details.module.css';
 import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
-import { useRouter } from 'next/navigation';
 
 const WorkDetailsPage = () => {
   const router = useRouter();

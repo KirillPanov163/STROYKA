@@ -20,7 +20,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
     const metaDatas = await res.json();
     const meta = metaDatas.data?.[0];
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || '';
+    // Provide a default URL if NEXT_PUBLIC_SITE_URL is not set
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://вашкомфорт.рф';
     const currentYear = new Date().getFullYear();
 
     return {

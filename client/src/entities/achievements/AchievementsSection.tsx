@@ -57,7 +57,7 @@ const AchievementsSection: React.FC = () => {
           <div className={styles.advantageItem}>
             <div className={styles.advantageIcon}>
               <Image
-                src="/2in.png"
+                src="/3so.png"
                 alt="Гарантия качества"
                 width={60}
                 height={60}
@@ -77,7 +77,7 @@ const AchievementsSection: React.FC = () => {
           <div className={styles.advantageItem}>
             <div className={styles.advantageIcon}>
               <Image
-                src="/3so.png"
+                src="/2in.png"
                 alt="Индивидуальный подход"
                 width={60}
                 height={60}
