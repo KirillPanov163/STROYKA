@@ -5,6 +5,7 @@ interface Service {
   id: number;
   service: string;
   description: string;
+  images: string;
 }
 
 export default async function ServicesPage() {
