@@ -6,6 +6,7 @@ import Slider from '@/widgets/Slider/Slider';
 import ContactsPage from './contacts/page';
 import { useEffect } from 'react';
 import PortfolioManager from '@/entities/portfolio/ui/myWork';
+import HeroSection from '@/entities/hero/HeroSection';
 
 export default function Home() {
   // Обработчик прогресс-бара скролла
@@ -78,6 +79,9 @@ export default function Home() {
       <div className={styles.page}>
         {/* Единый премиальный контейнер для всех секций */}
         <div className="main-content-wrapper">
+          {/* Hero Section */}
+          <HeroSection />
+          
           <div className="fade-in-up">
             <AchievementsPage />
           </div>
