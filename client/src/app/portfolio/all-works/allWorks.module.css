@@ -2,109 +2,180 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 40px 20px;
+  margin-bottom: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.headerContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-top: 100px;
+  margin-bottom: 80px;
+  width: 80%;
+  
+}
+
+.backButton {
+  position: absolute;
+  left: 0;
+  padding: 12px 24px;
+  background: #c19b26;
+  color: white;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+  border: none;
+  width: 150px;
+  z-index: 1;
+}
+
+.backButton:hover {
+  background: #e6c547;
 }
 
 .title {
   text-align: center;
-  margin-top: 90px;
-  margin-bottom: 90px;
   color: var(--text-primary);
-  font-size: 2rem;
+  letter-spacing: -0.025em;
+  padding-bottom: 16px;
+  font-size: max(1.875rem, min(4vw, 2.5rem));
+  font-weight: 700;
+  line-height: 1.2;
+  position: relative;
+  width: 100%;
+  margin: 0; 
+}
+
+.title::after {
+  content: "";
+  background: var(--gradient-accent);
+  border-radius: 2px;
+  width: 100%;
+  height: 3px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }
 
 .worksGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Фиксированное количество колонок */
-  gap: 30px;
-  margin-bottom: 80px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 40px;
 }
 
 .workCard {
-  background: white;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  height: 100%; /* Добавлено для выравнивания высоты */
-}
-
-.workCard:hover {
-  transform: translateY(-5px);
-}
-
-.workTitle {
-  margin: 0 0 15px 0;
-  text-align: center;
-  font-size: 1.2rem;
-  color: #333;
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  height: 100%;
+  width: 350px;
+  display: flex; /* Добавляем flex */
+  flex-direction: column; /* Вертикальное расположение элементов */
+  align-items: center; /* Центрируем по горизонтали */
 }
 
 .imageContainer {
   width: 100%;
-  height: 200px;
-  overflow: hidden;
-  margin-bottom: 15px;
+  margin-bottom: 20px; /* Отступ от картинки до кнопки */
+}
+
+.detailsButton {
+  margin: 15px 0 0 0; /* Обновляем отступы */
+  padding: 8px 16px;
+  width: 60%;
+  text-align: center;
+  background: #c19b26;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  display: block; /* Делаем блочным элементом */
+}
+
+.workTitle {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 
 .workImage {
   width: 100%;
-  height: 100%;
+  height: 250px;
   object-fit: cover;
-  transition: transform 0.3s ease;
-  border-radius: 5%;
+  border-radius: 20px;
 }
 
-.workCard:hover .workImage {
-  transform: scale(1.05);
+.workDescription {
+  font-size: 18px;
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.workActions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.workLink {
+  font-size: 18px;
+  color: #337ab7;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.workLink:hover {
+  color: #23527c;
+}
+
+.workButton {
+  font-size: 18px;
+  color: #fff;
+  background-color: #337ab7;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.workButton:hover {
+  background-color: #23527c;
+}
+
+.workButtonSecondary {
+  font-size: 18px;
+  color: #337ab7;
+  background-color: #fff;
+  border: 1px solid #337ab7;
+  padding: 15px 30px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.workButtonSecondary:hover {
+  background-color: #23527c;
+  color: #fff;
 }
 
 .detailsButton {
-  display: block;
-  margin-top: auto;
+  margin: 15px auto;
   padding: 8px 16px;
+  width: 60%;
+  text-align: center;
   background: #c19b26;
   color: white;
   border: none;
-  border-radius: 50px;
+  border-radius: 20px;
   cursor: pointer;
   transition: background 0.3s ease;
-  width: fit-content;
-  text-align: center;
-  text-decoration: none;
-  margin-left: auto;
-  margin-right: auto;
-  
 }
 
 .detailsButton:hover {
   background: #e6c547;
-}
-
-.loading {
-  text-align: center;
-  padding: 50px;
-  font-size: 1.2rem;
-  color: #666;
-}
-
-.empty {
-  text-align: center;
-  padding: 50px;
-  font-size: 1.2rem;
-  color: #666;
-}
-
-@media (max-width: 1024px) {
-  .worksGrid {
-    grid-template-columns: repeat(2, 1fr); /* 2 колонки на планшетах */
-  }
-}
-
-@media (max-width: 768px) {
-  .worksGrid {
-    grid-template-columns: 1fr; /* 1 колонка на мобильных */
-  }
 }

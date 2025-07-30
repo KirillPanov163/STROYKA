@@ -7,7 +7,6 @@ import Navigation from '../widgets/Navigation/Navigation';
 import Footer from '../widgets/Footer/Footer';
 
 import { ClientLayoutWrapper } from './ClientLayoutWrapper';
-import { Providers } from '@/store/Providers';
 
 export async function generateMetadata(): Promise<Metadata> {
   try {

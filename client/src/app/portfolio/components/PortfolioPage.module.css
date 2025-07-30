@@ -5,10 +5,28 @@
 }
 
 .portfolioTitle {
-  text-align: center;
-  margin-top: 90px;
-  margin-bottom: 90px;
-  color: var(--text-primary);
+    text-align: center;
+    color: var(--text-primary);
+    letter-spacing: -.025em;
+    margin-top: 100px;
+    margin-bottom: 40px;
+    padding-bottom: 16px;
+    font-size: max(1.875rem, min(4vw, 2.5rem));
+    font-weight: 700;
+    line-height: 1.2;
+    position: relative;
+}
+
+.portfolioTitle::after {
+    content: "";
+    background: var(--gradient-accent);
+    border-radius: 2px;
+    width: 100%;
+    height: 3px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
 .carouselWrapper {
