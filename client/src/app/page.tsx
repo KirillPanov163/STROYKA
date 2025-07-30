@@ -5,6 +5,7 @@ import AchievementsPage from './achievements/AchievementsWidgets';
 import Slider from '@/widgets/Slider/Slider';
 import ContactsPage from './contacts/page';
 import { useEffect } from 'react';
+import PortfolioManager from '@/entities/portfolio/ui/myWork';
 
 export default function Home() {
   // Обработчик прогресс-бара скролла
@@ -86,6 +87,8 @@ export default function Home() {
           <div className="fade-in-up delay-1">
             <ContactsPage />
           </div>
+
+          {/* <PortfolioManager/> */}
           
           <div className="section-divider"></div>
           
