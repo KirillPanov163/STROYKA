@@ -43,8 +43,9 @@ const SunIcon = () => (
   </svg>
 );
 
-export function ThemeToggle() {
+export const ThemeToggle = () => {
   const { theme, toggleTheme } = useTheme();
+  const [hovered, setHovered] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   // Prevent hydration mismatch
@@ -70,35 +71,33 @@ export function ThemeToggle() {
       backgroundColor: 'transparent',
       pointerEvents: 'auto'
     }}>
-      <button
+      <div
         onClick={toggleTheme}
-        className={`w-10 h-10 rounded-full flex items-center justify-center 
-                   transition-all duration-300 ease-in-out
-                   focus:outline-none focus:ring-2 focus:ring-accent-gold
-                   ${theme === 'dark' ? 'hover:bg-gray-700 text-yellow-300' : 'hover:bg-gray-700 text-gray-100'}`}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
         style={{
-          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-          border: 'none',
-          outline: 'none',
-          flexShrink: 0,
-          position: 'relative',
-          zIndex: 50,
           borderRadius: '50%',
           width: '65px',
           height: '65px',
           display: 'flex',
+          cursor: 'pointer',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: theme === 'light' ? '#333333' : '#ffffff' // #333 for light theme, gray-800 for dark
+          backgroundColor: theme === 'light' ? '#333333' : '#ffffff',
+          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          willChange: 'transform, box-shadow',
+          transform: hovered ? 'scale(1.1)' : 'scale(1)',
+          border: '2px solid rgba(0, 0, 0, 0.6)',
+          boxShadow: hovered 
+            ? (theme === 'light' 
+                ? '0 4px 20px rgba(0, 0, 0, 0.7)' 
+                : '0 4px 20px rgba(251, 191, 36, 0.3)')
+            : 'none'
         }}
         aria-label={theme === 'light' ? 'Переключить на темную тему' : 'Переключить на светлую тему'}
       >
-        {theme === 'light' ? (
-          <MoonIcon />
-        ) : (
-          <SunIcon />
-        )}
-      </button>
+        {theme === 'light' ? <MoonIcon /> : <SunIcon />}
+      </div>
     </div>
   );
-}
+};

@@ -14,17 +14,17 @@ const AchievementsSection: React.FC = () => {
         {/* Статистика */}
         <div className="stats-grid">
           <div className="stat-item">
-            <div className="stat-number">14</div>
+            <div className="stat-number">6</div>
             <div className="stat-line"></div>
             <div className="stat-description">лет работы в сфере климата</div>
           </div>
           <div className="stat-item">
-            <div className="stat-number">1 450</div>
+            <div className="stat-number">450+</div>
             <div className="stat-line"></div>
             <div className="stat-description">успешных проектов</div>
           </div>
           <div className="stat-item">
-            <div className="stat-number">95%</div>
+            <div className="stat-number">91%</div>
             <div className="stat-line"></div>
             <div className="stat-description">
               наших клиентов обращаются к нам повторно

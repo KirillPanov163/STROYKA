@@ -1,12 +1,13 @@
 .sliderContainer {
   max-width: 1000px;
-  padding: 1rem 1rem;
+  width: 100%;
+  padding: 2rem 1rem;
+  margin: 0 auto;
   text-align: center;
-  position: relative;
   overflow: hidden;
-  /* background: linear-gradient(135deg, #f5f7fa 0%, #e6f0ff 100%); */
   border-radius: 14px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
 }
 
 .sliderTitle {
