@@ -10,40 +10,112 @@ import { ClientLayoutWrapper } from './ClientLayoutWrapper';
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/metaData`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/metaData`, {
+      next: { revalidate: 3600 } // Revalidate every hour
+    });
 
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);
     }
 
     const metaDatas = await res.json();
-    const meta = metaDatas.data?.[0]
+    const meta = metaDatas.data?.[0];
+    // Provide a default URL if NEXT_PUBLIC_SITE_URL is not set
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://вашкомфорт.рф';
+    const currentYear = new Date().getFullYear();
 
     return {
-      title: meta?.title,
-      description: meta?.description,
-      keywords: meta?.keywords.split(',').join(', '),
-      authors: {
-        name: 'Колчин Александр, Садиков Денис, Азамат Болатчиев, Кирилл Панов, Николай Володин, Владислав Бурихин',
+      title: meta?.title || 'ВашКомфорт',
+      description: meta?.description || 'Профессиональные услуги по ремонту и отделке помещений',
+      keywords: meta?.keywords?.split(',').join(', ') || 'ремонт, отделка, строительство, дизайн интерьера',
+      metadataBase: new URL(siteUrl),
+      alternates: {
+        canonical: siteUrl,
+      },
+      authors: [
+        { name: 'Колчин Александр, Садиков Денис, Азамат Болатчиев, Кирилл Панов, Николай Володин, Владислав Бурихин' },
+        { name: 'ВашКомфорт', url: siteUrl }
+      ],
+      creator: 'Команда ВашКомфорт',
+      publisher: 'ВашКомфорт',
+      formatDetection: {
+        email: false,
+        address: false,
+        telephone: false,
       },
       openGraph: {
-        title: meta?.openGraph_title || meta?.title,
-        description: meta?.openGraph_description || meta?.description,
-        url: meta?.openGraph_url || '',
-        siteName: meta?.openGraph_siteName,
+        title: meta?.openGraph_title || meta?.title || 'ВашКомфорт',
+        description: meta?.openGraph_description || meta?.description || 'Профессиональные услуги по ремонту и отделке помещений',
+        url: meta?.openGraph_url || siteUrl,
+        siteName: meta?.openGraph_siteName || 'ВашКомфорт',
         locale: 'ru_RU',
         type: 'website',
+        images: [
+          {
+            url: meta?.openGraph_image || `${siteUrl}/images/og-image.jpg`,
+            width: 1200,
+            height: 630,
+            alt: meta?.openGraph_title || 'ВашКомфорт',
+          },
+        ],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: meta?.openGraph_title || meta?.title || 'ВашКомфорт',
+        description: meta?.openGraph_description || meta?.description || 'Профессиональные услуги по ремонту и отделке помещений',
+        images: [meta?.openGraph_image || `${siteUrl}/images/og-image.jpg`],
+      },
+      robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          'max-video-preview': -1,
+          'max-image-preview': 'large',
+          'max-snippet': -1,
+        },
       },
       icons: {
-        icon: meta?.icons_icon,
-        shortcut: meta?.icons_shortcut,
-        apple: meta?.icons_apple,
+        icon: [
+          { url: meta?.icons_icon || '/favicon.ico' },
+          new URL(meta?.icons_icon || '/favicon.ico', siteUrl),
+        ],
+        shortcut: [meta?.icons_shortcut || '/favicon.ico'],
+        apple: [
+          { url: meta?.icons_apple || '/apple-touch-icon.png' },
+          { url: meta?.icons_apple || '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+        ],
+        other: [
+          {
+            rel: 'mask-icon',
+            url: '/safari-pinned-tab.svg',
+            color: '#5bbad5',
+          },
+        ],
+      },
+      manifest: '/site.webmanifest',
+      themeColor: [
+        { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+        { media: '(prefers-color-scheme: dark)', color: '#1f2937' },
+      ],
+      appleWebApp: {
+        capable: true,
+        statusBarStyle: 'default',
+        title: meta?.title || 'ВашКомфорт',
       },
       other: {
-        'geo.region': meta?.other_geo_region,
-        'geo.placename': meta?.other_geo_placename,
-        'geo.position': meta?.other_geo_position,
-        ICBM: meta?.other_ICBM,
+        'application-name': 'ВашКомфорт',
+        'msapplication-TileColor': '#da532c',
+        'msapplication-config': '/browserconfig.xml',
+        'theme-color': '#ffffff',
+        'copyright': `© ${currentYear} ВашКомфорт. Все права защищены.`,
+        'geo.region': meta?.other_geo_region || 'RU',
+        'geo.placename': meta?.other_geo_placename || 'Москва',
+        'geo.position': meta?.other_geo_position || '55.7558,37.6173',
+        'ICBM': meta?.other_ICBM || '55.7558, 37.6173',
+        'yandex-verification': meta?.yandex_verification || '',
+        'google-site-verification': meta?.google_verification || '',
       },
     };
   } catch (error) {
@@ -58,8 +130,6 @@ export async function generateMetadata(): Promise<Metadata> {
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { ThemeToggle } from '@/components/ThemeToggle/ThemeToggle';
 import { Providers } from '@/store/Providers';
-
-
 
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {

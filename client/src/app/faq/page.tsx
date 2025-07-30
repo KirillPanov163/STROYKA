@@ -1,3 +1,5 @@
+'use client';
+
 import { FAQ } from '@/entities/FAQ/ui/FAQ';
 import styles from './FAQPage.module.css';
 import { Title } from '@/shared/ui/title';

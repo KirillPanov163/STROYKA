@@ -1,93 +1,95 @@
-'use client';
 import React from 'react';
-import './AchievementsSection.css';
+import Image from 'next/image';
+import styles from './AchievementsSection.module.css';
 
 const AchievementsSection: React.FC = () => {
   return (
-    <section className="achievements-section">
-      <div className="container">
+    <section className={styles.achievementsSection}>
+      <div className={styles.container}>
         {/* Заголовок */}
-        <div className="section-header">
-          <h2 className="section-title">НАШИ ДОСТИЖЕНИЯ</h2>
+        <div className={styles.sectionHeader}>
+          <h2 className={styles.sectionTitle}>НАШИ ДОСТИЖЕНИЯ</h2>
         </div>
 
         {/* Статистика */}
-        <div className="stats-grid">
-          <div className="stat-item">
-            <div className="stat-number">6</div>
-            <div className="stat-line"></div>
-            <div className="stat-description">лет работы в сфере климата</div>
+        <div className={styles.statsGrid}>
+          <div className={styles.statItem}>
+            <div className={styles.statNumber}>6</div>
+            <div className={styles.statLine}></div>
+            <div className={styles.statDescription}>лет работы в сфере климата</div>
           </div>
-          <div className="stat-item">
-            <div className="stat-number">450+</div>
-            <div className="stat-line"></div>
-            <div className="stat-description">успешных проектов</div>
+          <div className={styles.statItem}>
+            <div className={styles.statNumber}>450+</div>
+            <div className={styles.statLine}></div>
+            <div className={styles.statDescription}>успешных проектов</div>
           </div>
-          <div className="stat-item">
-            <div className="stat-number">91%</div>
-            <div className="stat-line"></div>
-            <div className="stat-description">
+          <div className={styles.statItem}>
+            <div className={styles.statNumber}>91%</div>
+            <div className={styles.statLine}></div>
+            <div className={styles.statDescription}>
               наших клиентов обращаются к нам повторно
             </div>
           </div>
         </div>
 
         {/* Преимущества */}
-        <div className="advantages-grid">
-          <div className="advantage-item">
-            <div className="advantage-icon ">
-              <img
+        <div className={styles.advantagesGrid}>
+          <div className={styles.advantageItem}>
+            <div className={styles.advantageIcon}>
+              <Image
                 src="/1vi.png" 
                 alt="Высокая квалификация специалистов"
-                width="60"
-                height="60"
+                width={60}
+                height={60}
+                style={{ width: 'auto', height: 'auto' }}
+                priority
               />
             </div>
-            <div className="advantage-content">
-              <h3 className="advantage-title">Высокая квалификация специалистов</h3>
-              <p className="advantage-description">
+            <div className={styles.advantageContent}>
+              <h3 className={styles.advantageTitle}>Высокая квалификация специалистов</h3>
+              <p className={styles.advantageDescription}>
                 наша компания имеет профильное образование и долголетний опыт работы в
                 данной сфере, что гарантирует высокий уровень выполненных работ
               </p>
             </div>
           </div>
 
-          <div className="advantage-item">
-            <div className="advantage-icon">
-             
-              <img
-                src="/2in.png" 
-                alt="Индивидуальный подход"
-                width="60"
-                height="60"
+          <div className={styles.advantageItem}>
+            <div className={styles.advantageIcon}>
+              <Image
+                src="/3so.png"
+                alt="Гарантия качества"
+                width={60}
+                height={60}
+                style={{ width: 'auto', height: 'auto' }}
+                priority
               />
             </div>
-            <div className="advantage-content">
-              <h3 className="advantage-title">
-                Индивидуальный подход и комплексные решения
-              </h3>
-              <p className="advantage-description">
-                мы предлагаем оптимальные решения, адаптированные под нужды каждого
-                Заказчика и специфики объекта, которые позволяют обеспечить первоклассное
-                выполнение поставленной задачи
+            <div className={styles.advantageContent}>
+              <h3 className={styles.advantageTitle}>Гарантия качества</h3>
+              <p className={styles.advantageDescription}>
+                мы предоставляем гарантию на все выполненные работы и
+                установленное оборудование
               </p>
             </div>
           </div>
 
-          <div className="advantage-item">
-            <div className="advantage-icon">
-              <img
-                src="/3so.png" 
-                alt="Современное оборудование"
-                width="60"
-                height="60"
+          <div className={styles.advantageItem}>
+            <div className={styles.advantageIcon}>
+              <Image
+                src="/2in.png"
+                alt="Индивидуальный подход"
+                width={60}
+                height={60}
+                style={{ width: 'auto', height: 'auto' }}
+                priority
               />
             </div>
-            <div className="advantage-content">
-              <h3 className="advantage-title">Современное оборудование</h3>
-              <p className="advantage-description">
-                наша компания использует только современные технологии и оборудование, что
-                обеспечивает быстрое и качественное выполнение заказов клиентов
+            <div className={styles.advantageContent}>
+              <h3 className={styles.advantageTitle}>Индивидуальный подход</h3>
+              <p className={styles.advantageDescription}>
+                мы учитываем все пожелания клиента и предлагаем оптимальное
+                решение для каждого конкретного случая
               </p>
             </div>
           </div>

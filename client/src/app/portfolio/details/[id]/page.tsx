@@ -1,13 +1,12 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useAppSelector } from '@/shared/Hooks/useAppSelector';
 import { getMyWorkById } from '@/entities/portfolio/api/portfolio';
 import { MyWork } from '@/entities/portfolio/model';
 import styles from './details.module.css';
 import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
-import { useRouter } from 'next/navigation';
 
 const WorkDetailsPage = () => {
   const router = useRouter();

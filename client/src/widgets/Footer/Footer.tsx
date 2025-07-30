@@ -1,8 +1,7 @@
-'use client';
-
 import React from 'react';
 import styles from './Footer.module.css';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Title } from '@/shared/ui/title';
 
 export default function Footer() {
@@ -26,8 +25,17 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="logoFooter">
-            <a href="/"><img src="logo_oktogon.png" alt="Логотип" style={{ height: '80px' }} /></a>
+          <div className={styles.logoFooter}>
+            <Link href="/">
+              <Image 
+                src="/logo_oktogon.png" 
+                alt="Логотип" 
+                width={120}
+                height={80}
+                style={{ height: 'auto' }}
+                priority
+              />
+            </Link>
           </div>
 
           <div className={styles.iconsContainer}>

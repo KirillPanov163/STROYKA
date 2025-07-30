@@ -1,3 +1,11 @@
+import { Metadata } from 'next';
+import { generatePageMetadata } from '@/shared/utils/metadata';
+
+// Generate metadata for the services page
+export async function generateMetadata(): Promise<Metadata> {
+  return generatePageMetadata('/services');
+}
+
 export const dynamic = 'force-dynamic';
 import ServicesList from '@/entities/service/ui/ServiceList';
 import styles from './services-page.module.css';
