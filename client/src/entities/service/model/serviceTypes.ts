@@ -12,4 +12,5 @@ export interface ServiceState {
   currentService: Service | null;
   loading: boolean;
   error: string | null;
+  imageLoading: boolean;
 }

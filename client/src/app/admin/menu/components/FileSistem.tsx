@@ -1,8 +1,12 @@
 'use client';
-import { useState } from 'react';
-import styles from './FileSystem.module.css';
+
 import { useRouter } from 'next/navigation';
 import { useFileSystem } from './FileSystemProvider';
+import { Layout, Typography, Space, Button } from 'antd';
+import { FolderOpenOutlined, FolderOutlined, FileOutlined } from '@ant-design/icons';
+
+const { Sider } = Layout;
+const { Title, Text } = Typography;
 
 interface UrlNode {
   path: string;
@@ -15,80 +19,95 @@ export function FileSystem() {
   const router = useRouter();
   const { urlStructure, toggleNode } = useFileSystem();
 
-  const FolderIcon = ({ isOpen }: { isOpen: boolean }) => (
-    <svg width="18" height="18" viewBox="0 0 24 24" className={styles.folderIcon}>
-      {isOpen ? (
-        <>
-          <path
-            d="M22 8v10c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2h6l2 2h8c1.1 0 2 .9 2 2z"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-          />
-          <path
-            d="M2 12v4c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-8c0-1.1-.9-2-2-2h-8l-2-2H4c-1.1 0-2 .9-2 2z"
-            fill="currentColor"
-          />
-        </>
-      ) : (
-        <path
-          d="M20 6h-8l-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2z"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-        />
-      )}
-    </svg>
-  );
-
-  const FileIcon = () => (
-    <svg width="18" height="18" viewBox="0 0 24 24" className={styles.fileIcon}>
-      <path
-        d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      />
-      <path d="M14 2v6h6" fill="none" stroke="currentColor" strokeWidth="1.5" />
-    </svg>
-  );
-
   const renderUrlNode = (node: UrlNode, level: number = 0) => {
     const hasChildren = node.children && node.children.length > 0;
 
     return (
-      <div
-        key={node.path}
-        className={styles.nodeContainer}
-        style={{ marginLeft: `${level * 0}px` }}
-      >
-        <div
-          className={`${styles.nodeItem} ${hasChildren ? styles.folder : styles.file}`}
+      <div key={node.path} style={{ marginLeft: level * 16, marginBottom: 10 }}>
+        <Space
+          align="start"
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            maxWidth: '100%',
+          }}
         >
           {hasChildren ? (
-            <div onClick={() => toggleNode(node.path)} className={styles.folderButton}>
-              <FolderIcon isOpen={!!node.isOpen} />
-              <span className={styles.nodeName}>{node.name}</span>
-              <span
-                onClick={() => router.push(node.path)}
-                style={{ cursor: 'pointer', marginLeft: '10px' }}
-              >
-                {'►'}
-              </span>
-            </div>
-          ) : (
-            <div
-              onClick={() => router.push(node.path)}
-              className={styles.fileButton}
-              style={{ cursor: 'pointer' }}
+            <Button
+              type="text"
+              icon={
+                node.isOpen ? (
+                  <FolderOpenOutlined style={{ color: '#69b1ff' }} />
+                ) : (
+                  <FolderOutlined />
+                )
+              }
+              onClick={() => toggleNode(node.path)}
+              style={{
+                color: '#69b1ff',
+                padding: 0,
+                display: 'flex',
+                alignItems: 'flex-start',
+                textAlign: 'left',
+                whiteSpace: 'normal',
+                wordBreak: 'break-word',
+                maxWidth: 200,
+              }}
             >
-              <FileIcon />
-              <span className={styles.nodeName}>{node.name}</span>
-            </div>
+              <Text
+                style={{
+                  color: '#fff',
+                  whiteSpace: 'normal',
+                  wordBreak: 'break-word',
+                  maxWidth: '100%',
+                }}
+              >
+                {node.name}
+              </Text>
+            </Button>
+          ) : (
+            <Button
+              type="text"
+              icon={<FileOutlined />}
+              onClick={() => router.push(node.path)}
+              style={{
+                color: '#fd9b9b',
+                padding: 0,
+                display: 'flex',
+                alignItems: 'flex-start',
+                textAlign: 'left',
+                whiteSpace: 'normal',
+                wordBreak: 'break-word',
+                maxWidth: 200,
+              }}
+            >
+              <Text
+                style={{
+                  color: '#fff',
+                  whiteSpace: 'normal',
+                  wordBreak: 'break-word',
+                  maxWidth: '100%',
+                }}
+              >
+                {node.name}
+              </Text>
+            </Button>
           )}
-        </div>
+          {hasChildren && (
+            <Button
+              type="link"
+              size="small"
+              onClick={() => router.push(node.path)}
+              style={{ marginLeft: 4 }}
+            >
+              ►
+            </Button>
+          )}
+        </Space>
+
         {node.isOpen && hasChildren && (
-          <div className={styles.childrenContainer}>
+          <div style={{ marginTop: 10 }}>
             {node.children?.map((child) => renderUrlNode(child, level + 1))}
           </div>
         )}
@@ -97,13 +116,20 @@ export function FileSystem() {
   };
 
   return (
-    <div className={styles.sidebar}>
-      <div className={styles.header}>
-        <h2 className={styles.title}>Файловая система сайта</h2>
-      </div>
-      <div className={styles.treeContainer}>
-        {urlStructure.map((node) => renderUrlNode(node))}
-      </div>
-    </div>
+    <Sider
+      width="20%"
+      style={{
+        background:
+          'linear-gradient(135deg, #1e293b 0%, #334155 25%, #475569 50%, #64748b 75%, #94a3b8 100%)',
+        padding: '16px',
+        overflowY: 'auto',
+        color: 'white',
+      }}
+    >
+      <Title level={4} style={{ color: '#fff' }}>
+        Файловая система сайта
+      </Title>
+      <div>{urlStructure.map((node) => renderUrlNode(node))}</div>
+    </Sider>
   );
 }

@@ -1,10 +1,11 @@
 /* Основной контейнер с отступами по бокам */
-main {
+.admin-container {
   padding: 0 0px;
   max-width: 100%;
   width: 100%;
   box-sizing: border-box;
   margin: 0;
+  display: flex;
 }
 
 /* Премиальная серая цветовая палитра */
@@ -43,12 +44,12 @@ main {
   --shadow-strong: 0 16px 48px rgba(26, 26, 26, 0.24);
   
   /* Градиенты */
-  --gradient-primary: linear-gradient(135deg, var(--charcoal) 0%, var(--dark-gray) 100%);
+  /* --gradient-primary: linear-gradient(135deg, var(--charcoal) 0%, var(--dark-gray) 100%);
   --gradient-surface: linear-gradient(135deg, var(--pearl) 0%, var(--snow) 100%);
-  --gradient-accent: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-gold-light) 100%);
+  --gradient-accent: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-gold-light) 100%); */
 }
 
-* {
+.admin-container {
   font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -56,10 +57,11 @@ main {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  width: 100%;
 }
 
 /* Премиальная типографика */
-h1, h2, h3, h4, h5, h6 {
+.admin-container h1, .admin-container h2, .admin-container h3, .admin-container h4, .admin-container h5, .admin-container h6 {
   font-weight: 600;
   line-height: 1.2;
   letter-spacing: -0.025em;
@@ -67,67 +69,69 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 0.5em;
 }
 
-h1 {
+.admin-container h1 {
   font-size: clamp(2rem, 4vw, 3.5rem);
   font-weight: 700;
   letter-spacing: -0.04em;
 }
 
-h2 {
+.admin-container h2 {
   font-size: clamp(1.5rem, 3vw, 2.5rem);
   font-weight: 600;
 }
 
-h3 {
+.admin-container h3 {
   font-size: clamp(1.375rem, 2.5vw, 2rem); /* Увеличено для лучшей читаемости */
 }
 
-h4 {
+.admin-container h4 {
   font-size: clamp(1.125rem, 2vw, 1.5rem);
   font-weight: 600;
 }
 
-h5 {
+.admin-container h5 {
   font-size: clamp(1rem, 1.5vw, 1.25rem);
   font-weight: 600;
 }
 
-h6 {
+.admin-container h6 {
   font-size: clamp(0.9rem, 1.2vw, 1.125rem);
   font-weight: 600;
 }
 
-p {
+.admin-container p {
   line-height: 1.7;
   color: var(--text-secondary);
   margin-bottom: 1.2em;
   font-size: 1.125rem; /* Увеличено с 1rem для лучшей читаемости */
 }
 
-.text-large {
+.admin-container .text-large {
   font-size: 1.25rem;
   line-height: 1.8;
 }
 
-.text-small {
+.admin-container .text-small {
   font-size: 1rem; /* Увеличено с 0.875rem */
   line-height: 1.6;
 }
 
-.text-muted {
+.admin-container .text-muted {
   color: var(--text-muted);
 }
 
-.text-accent {
+.admin-container .text-accent {
   color: var(--accent);
   font-weight: 600;
 }
 
-html {
+html .admin-container {
   height: 100%;
 }
 
 body {
+  margin: 0;
+  padding: 0;
   height: 100%;
   min-height: 100vh;
   display: flex;
@@ -156,7 +160,7 @@ main {
 }
 
 /* Премиальные декоративные элементы фона */
-body::before {
+.admin-container::before {
   content: '';
   position: fixed;
   top: -50%;
@@ -171,7 +175,7 @@ body::before {
   pointer-events: none;
 }
 
-body::after {
+.admin-container::after {
   content: '';
   position: fixed;
   top: 0;

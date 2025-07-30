@@ -7,10 +7,7 @@ import Navigation from '../widgets/Navigation/Navigation';
 import Footer from '../widgets/Footer/Footer';
 
 import { ClientLayoutWrapper } from './ClientLayoutWrapper';
-import ServicesList from '@/entities/service/ui/ServiceList';
-import { Providers } from '@/store/providers';
-
-
+import { Providers } from '@/store/Providers';
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
@@ -21,22 +18,12 @@ export async function generateMetadata(): Promise<Metadata> {
     }
 
     const metaDatas = await res.json();
-    const meta = metaDatas.data?.[0] || {};
-
-    // Safe parsing of keywords
-    let keywords = '';
-    try {
-      const rowKeyWords = meta?.keywords || '[]';
-      const arr = JSON.parse(rowKeyWords);
-      keywords = Array.isArray(arr) ? arr.join(', ') : '';
-    } catch (e) {
-      console.error('Error parsing keywords:', e);
-    }
+    const meta = metaDatas.data?.[0]
 
     return {
       title: meta?.title,
       description: meta?.description,
-      keywords: keywords,
+      keywords: meta?.keywords.split(',').join(', '),
       authors: {
         name: 'Колчин Александр, Садиков Денис, Азамат Болатчиев, Кирилл Панов, Николай Володин, Владислав Бурихин',
       },

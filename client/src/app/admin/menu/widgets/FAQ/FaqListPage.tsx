@@ -1,4 +1,5 @@
 'use client';
+
 import { useEffect, useState } from 'react';
 import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
 import { useAppSelector } from '@/shared/Hooks/useAppSelector';
@@ -11,35 +12,23 @@ import { faqSchema } from './faqSchema';
 import { z } from 'zod';
 import {
   Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
+  Form,
   Input,
-  Textarea,
-  AlertDialog,
-  AlertDialogTrigger,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogCancel,
-  AlertDialogAction,
-} from '@/shared/ui';
+  Layout,
+  Typography,
+  Space,
+  Card,
+  Table,
+  Spin,
+  Modal,
+  message,
+} from 'antd';
+import { EditOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import { Controller } from 'react-hook-form';
+
+const { Content } = Layout;
+const { Text, Title } = Typography;
+const { TextArea } = Input;
 
 type FaqFormValues = z.infer<typeof faqSchema>;
 
@@ -48,8 +37,8 @@ export const FaqListPage = () => {
   const dispatch = useAppDispatch();
   const { data: faqs, status, error } = useAppSelector((state) => state.faq);
   const [editingFaq, setEditingFaq] = useState<Faq | null>(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
-  // Форма для редактирования
   const editForm = useForm<FaqFormValues>({
     resolver: zodResolver(faqSchema),
     defaultValues: {
@@ -58,23 +47,33 @@ export const FaqListPage = () => {
     },
   });
 
+  const [form] = Form.useForm();
+
   useEffect(() => {
     dispatch(fetchFaqs());
   }, [dispatch]);
 
-  // Сброс формы при изменении редактируемого FAQ
   useEffect(() => {
     if (editingFaq) {
       editForm.reset({
         question: editingFaq.question || '',
         answers: editingFaq.answers || '',
       });
+      form.setFieldsValue({
+        question: editingFaq.question || '',
+        answers: editingFaq.answers || '',
+      });
     }
-  }, [editingFaq, editForm]);
+  }, [editingFaq, editForm, form]);
+
+  useEffect(() => {
+    if (error) {
+      message.error(error);
+    }
+  }, [error]);
 
   const handleUpdate: SubmitHandler<FaqFormValues> = async (data) => {
     if (!editingFaq) return;
-
     try {
       await dispatch(
         updateFaq({
@@ -82,174 +81,299 @@ export const FaqListPage = () => {
           ...data,
         }),
       ).unwrap();
+      message.success('Вопрос обновлён');
       setEditingFaq(null);
+      setIsModalVisible(false);
+      editForm.reset();
+      form.resetFields();
     } catch (error) {
+      message.error('Ошибка при обновлении');
       console.error('Ошибка при обновлении:', error);
     }
   };
 
   const handleDelete = async (id: number) => {
     try {
-      await dispatch(deleteFaq(id));
+      await dispatch(deleteFaq(id)).unwrap();
+      message.success('Вопрос удалён');
     } catch (error) {
+      message.error('Ошибка при удалении');
       console.error('Ошибка при удалении:', error);
     }
+  };
+
+  const handleEdit = (faq: Faq) => {
+    setEditingFaq(faq);
+    setIsModalVisible(true);
+  };
+
+  const handleCancel = () => {
+    setEditingFaq(null);
+    setIsModalVisible(false);
+    editForm.reset();
+    form.resetFields();
   };
 
   const navigateToCreate = () => {
     router.push('/admin/menu/faq/add_answers');
   };
 
-  if (status === 'loading') return <div className="p-4">Загрузка вопросов...</div>;
-  if (error) return <div className="p-4 text-red-500">Ошибка: {error}</div>;
+  const columns = [
+    {
+      title: 'Вопрос',
+      dataIndex: 'question',
+      key: 'question',
+      width: 200,
+      render: (text: string) => (
+        <Text style={{ color: '#69b1ff', fontWeight: 'bold' }}>
+          {text || '-'}
+        </Text>
+      ),
+    },
+    {
+      title: 'Ответ',
+      dataIndex: 'answers',
+      key: 'answers',
+      render: (text: string) => (
+        <Text style={{ color: '#69b1ff' }} ellipsis={{ tooltip: text }}>
+          {text || '-'}
+        </Text>
+      ),
+    },
+    {
+      title: 'Действия',
+      key: 'actions',
+      width: 150,
+      render: (_: any, record: Faq) => (
+        <Space>
+          <Button
+            type="text"
+            icon={<EditOutlined style={{ color: '#69b1ff' }} />}
+            onClick={() => handleEdit(record)}
+            style={{ color: '#69b1ff', padding: 0 }}
+          />
+          <Button
+            type="text"
+            icon={<DeleteOutlined style={{ color: '#fd9b9b' }} />}
+            onClick={() => handleDelete(record.id)}
+            style={{ color: '#fd9b9b', padding: 0 }}
+          />
+        </Space>
+      ),
+    },
+  ];
+
+  if (status === 'loading') {
+    return (
+      <Layout style={{ minHeight: '100vh', background: 'transparent' }}>
+        <Content
+          style={{
+            width: '80%',
+            margin: '120px auto',
+            background:
+              'linear-gradient(135deg, #1e293b 0%, #334155 25%, #475569 50%, #64748b 75%, #94a3b8 100%)',
+            height: 'auto',
+            padding: 16,
+            borderRadius: 8,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Spin />
+        </Content>
+      </Layout>
+    );
+  }
 
   return (
-    <div className="space-y-6 p-4">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Управление вопросами</h1>
-        <Button onClick={navigateToCreate}>Добавить вопрос</Button>
-      </div>
+    <Layout style={{ minHeight: '100vh', background: 'transparent' }}>
+      <Content
+        style={{
+          width: '80%',
+          margin: '120px auto',
+          height: 'auto',
+          padding: 16,
+          borderRadius: 8,
+        }}
+      >
+        <Card
+          title={
+            <Text style={{ color: '#69b1ff', fontSize: 18 }}>
+              Управление вопросами
+            </Text>
+          }
+          extra={
+            <Button
+              type="text"
+              icon={<PlusOutlined style={{ color: '#69b1ff' }} />}
+              onClick={navigateToCreate}
+              style={{ color: '#69b1ff', padding: 0 }}
+            >
+              Добавить вопрос
+            </Button>
+          }
+          style={{
+            background: 'transparent',
+            padding: 16,
+            borderRadius: 8,
+            color: '#69b1ff',
+          }}
+          styles={{ body: { padding: 16 } }}
+        >
+          <Spin spinning={(status as string) === 'loading'}>
+            <Table
+              columns={columns}
+              dataSource={faqs}
+              rowKey={(record) => record.id.toString()}
+              pagination={{ pageSize: 5 }}
+              style={{ background: 'transparent' }}
+              rowClassName={() => 'custom-table-row'}
+              locale={{
+                emptyText: (
+                  <Text style={{ color: '#69b1ff' }}>Нет данных</Text>
+                ),
+              }}
+              components={{
+                header: {
+                  cell: (props: any) => (
+                    <th
+                      {...props}
+                      style={{
+                        background: 'transparent',
+                        color: '#69b1ff',
+                        borderBottom: '1px solid #64748b',
+                      }}
+                    />
+                  ),
+                },
+                body: {
+                  row: (props: any) => (
+                    <tr
+                      {...props}
+                      style={{
+                        background: 'transparent',
+                        color: '#69b1ff',
+                        borderBottom: '1px solid #64748b',
+                      }}
+                    />
+                  ),
+                  cell: (props: any) => (
+                    <td
+                      {...props}
+                      style={{
+                        background: 'transparent',
+                        color: '#69b1ff',
+                        borderBottom: '1px solid #64748b',
+                      }}
+                    />
+                  ),
+                },
+              }}
+            />
+          </Spin>
 
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[200px]">Вопрос</TableHead>
-              <TableHead>Ответ</TableHead>
-              <TableHead className="w-[150px]">Действия</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {faqs.length > 0 ? (
-              faqs.map((faq) => (
-                <TableRow key={faq.id}>
-                  <TableCell className="font-medium">
-                    {faq.question || '-'}
-                  </TableCell>
-                  <TableCell>
-                    <div className="line-clamp-2">
-                      {faq.answers || '-'}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex gap-2">
-                      <Dialog>
-                        <DialogTrigger >
-                          <Button
-                            variant="secondary"
-                            size="sm"
-                            onClick={() => setEditingFaq(faq)}
-                          >
-                            Редактировать
-                          </Button>
-                        </DialogTrigger>
-                        <DialogContent className="sm:max-w-[600px]">
-                          <DialogHeader>
-                            <DialogTitle>Редактирование вопроса</DialogTitle>
-                            <DialogDescription>
-                              Внесите изменения в форму ниже
-                            </DialogDescription>
-                          </DialogHeader>
-                          <FormProvider {...editForm}>
-                            <form
-                              onSubmit={editForm.handleSubmit(handleUpdate)}
-                              className="space-y-4"
-                            >
-                              <FormField
-                                control={editForm.control}
-                                name="question"
-                                render={({ field }) => (
-                                  <FormItem>
-                                    <FormLabel>Вопрос</FormLabel>
-                                    <FormControl>
-                                      <Input
-                                        placeholder="Введите вопрос"
-                                        {...field}
-                                      />
-                                    </FormControl>
-                                    <FormMessage />
-                                  </FormItem>
-                                )}
-                              />
-                              <FormField
-                                control={editForm.control}
-                                name="answers"
-                                render={({ field }) => (
-                                  <FormItem>
-                                    <FormLabel>Ответ</FormLabel>
-                                    <FormControl>
-                                      <Textarea
-                                        placeholder="Введите ответ"
-                                        rows={5}
-                                        {...field}
-                                      />
-                                    </FormControl>
-                                    <FormMessage />
-                                  </FormItem>
-                                )}
-                              />
-                              <div className="flex justify-end gap-2 pt-4">
-                                <Button
-                                  variant="ghost"
-                                  type="button"
-                                  onClick={() => setEditingFaq(null)}
-                                >
-                                  Отмена
-                                </Button>
-                                <Button
-                                  type="submit"
-                                  disabled={editForm.formState.isSubmitting}
-                                >
-                                  {editForm.formState.isSubmitting
-                                    ? 'Сохранение...'
-                                    : 'Сохранить'}
-                                </Button>
-                              </div>
-                            </form>
-                          </FormProvider>
-                        </DialogContent>
-                      </Dialog>
+          <Modal
+            title={
+              <Text style={{ color: '#69b1ff', fontSize: 18, fontWeight: 'bold' }}>
+                Редактирование вопроса
+              </Text>
+            }
+            open={isModalVisible}
+            onCancel={handleCancel}
+            footer={null}
+            width={600}
+            style={{
+              background:
+                'linear-gradient(135deg, #1e293b 0%, #334155 25%, #475569 50%, #64748b 75%, #94a3b8 100%)',
+              borderRadius: 8,
+            }}
+          >
+            <FormProvider {...editForm}>
+              <Form
+                form={form}
+                layout="vertical"
+                onFinish={editForm.handleSubmit(handleUpdate)}
+                style={{
+                  color: '#69b1ff',
+                  background:
+                    'linear-gradient(135deg, #1e293b 0%, #334155 25%, #475569 50%, #64748b 75%, #94a3b8 100%)',
+                  padding: 16,
+                  borderRadius: 8,
+                }}
+              >
+                <Form.Item
+                  label={<Text style={{ color: '#69b1ff' }}>Вопрос</Text>}
+                  validateStatus={editForm.formState.errors.question ? 'error' : ''}
+                  help={editForm.formState.errors.question?.message}
+                >
+                  <Controller
+                    name="question"
+                    control={editForm.control}
+                    render={({ field }) => (
+                      <Input
+                        {...field}
+                        placeholder="Введите вопрос"
+                        style={{
+                          background: '#334155',
+                          color: '#69b1ff',
+                          border: '1px solid #64748b',
+                          borderRadius: 4,
+                        }}
+                      />
+                    )}
+                  />
+                </Form.Item>
 
-                      <AlertDialog>
-                        <AlertDialogTrigger>
-                          <Button variant="danger" size="sm">
-                            Удалить
-                          </Button>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>
-                              Вы уверены?
-                            </AlertDialogTitle>
-                            <AlertDialogDescription>
-                              Это действие нельзя отменить. Вопрос будет
-                              удален.
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel>Отмена</AlertDialogCancel>
-                            <AlertDialogAction
-                              onClick={() => handleDelete(faq.id)}
-                            >
-                              Удалить
-                            </AlertDialogAction>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={3} className="h-24 text-center py-2">
-                  Нет данных
-                </td>
-              </tr>
-            )}
-          </TableBody>
-        </Table>
-      </div>
-    </div>
+                <Form.Item
+                  label={<Text style={{ color: '#69b1ff' }}>Ответ</Text>}
+                  validateStatus={editForm.formState.errors.answers ? 'error' : ''}
+                  help={editForm.formState.errors.answers?.message}
+                >
+                  <Controller
+                    name="answers"
+                    control={editForm.control}
+                    render={({ field }) => (
+                      <TextArea
+                        {...field}
+                        placeholder="Введите ответ"
+                        rows={5}
+                        style={{
+                          background: '#334155',
+                          color: '#69b1ff',
+                          border: '1px solid #64748b',
+                          borderRadius: 4,
+                        }}
+                      />
+                    )}
+                  />
+                </Form.Item>
+
+                <Form.Item>
+                  <Space style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <Button
+                      type="text"
+                      onClick={handleCancel}
+                      style={{ color: '#fd9b9b', padding: 0 }}
+                    >
+                      Отмена
+                    </Button>
+                    <Button
+                      type="text"
+                      htmlType="submit"
+                      loading={editForm.formState.isSubmitting}
+                      disabled={editForm.formState.isSubmitting}
+                      style={{ color: '#69b1ff', padding: 0 }}
+                    >
+                      {editForm.formState.isSubmitting ? 'Сохранение...' : 'Сохранить'}
+                    </Button>
+                  </Space>
+                </Form.Item>
+              </Form>
+            </FormProvider>
+          </Modal>
+        </Card>
+      </Content>
+    </Layout>
   );
 };

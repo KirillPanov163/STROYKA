@@ -1,7 +1,7 @@
  'use client'
 
 import React from 'react';
-import { ContactsPage } from '../widgets/contacts/ContactsPage';
+import ContactsPage from '../widgets/contacts/ContactsPage';
 import style from '@/app/admin/menu/page.module.css'
 
 export default function page() {

@@ -24,14 +24,14 @@ export class ServiceService {
       data: {
         service: data.service,
         description: data.description,
-        images: data.imagesPath || null,
+        images: data.imagesPath || null, // Make sure this matches what you send from controller
       },
     });
   }
 
   static async updateService(id: number, data: any) {
     const currentService = await prisma.service.findUnique({ where: { id } });
-    
+
     if (data.newImage && currentService?.images) {
       this.deleteImage(currentService.images);
     }

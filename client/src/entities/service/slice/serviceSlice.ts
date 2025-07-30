@@ -1,8 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import {
   createService,
   getAllServices,
-  getOneService,
+  getServiceById,
   updateService,
   deleteService,
   uploadServiceImage,
@@ -15,6 +15,7 @@ const initialState: ServiceState = {
   currentService: null,
   loading: false,
   error: null,
+  imageLoading: false,
 };
 
 const serviceSlice = createSlice({
@@ -28,111 +29,101 @@ const serviceSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // Create
-      .addCase(createService.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(createService.fulfilled, (state, action) => {
+      .addCase(createService.fulfilled, (state, { payload }) => {
         state.loading = false;
-        state.services.push(action.payload);
-      })
-      .addCase(createService.rejected, (state, action) => {
-        state.loading = false;
-        state.error =
-          (action.payload as { message: string }).message || 'Ошибка при создании работы';
+        state.services.push(payload);
       })
 
       // Get All
-      .addCase(getAllServices.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(getAllServices.fulfilled, (state, action) => {
+      .addCase(getAllServices.fulfilled, (state, { payload }) => {
         state.loading = false;
-        state.services = action.payload;
-      })
-      .addCase(getAllServices.rejected, (state, action) => {
-        state.loading = false;
-        state.error =
-          (action.payload as { message: string }).message || 'Ошибка при создании работы';
+        state.services = payload;
       })
 
-      // Get One
-      .addCase(getOneService.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(getOneService.fulfilled, (state, action) => {
+      // Get By Id
+      .addCase(getServiceById.fulfilled, (state, { payload }) => {
         state.loading = false;
-        state.currentService = action.payload;
-      })
-      .addCase(getOneService.rejected, (state, action) => {
-        state.loading = false;
-        state.error =
-          (action.payload as { message: string }).message || 'Ошибка при создании работы';
+        state.currentService = payload;
       })
 
       // Update
-      .addCase(updateService.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(updateService.fulfilled, (state, action) => {
+      .addCase(updateService.fulfilled, (state, { payload }) => {
         state.loading = false;
-        state.currentService = action.payload;
-      })
-      .addCase(updateService.rejected, (state, action) => {
-        state.loading = false;
-        state.error =
-          (action.payload as { message: string }).message || 'Ошибка при создании работы';
+        state.services = state.services.map(service => 
+          service.id === payload.id ? payload : service
+        );
+        state.currentService = payload;
       })
 
       // Delete
-      .addCase(deleteService.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(deleteService.fulfilled, (state, action) => {
+      .addCase(deleteService.fulfilled, (state, { payload }) => {
         state.loading = false;
         state.services = state.services.filter(
-          (service) => service.id !== action.payload.id,
+          (service) => service.id !== payload.id
         );
-      })
-      .addCase(deleteService.rejected, (state, action) => {
-        state.loading = false;
-        state.error =
-          (action.payload as { message: string }).message || 'Ошибка при создании работы';
+        if (state.currentService?.id === payload.id) {
+          state.currentService = null;
+        }
       })
 
       // Upload Image
       .addCase(uploadServiceImage.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+        state.imageLoading = true;
       })
-      .addCase(uploadServiceImage.fulfilled, (state, action) => {
-        state.loading = false;
-        state.currentService = action.payload;
+      .addCase(uploadServiceImage.fulfilled, (state, { payload }) => {
+        state.imageLoading = false;
+        state.currentService = payload;
+        state.services = state.services.map(service => 
+          service.id === payload.id ? payload : service
+        );
       })
-      .addCase(uploadServiceImage.rejected, (state, action) => {
-        state.loading = false;
-        state.error =
-          (action.payload as { message: string }).message || 'Ошибка при создании работы';
+      .addCase(uploadServiceImage.rejected, (state) => {
+        state.imageLoading = false;
       })
 
       // Delete Image
       .addCase(deleteServiceImage.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+        state.imageLoading = true;
       })
-      .addCase(deleteServiceImage.fulfilled, (state, action) => {
-        state.loading = false;
-        state.currentService = action.payload;
+      .addCase(deleteServiceImage.fulfilled, (state, { payload }) => {
+        state.imageLoading = false;
+        state.currentService = payload;
+        state.services = state.services.map(service => 
+          service.id === payload.id ? payload : service
+        );
       })
-      .addCase(deleteServiceImage.rejected, (state, action) => {
-        state.loading = false;
-        state.error =
-          (action.payload as { message: string }).message || 'Ошибка при создании работы';
+      .addCase(deleteServiceImage.rejected, (state) => {
+        state.imageLoading = false;
       });
+
+    // Общие обработчики для всех pending/rejected случаев
+    builder
+      .addMatcher(
+        isAnyOf(
+          createService.pending,
+          getAllServices.pending,
+          getServiceById.pending,
+          updateService.pending,
+          deleteService.pending
+        ),
+        (state) => {
+          state.loading = true;
+          state.error = null;
+        }
+      )
+      .addMatcher(
+        isAnyOf(
+          createService.rejected,
+          getAllServices.rejected,
+          getServiceById.rejected,
+          updateService.rejected,
+          deleteService.rejected
+        ),
+        (state, { payload }) => {
+          state.loading = false;
+          state.error = (payload as { message: string })?.message || 'Произошла ошибка';
+        }
+      );
   },
 });
 

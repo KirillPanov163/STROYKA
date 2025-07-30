@@ -26,7 +26,7 @@ export class ServiceController {
     try {
       const serviceData = {
         ...req.body,
-        images: req.file ? `/uploads/${req.file.filename}` : null,
+        imagesPath: req.file ? `/uploads/${req.file.filename}` : null, // Change 'images' to 'imagesPath'
       };
 
       const result = await ServiceService.createService(serviceData);
@@ -59,8 +59,8 @@ export class ServiceController {
   static async deleteService(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      await ServiceService.deleteService(Number(id));
-      res.status(200).json(formatResponse(200, 'Услуга удалена'));
+      const deletedService = await ServiceService.deleteService(Number(id));
+      res.status(200).json(formatResponse(200, 'Услуга удалена', deletedService)); // Return the deleted service
     } catch (error) {
       res.status(500).json(formatResponse(500, 'Ошибка сервера'));
     }
