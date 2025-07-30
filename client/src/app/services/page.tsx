@@ -1,10 +1,12 @@
 export const dynamic = 'force-dynamic';
 import ServicesList from '@/entities/service/ui/ServiceList';
+import styles from './services-page.module.css';
 
 interface Service {
   id: number;
   service: string;
   description: string;
+  images: string;
 }
 
 export default async function ServicesPage() {
@@ -14,28 +16,29 @@ export default async function ServicesPage() {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/service`, {
       cache: 'no-store',
     });
-
+    
     if (res.ok) {
       const data = await res.json();
       services = data.data || [];
       console.log('Services data:', services);
+      console.log(data, '===========================')
     }
   } catch (error) {
     console.error('Error fetching services:', error);
   }
-
+  
   return (
-    <div className="py-16 relative min-h-screen">
-      <div className="max-w-4xl mx-auto px-4 text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+    <div className={styles['services-page-container']}>
+      <div className={styles['services-header']}>
+        <h1 className={styles['services-title']}>
           Наши услуги
         </h1>
-        <div className="w-24 h-1 bg-gradient-to-r from-yellow-600 to-yellow-400 rounded-full mx-auto mb-6"></div>
-        <p className="text-lg md:text-xl text-gray-600">
+        <div className={styles['services-divider']}></div>
+        <h2 className={styles['services-subtitle']}>
           Профессиональные строительные услуги высочайшего качества
-        </p>
+        </h2>
       </div>
-      <div className="max-w-4xl mx-auto px-4">
+      <div className={styles['services-content']}>
         <ServicesList services={services} />
       </div>
     </div>

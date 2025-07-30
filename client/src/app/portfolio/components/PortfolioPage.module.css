@@ -15,6 +15,7 @@
     font-weight: 700;
     line-height: 1.2;
     position: relative;
+    font-weight: 300;
 }
 
 .portfolioTitle::after {

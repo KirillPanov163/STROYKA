@@ -7,6 +7,12 @@
   grid-template-columns: 1fr;
 }
 
+.noServices {
+  color: var(--text-secondary);
+  text-align: center;
+  padding: 2rem;
+}
+
 .serviceItem {
   display: flex;
   align-items: flex-start;
@@ -39,15 +45,32 @@
   border-color: var(--accent-gold);
 }
 
+/* Базовые стили для изображения */
 .serviceImage {
-  width: 180px;
-  height: 180px;
   object-fit: cover;
   border-radius: 16px;
   margin-right: 32px;
   box-shadow: var(--shadow-soft);
   transition: transform 0.3s ease;
   flex-shrink: 0;
+}
+
+/* Размеры по умолчанию (3 пункта или меньше) */
+.baseImage {
+  width: 300px;
+  height: 300px;
+}
+
+/* Средний размер (4-5 пунктов) */
+.mediumImage {
+  width: 350px;
+  height: 350px;
+}
+
+/* Большой размер (более 5 пунктов) */
+.largeImage {
+  width: 400px;
+  height: 400px;
 }
 
 .serviceItem:hover .serviceImage {
@@ -61,7 +84,7 @@
 
 .serviceTitle {
   font-size: 1.75rem;
-  font-weight: 600;
+  font-weight: 400;
   margin: 0 0 16px 0;
   color: var(--text-primary) !important;
   letter-spacing: -0.025em;
@@ -96,7 +119,6 @@
   font-size: 1.1em;
 }
 
-/* Адаптивные стили */
 @media (max-width: 768px) {
   .serviceItem {
     flex-direction: column;
@@ -105,9 +127,10 @@
   }
   
   .serviceImage {
-    width: 100%;
-    max-width: 280px;
-    height: auto;
+    width: 100% !important;
+    max-width: 400px !important;
+    height: auto !important;
+    max-height: 400px;
     margin: 0 auto 20px auto;
   }
   
