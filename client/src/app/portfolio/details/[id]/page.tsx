@@ -58,7 +58,7 @@ const WorkDetailsPage = () => {
           </div>
 
           <div className={styles.detailItem}>
-            <span className={styles.detailLabel}>Количество:</span>
+            <span className={styles.detailLabel}>Помещения:</span>
             <span className={styles.detailValue}>{currentWork.quantity}</span>
           </div>
 
