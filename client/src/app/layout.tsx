@@ -137,21 +137,21 @@ import { ThemeToggle } from '@/components/ThemeToggle/ThemeToggle';
 import { Providers } from '@/store/Providers';
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  let services = [];
+  // let services = [];
 
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/service`, {
-      cache: 'no-store',
-    });
+  // try {
+  //   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/service`, {
+  //     cache: 'no-store',
+  //   });
 
-    if (res.ok) {
-      const data = await res.json();
-      services = data.data || [];
-      console.log('Fetched services:', services);
-    }
-  } catch (error) {
-    console.error('Error fetching services:', error);
-  }
+  //   if (res.ok) {
+  //     const data = await res.json();
+  //     services = data.data || [];
+  //     console.log('Fetched services:', services);
+  //   }
+  // } catch (error) {
+  //   console.error('Error fetching services:', error);
+  // }
 
   return (
     <html lang="ru" suppressHydrationWarning>
