@@ -119,15 +119,23 @@ export const Contacts = () => {
       <br />
       <div className={styles.textBlock}>
         <div className={styles.legal}>
-          <p className={styles.legalText}>ИП Черничкина Анастасия Алексеевна</p>
-          <p className={styles.legalText}>ИНН 772453181190</p>
-          <p className={styles.legalText}>ОГРНИП 320774600293334</p>
+          <p className={styles.legalText}>OOO "ВентСтройМонтаж"</p>
+          <p className={styles.legalText}>ИНН 272113806532</p>
+          <p className={styles.legalText}>ОГРН 1122721008024</p>
         </div>
         <div className={styles.legal}>
-          <Link href="/privacy-policy" className={styles.legalText} style={{ textDecoration: 'underline' }}>
+          <Link
+            href="/privacy-policy"
+            className={styles.legalText}
+            style={{ textDecoration: 'underline' }}
+          >
             Политика конфиденциальности
           </Link>
-          <Link href="/oferta" className={styles.legalText} style={{ textDecoration: 'underline' }}>
+          <Link
+            href="/oferta"
+            className={styles.legalText}
+            style={{ textDecoration: 'underline' }}
+          >
             Оферта
           </Link>
         </div>
