@@ -8,6 +8,14 @@ import Footer from '../widgets/Footer/Footer';
 
 import { ClientLayoutWrapper } from './ClientLayoutWrapper';
 
+// Новый экспорт viewport
+export const viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#1f2937' },
+  ],
+};
+
 export async function generateMetadata(): Promise<Metadata> {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/metaData`, {
@@ -95,10 +103,7 @@ export async function generateMetadata(): Promise<Metadata> {
         ],
       },
       manifest: '/site.webmanifest',
-      themeColor: [
-        { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-        { media: '(prefers-color-scheme: dark)', color: '#1f2937' },
-      ],
+      // УДАЛЕНО: themeColor больше не здесь
       appleWebApp: {
         capable: true,
         statusBarStyle: 'default',
@@ -108,7 +113,7 @@ export async function generateMetadata(): Promise<Metadata> {
         'application-name': 'ВашКомфорт',
         'msapplication-TileColor': '#da532c',
         'msapplication-config': '/browserconfig.xml',
-        'theme-color': '#ffffff',
+        'theme-color': '#ffffff', // Это можно оставить, так как это часть other
         'copyright': `© ${currentYear} ВашКомфорт. Все права защищены.`,
         'geo.region': meta?.other_geo_region || 'RU',
         'geo.placename': meta?.other_geo_placename || 'Москва',
@@ -131,8 +136,6 @@ import { ThemeProvider } from '@/contexts/ThemeContext';
 import { ThemeToggle } from '@/components/ThemeToggle/ThemeToggle';
 import { Providers } from '@/store/Providers';
 
-
-
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   let services = [];
 
@@ -140,7 +143,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/service`, {
       cache: 'no-store',
     });
-//
+
     if (res.ok) {
       const data = await res.json();
       services = data.data || [];
