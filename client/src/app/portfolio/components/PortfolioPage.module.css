@@ -42,7 +42,7 @@
 .allWorksButton {
   display: inline-block;
   padding: 12px 24px;
-  background: #c19b26;
+  background: #05040072;
   color: white;
   border-radius: 50px;
   text-decoration: none;
@@ -51,7 +51,7 @@
 }
 
 .allWorksButton:hover {
-  background: #e6c547;
+  background: #221c02;
 }
 
 .workDetailWrapper {

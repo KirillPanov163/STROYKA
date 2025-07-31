@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './Carousel.module.css';
+import { LeftCircleOutlined, RightCircleOutlined } from '@ant-design/icons';
 
 interface CarouselProps {
   children: React.ReactNode;
@@ -54,46 +55,50 @@ const Carousel = ({
       <div className={styles.carouselContainer}>
         {items.length > effectiveVisibleItems && (
           <button className={styles.prevButton} onClick={goToPrev}>
-            &lt;
+            <LeftCircleOutlined />
           </button>
         )}
-        
+
         <div className={styles.itemsContainer} ref={containerRef}>
           <div
             className={styles.itemsWrapper}
             style={{
-              transform: items.length > effectiveVisibleItems 
-                ? `translateX(calc(-${currentIndex * (100 / effectiveVisibleItems)}% - ${currentIndex * 20}px))`
-                : 'none',
+              transform:
+                items.length > effectiveVisibleItems
+                  ? `translateX(calc(-${
+                      currentIndex * (100 / effectiveVisibleItems)
+                    }% - ${currentIndex * 20}px))`
+                  : 'none',
             }}
           >
             {items.map((item, index) => (
-              <div
-                key={index}
-                className={styles.carouselItem}
-              >
+              <div key={index} className={styles.carouselItem}>
                 {item}
               </div>
             ))}
           </div>
         </div>
-        
+
         {items.length > effectiveVisibleItems && (
           <button className={styles.nextButton} onClick={goToNext}>
-            &gt;
+            <RightCircleOutlined />
           </button>
         )}
       </div>
 
       {items.length > effectiveVisibleItems && (
         <div className={styles.dotsContainer}>
-          {Array.from({ length: items.length - effectiveVisibleItems + 1 }).map((_, index) => (
-            <button
-              key={index}
-              className={`${styles.dot} ${index === currentIndex ? styles.activeDot : ''}`}
-              onClick={() => goToIndex(index)}
-            />
-          ))}
+          {Array.from({ length: items.length - effectiveVisibleItems + 1 }).map(
+            (_, index) => (
+              <button
+                key={index}
+                className={`${styles.dot} ${
+                  index === currentIndex ? styles.activeDot : ''
+                }`}
+                onClick={() => goToIndex(index)}
+              />
+            ),
+          )}
         </div>
       )}
     </div>

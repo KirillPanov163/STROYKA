@@ -1,5 +1,5 @@
 .workCard {
-  background: white;
+  background: rgba(255, 255, 255, 0.078);
   border-radius: 5px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -45,10 +45,13 @@
 
 .detailsButton {
   margin: 15px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 8px 16px;
   width: 60%;
-  text-align: center;
-  background: #c19b26;
+  height: 45px;
+  background: #05040072;
   color: white;
   border: none;
   border-radius: 20px;
@@ -57,5 +60,5 @@
 }
 
 .detailsButton:hover {
-  background: #e6c547;
+  background: #2b2303bc;
 }
