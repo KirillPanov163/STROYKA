@@ -129,7 +129,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { ThemeToggle } from '@/components/ThemeToggle/ThemeToggle';
-import { Providers } from '@/store/providers';
+import { Providers } from '@/store/Providers';
 
 
 
@@ -140,7 +140,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/service`, {
       cache: 'no-store',
     });
-
+//
     if (res.ok) {
       const data = await res.json();
       services = data.data || [];
