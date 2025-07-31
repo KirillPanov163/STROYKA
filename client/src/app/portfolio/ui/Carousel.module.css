@@ -26,7 +26,7 @@
 }
 
 .carouselItem {
-flex: 0 0 calc(33.333% - 10.66px);
+flex: 0 0 calc(33.333% - 8.66px);
   box-sizing: border-box;
   display: flex;
   justify-content: center;
