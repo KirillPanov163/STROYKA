@@ -41,7 +41,7 @@ export default function Footer() {
           <div className={styles.iconsContainer}>
             <div className={styles.iconsBlock}>
               <a
-                href="https://wa.me/+79015437698"
+                href="https://wa.me/+79163108899"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.iconLink}
@@ -61,7 +61,7 @@ export default function Footer() {
                 </svg>
               </a>
 
-              <a href="tel:+79015437698" className={styles.iconLink} aria-label="Телефон">
+              <a href="tel:+74959717698" className={styles.iconLink} aria-label="Телефон">
                 <svg
                   className={styles.icon}
                   width="28"
@@ -77,7 +77,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="https://t.me/madewloveru"
+                href="https://t.me/#"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.iconLink}
