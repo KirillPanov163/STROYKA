@@ -7,8 +7,10 @@ import { getMyWorkById } from '@/entities/portfolio/api/portfolio';
 import { MyWork } from '@/entities/portfolio/model';
 import styles from './details.module.css';
 import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
+import { useRouter } from 'next/navigation';
 
 const WorkDetailsPage = () => {
+  const router = useRouter();
   const { id } = useParams();
   const dispatch = useAppDispatch();
   const { currentWork, loading } = useAppSelector((state) => state.myWork);
@@ -29,14 +31,22 @@ const WorkDetailsPage = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>{currentWork.title}</h1>
-      
+      <div className={styles.headerContainer}>
+        <button
+          onClick={() => router.back()}
+          className={styles.backButton}
+          aria-label="Назад"
+        >
+          Назад
+        </button>
+        <h1 className={styles.title}>{currentWork.title}</h1>
+      </div>
       <div className={styles.content}>
         <div className={styles.imageContainer}>
           {currentWork.image && (
-            <img 
-              src={currentWork.image} 
-              alt={currentWork.title || 'Изображение работы'} 
+            <img
+              src={currentWork.image}
+              alt={currentWork.title || 'Изображение работы'}
               className={styles.image}
             />
           )}
@@ -66,13 +76,17 @@ const WorkDetailsPage = () => {
                   const parsed = JSON.parse(currentWork.success_work || '[]');
                   return Array.isArray(parsed) ? (
                     parsed.map((item, idx) => (
-                      <li key={idx} className={styles.descriptionItem}>{item}</li>
+                      <li key={idx} className={styles.descriptionItem}>
+                        {item}
+                      </li>
                     ))
                   ) : (
                     <li className={styles.descriptionItem}>{currentWork.success_work}</li>
                   );
                 } catch {
-                  return <li className={styles.descriptionItem}>{currentWork.success_work}</li>;
+                  return (
+                    <li className={styles.descriptionItem}>{currentWork.success_work}</li>
+                  );
                 }
               })()}
             </ul>

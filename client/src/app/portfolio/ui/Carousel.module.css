@@ -15,22 +15,21 @@
 
 .itemsContainer {
   width: 100%;
-  max-width: 1200px;
+  /* max-width: 1200px; */
   overflow: hidden;
 }
 
 .itemsWrapper {
   display: flex;
   transition: transform 0.5s ease;
-  gap: 20px; /* Добавлено расстояние между элементами */
+  gap: 20px;
 }
 
 .carouselItem {
-  flex: 0 0 calc(33.333% - 14px); /* 3 элемента с учетом gap */
+flex: 0 0 calc(33.333% - 10.66px);
   box-sizing: border-box;
   display: flex;
   justify-content: center;
-  padding: 0 5px; /* Небольшие отступы по бокам */
 }
 
 .prevButton,
@@ -44,7 +43,7 @@
   font-size: 18px;
   z-index: 1;
   transition: background 0.3s ease;
-  margin: 0 10px;
+  margin: 0 px;
 }
 
 .prevButton:hover,

@@ -7,8 +7,10 @@ import { MyWork } from '@/entities/portfolio/model';
 import Link from 'next/link';
 import styles from './allWorks.module.css';
 import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
+import { useRouter } from 'next/navigation';
 
 const AllWorksPage = () => {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const { works, loading } = useAppSelector((state) => state.myWork);
 
@@ -26,13 +28,22 @@ const AllWorksPage = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Все наши работы</h1>
-      
+      <div className={styles.headerContainer}>
+        <button
+          onClick={() => router.back()}
+          className={styles.backButton}
+          aria-label="Назад"
+        >
+          Назад
+        </button>
+        <h1 className={styles.title}>Все наши работы</h1>
+      </div>
+
       <div className={styles.worksGrid}>
         {works.map((work) => (
           <div key={work.id} className={styles.workCard}>
             <h3 className={styles.workTitle}>{work.title}</h3>
-            
+
             {work.image && (
               <div className={styles.imageContainer}>
                 <img
@@ -42,11 +53,8 @@ const AllWorksPage = () => {
                 />
               </div>
             )}
-            
-            <Link 
-              href={`/portfolio/details/${work.id}`}
-              className={styles.detailsButton}
-            >
+
+            <Link href={`/portfolio/details/${work.id}`} className={styles.detailsButton}>
               Подробнее
             </Link>
           </div>
