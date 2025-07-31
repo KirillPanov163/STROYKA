@@ -101,7 +101,7 @@ export const Contacts = () => {
 
         {contact.telegram && (
           <a
-            href={`https://t.me/${contact.telegram.replace('@', '')}`}
+            // href={`https://t.me/${contact.telegram.replace('@', '')}`}
             target="_blank"
             rel="noopener noreferrer"
             className={styles.socialLink}
