@@ -129,7 +129,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { ThemeToggle } from '@/components/ThemeToggle/ThemeToggle';
-import { Providers } from '@/store/Providers';
+import { Providers } from '@/store/providers';
+
 
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
