@@ -4,13 +4,13 @@ import React, { useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useAppSelector } from '@/shared/Hooks/useAppSelector';
 import { getMyWorkById } from '@/entities/portfolio/api/portfolio';
-import { MyWork } from '@/entities/portfolio/model';
 import styles from './details.module.css';
 import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
 
 const WorkDetailsPage = () => {
   const router = useRouter();
-  const { id } = useParams();
+  const { slug } = useParams();
+  const id = (slug as string).split('-').pop() || '1';
   const dispatch = useAppDispatch();
   const { currentWork, loading } = useAppSelector((state) => state.myWork);
 
@@ -19,7 +19,6 @@ const WorkDetailsPage = () => {
       dispatch(getMyWorkById(Number(id)));
     }
   }, [id, dispatch]);
-//
   if (loading) {
     return <div className={styles.loading}>Загрузка...</div>;
   }

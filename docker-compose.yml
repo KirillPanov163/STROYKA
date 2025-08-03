@@ -1,0 +1,30 @@
+services:
+  client:
+    build:
+      context: .
+      dockerfile: client/Dockerfile
+    restart: always
+    depends_on:
+      - server
+    expose:
+      - "3000"
+
+  server:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    restart: always
+    env_file:
+      - ./server/.env
+    expose:
+      - "3001"
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - client
+      - server

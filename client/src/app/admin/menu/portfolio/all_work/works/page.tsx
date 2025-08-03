@@ -12,21 +12,21 @@ import {
 } from '@/entities/portfolio/api/portfolio';
 import { MyWork } from '@/entities/portfolio/model';
 import {
-  Button,
   Modal,
   Upload,
   Table,
   Spin,
   Form,
   Input,
-  message,
-  Space,
-  Card,
-  Image,
-  List,
-  Typography,
-  Layout,
-} from 'antd';
+  message
+} from 'antd/es';
+import Space from 'antd/es/space';
+import Card from 'antd/es/card';
+import Image from 'antd/es/image';
+import List from 'antd/es/list';
+import Typography from 'antd/es/typography';
+import  Layout from 'antd/es/layout';
+import Button from 'antd/es/button';
 import {
   UploadOutlined,
   EditOutlined,
@@ -294,7 +294,9 @@ const PortfolioManager = () => {
             borderRadius: 8,
             color: '#69b1ff',
           }}
-          bodyStyle={{ padding: 16 }}
+          styles={{
+            body: { padding: 16 },
+          }}
         >
           <Spin spinning={loading}>
             <Table
@@ -357,10 +359,11 @@ const PortfolioManager = () => {
             onCancel={handleCancel}
             footer={null}
             width={800}
-            style={{
-              backgroundColor:
-                'linear-gradient(135deg, #1e293b 0%, #334155 25%, #475569 50%, #64748b 75%, #94a3b8 100%)',
-              borderRadius: 8,
+            styles={{
+              content: {
+                backgroundColor: '#1e293b',
+                borderRadius: 8,
+              },
             }}
           >
             {!editMode && currentWork ? (
@@ -369,8 +372,7 @@ const PortfolioManager = () => {
                   lineHeight: 1.8,
                   color: '#69b1ff',
                   display: 'flex',
-                  background:
-                    'linear-gradient(135deg, #1e293b 0%, #334155 25%, #475569 50%, #64748b 75%, #94a3b8 100%)',
+                  background: '#1e293b',
                   padding: 16,
                   borderRadius: 8,
                 }}
@@ -405,24 +407,6 @@ const PortfolioManager = () => {
                     <Text style={{ color: '#69b1ff' }}>
                       <b>Что сделано:</b>
                     </Text>
-                    {/* {metaDatas[index]?.keywords ? (
-                                          <Space wrap>
-                                            {JSON.parse(metaDatas[index]?.keywords || '[]')
-                                              .map((keyword: string, i: number) => (
-                                                <Tag
-                                                  key={i}
-                                                  style={{
-                                                    background: '#475569',
-                                                    color: '#69b1ff',
-                                                    border: '1px solid #64748b',
-                                                    borderRadius: 4,
-                                                    padding: '2px 8px',
-                                                  }}
-                                                >
-                                                  {keyword.trim()}
-                                                </Tag>
-                                              ))}
-                                          </Space> */}
                     <List
                       size="small"
                       dataSource={(() => {
@@ -460,8 +444,7 @@ const PortfolioManager = () => {
                 }}
                 style={{
                   color: '#69b1ff',
-                  background:
-                    'linear-gradient(135deg, #1e293b 0%, #334155 25%, #475569 50%, #64748b 75%, #94a3b8 100%)',
+                  background: '#1e293b',
                   padding: 16,
                   borderRadius: 8,
                 }}
@@ -622,18 +605,17 @@ const PortfolioManager = () => {
                 Вы уверены, что хотите удалить работу?
               </Text>
             }
-            style={{
-              background:
-                'linear-gradient(135deg, #1e293b 0%, #334155 25%, #475569 50%, #64748b 75%, #94a3b8 100%)',
-              borderRadius: 8,
+            styles={{
+              content: {
+                background: '#1e293b',
+                borderRadius: 8,
+              },
             }}
             okButtonProps={{
               style: {
                 color: '#fd9b9b',
                 borderColor: '#fd9b9b',
-                // background: 'transparent',
-                background:
-                  'linear-gradient(135deg, #1e293b 0%, #334155 25%, #475569 50%, #64748b 75%, #94a3b8 100%)',
+                background: 'transparent',
               },
             }}
             cancelButtonProps={{
@@ -644,7 +626,7 @@ const PortfolioManager = () => {
               },
             }}
           >
-            <Text  style={{ color: '#69b1ff' }}>Это действие нельзя отменить.</Text>
+            <Text style={{ color: '#69b1ff' }}>Это действие нельзя отменить.</Text>
           </Modal>
         </Card>
       </Content>

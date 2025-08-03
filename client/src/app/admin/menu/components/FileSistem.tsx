@@ -2,8 +2,16 @@
 
 import { useRouter } from 'next/navigation';
 import { useFileSystem } from './FileSystemProvider';
-import { Layout, Typography, Space, Button } from 'antd';
-import { FolderOpenOutlined, FolderOutlined, FileOutlined } from '@ant-design/icons';
+
+import Layout from 'antd/es/layout';
+import Typography from 'antd/es/typography';
+import Space from 'antd/es/space';
+import Button from 'antd/es/button';
+import {
+  FolderOpenOutlined,
+  FolderOutlined,
+  FileOutlined,
+} from '@ant-design/icons';
 
 const { Sider } = Layout;
 const { Title, Text } = Typography;
@@ -55,16 +63,9 @@ export function FileSystem() {
                 maxWidth: 200,
               }}
             >
-              <Text
-                style={{
-                  color: '#fff',
-                  whiteSpace: 'normal',
-                  wordBreak: 'break-word',
-                  maxWidth: '100%',
-                }}
-              >
+              <span style={{ color: '#fff', maxWidth: '100%' }}>
                 {node.name}
-              </Text>
+              </span>
             </Button>
           ) : (
             <Button
@@ -82,16 +83,9 @@ export function FileSystem() {
                 maxWidth: 200,
               }}
             >
-              <Text
-                style={{
-                  color: '#fff',
-                  whiteSpace: 'normal',
-                  wordBreak: 'break-word',
-                  maxWidth: '100%',
-                }}
-              >
+              <span style={{ color: '#fff', maxWidth: '100%' }}>
                 {node.name}
-              </Text>
+              </span>
             </Button>
           )}
           {hasChildren && (

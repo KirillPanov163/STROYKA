@@ -22,7 +22,7 @@ import {
   Spin,
   Modal,
   message,
-} from 'antd';
+} from 'antd/es';
 import { EditOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { Controller } from 'react-hook-form';
 

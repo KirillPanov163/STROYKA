@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './WorkCard.module.css';
 import { MyWork } from '@/entities/portfolio/model';
 import Link from 'next/link';
+import { transliterate } from '@/entities/Translater';
 
 interface WorkCardProps {
   work: MyWork;
@@ -23,7 +24,7 @@ const WorkCard = ({ work, onClick }: WorkCardProps) => {
         </div>
       )}
       <Link 
-        href={`/portfolio/details/${work.id}`}
+        href={`/portfolio/details/${transliterate(work.title || '')}`}
         className={styles.detailsButton}
       >
         Подробнее

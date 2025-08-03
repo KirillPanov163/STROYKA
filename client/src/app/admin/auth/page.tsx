@@ -6,8 +6,16 @@ import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
 import { useAppSelector } from '@/shared/Hooks/useAppSelector';
 import { useRouter } from 'next/navigation';
 import { signUpThunk, verifySignUp2FAThunk } from '@/entities/user/api/userThunkApi';
-import { Button, Form, Input, Layout, Typography, Space, Card, message } from 'antd';
-import type { FormProps } from 'antd';
+
+// Импорты из antd для v5 по отдельным модулям:
+import Button from 'antd/es/button';
+import Form, { FormProps } from 'antd/es/form';
+import Input from 'antd/es/input';
+import Card from 'antd/es/card';
+import message from 'antd/es/message';
+import Space from 'antd/es/space';
+import Layout from 'antd/es/layout';
+import Typography from 'antd/es/typography';
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -25,9 +33,7 @@ type TwoFAFormValues = {
 
 export default function SignUpForm() {
   const dispatch = useAppDispatch();
-  const { isInitialized, twoFAPending, error, twoFAUserId } = useAppSelector(
-    (state) => state.user,
-  );
+  const { twoFAPending, error, twoFAUserId } = useAppSelector((state) => state.user);
   const router = useRouter();
   const [isReady, setIsReady] = useState(false);
   const [signUpForm] = Form.useForm<SignUpFormValues>();
@@ -53,16 +59,16 @@ export default function SignUpForm() {
       return;
     }
     try {
-      await dispatch(
-        verifySignUp2FAThunk({ userId: twoFAUserId, code: values.code }),
-      ).unwrap();
+      await dispatch(verifySignUp2FAThunk({ userId: twoFAUserId, code: values.code })).unwrap();
       twoFAForm.resetFields();
-      router.push('/')
+      router.push('/');
     } catch (err) {
       message.error('Ошибка подтверждения 2FA');
       console.error('Ошибка 2FA:', err);
     }
   };
+
+  if (!isReady) return null;
 
   return (
     <Layout style={{ background: 'transparent' }}>
@@ -71,7 +77,6 @@ export default function SignUpForm() {
           width: '80%',
           margin: '120px auto',
           background: 'linear-gradient(135deg, #1e293b 0%, #334155 25%, #475569 50%, #64748b 75%, #94a3b8 100%)',
-          height: 'auto',
           padding: 16,
           borderRadius: 8,
         }}
@@ -84,20 +89,9 @@ export default function SignUpForm() {
             borderRadius: 8,
             color: '#69b1ff',
           }}
-          styles={{ body: { padding: 16 } }}
         >
           {twoFAPending ? (
-            <Form
-              form={twoFAForm}
-              layout="vertical"
-              onFinish={onTwoFASubmit}
-              style={{
-                color: '#69b1ff',
-                background: 'transparent',
-                padding: 16,
-                borderRadius: 8,
-              }}
-            >
+            <Form form={twoFAForm} layout="vertical" onFinish={onTwoFASubmit}>
               <Form.Item
                 label={<Text style={{ color: '#69b1ff' }}>Код 2FA</Text>}
                 name="code"
@@ -119,27 +113,13 @@ export default function SignUpForm() {
                 </Form.Item>
               )}
               <Form.Item>
-                <Button
-                  type="text"
-                  htmlType="submit"
-                  style={{ color: '#69b1ff', padding: 0 }}
-                >
+                <Button type="text" htmlType="submit" style={{ color: '#69b1ff', padding: 0 }}>
                   Подтвердить
                 </Button>
               </Form.Item>
             </Form>
           ) : (
-            <Form
-              form={signUpForm}
-              layout="vertical"
-              onFinish={onSignUpSubmit}
-              style={{
-                color: '#69b1ff',
-                background: 'transparent',
-                padding: 16,
-                borderRadius: 8,
-              }}
-            >
+            <Form form={signUpForm} layout="vertical" onFinish={onSignUpSubmit}>
               <Form.Item
                 label={<Text style={{ color: '#69b1ff' }}>Имя</Text>}
                 name="name"
@@ -225,11 +205,7 @@ export default function SignUpForm() {
               )}
               <Form.Item>
                 <Space>
-                  <Button
-                    type="text"
-                    htmlType="submit"
-                    style={{ color: '#69b1ff', padding: 0 }}
-                  >
+                  <Button type="text" htmlType="submit" style={{ color: '#69b1ff', padding: 0 }}>
                     Зарегистрироваться
                   </Button>
                 </Space>

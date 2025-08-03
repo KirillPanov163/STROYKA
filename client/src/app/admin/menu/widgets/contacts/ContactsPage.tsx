@@ -1,8 +1,25 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Button, Modal, Table, Form, Input, message, Space, Typography, Layout, Tabs, Card } from 'antd';
-import { EditOutlined, DeleteOutlined, PlusOutlined, AlignCenterOutlined } from '@ant-design/icons';
+import {
+  Button,
+  Modal,
+  Table,
+  Form,
+  Input,
+  message,
+  Space,
+  Typography,
+  Layout,
+  Tabs,
+  Card,
+} from 'antd/es';
+import {
+  EditOutlined,
+  DeleteOutlined,
+  PlusOutlined,
+  AlignCenterOutlined,
+} from '@ant-design/icons';
 import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
 import { useAppSelector } from '@/shared/Hooks/useAppSelector';
 import {
@@ -16,7 +33,31 @@ import { ContactDataType, ContactType } from '@/entities/contacts/model';
 const { Text, Title } = Typography;
 const { Content } = Layout;
 
-const ContactsPage  = () => {
+const ContactFormFields = () => (
+  <>
+    <Form.Item
+      name="email"
+      label="Email"
+      rules={[{ required: true, message: 'Введите email' }]}
+    >
+      <Input />
+    </Form.Item>
+    <Form.Item name="tel" label="Телефон">
+      <Input />
+    </Form.Item>
+    <Form.Item name="address" label="Адрес">
+      <Input />
+    </Form.Item>
+    <Form.Item name="whatsapp" label="WhatsApp">
+      <Input />
+    </Form.Item>
+    <Form.Item name="telegram" label="Telegram">
+      <Input />
+    </Form.Item>
+  </>
+);
+
+const ContactsPage = () => {
   const dispatch = useAppDispatch();
   const { contacts, isLoading } = useAppSelector((state) => state.contacts);
   const [form] = Form.useForm();
@@ -58,7 +99,9 @@ const ContactsPage  = () => {
   const handleSubmit = async (values: ContactDataType) => {
     try {
       if (editingContact) {
-        await dispatch(updateContactThunk({ id: editingContact.id, data: values })).unwrap();
+        await dispatch(
+          updateContactThunk({ id: editingContact.id, data: values }),
+        ).unwrap();
         message.success('Контакт обновлен');
       } else {
         await dispatch(createContactThunk(values)).unwrap();
@@ -83,8 +126,60 @@ const ContactsPage  = () => {
       render: (_: any, record: ContactType) => (
         <Space>
           <Button icon={<EditOutlined />} onClick={() => handleEdit(record)} />
-          <Button danger icon={<DeleteOutlined />} onClick={() => handleDelete(record.id)} />
+          <Button
+            danger
+            icon={<DeleteOutlined />}
+            onClick={() => handleDelete(record.id)}
+          />
         </Space>
+      ),
+    },
+  ];
+
+  const tabItems = [
+    {
+      key: 'list',
+      label: (
+        <span>
+          <AlignCenterOutlined style={{ marginRight: 8 }} />
+          Все контакты
+        </span>
+      ),
+      children: (
+        <>
+          <Title level={3}>Управление контактами</Title>
+          <Table
+            columns={columns}
+            dataSource={contacts || []}
+            loading={isLoading}
+            rowKey={(record) => record.id.toString()}
+            pagination={false}
+          />
+        </>
+      ),
+    },
+    {
+      key: 'create',
+      label: (
+        <span>
+          <PlusOutlined style={{ marginRight: 8 }} />
+          Создать контакт
+        </span>
+      ),
+      children: (
+        <Form
+          form={form}
+          layout="vertical"
+          onFinish={handleSubmit}
+          style={{ maxWidth: 600, margin: '0 auto' }}
+        >
+          <ContactFormFields />
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Сохранить контакт
+            </Button>
+          </Form.Item>
+        </Form>
       ),
     },
   ];
@@ -93,41 +188,13 @@ const ContactsPage  = () => {
     <Layout style={{ minHeight: '100vh', background: 'transparent', marginTop: '100px' }}>
       <Content style={{ width: '80%', margin: '40px auto' }}>
         <Card>
-          <Tabs defaultActiveKey="list">
-            <Tabs.TabPane icon={<AlignCenterOutlined />} tab="Все контакты" key="list">
-              <Title level={3}>Управление контактами</Title>
-              <Table
-                columns={columns}
-                dataSource={contacts || []}
-                loading={isLoading}
-                rowKey={(record) => record.id.toString()}
-                pagination={false}
-              />
-            </Tabs.TabPane>
-            <Tabs.TabPane icon={<PlusOutlined />} tab="Создать контакт" key="create">
-              <Form
-                form={form}
-                layout="vertical"
-                onFinish={handleSubmit}
-                style={{ maxWidth: 600, margin: '0 auto' }}
-              >
-                <Form.Item name="email" label="Email" rules={[{ required: true, message: 'Введите email' }]}> <Input /></Form.Item>
-                <Form.Item name="tel" label="Телефон"> <Input /></Form.Item>
-                <Form.Item name="address" label="Адрес"> <Input /></Form.Item>
-                <Form.Item name="whatsapp" label="WhatsApp"> <Input /></Form.Item>
-                <Form.Item name="telegram" label="Telegram"> <Input /></Form.Item>
-                <Form.Item>
-                  <Button type="primary" htmlType="submit">
-                    Сохранить контакт
-                  </Button>
-                </Form.Item>
-              </Form>
-            </Tabs.TabPane>
-          </Tabs>
+          <Tabs defaultActiveKey="list" items={tabItems} />
         </Card>
 
         <Modal
-          title={<Text>{editingContact ? 'Редактировать контакт' : 'Создать контакт'}</Text>}
+          title={
+            <Text>{editingContact ? 'Редактировать контакт' : 'Создать контакт'}</Text>
+          }
           open={isModalVisible}
           onCancel={() => {
             setIsModalVisible(false);
@@ -139,11 +206,7 @@ const ContactsPage  = () => {
           cancelText="Отмена"
         >
           <Form form={form} layout="vertical" onFinish={handleSubmit}>
-            <Form.Item name="email" label="Email" rules={[{ required: true, message: 'Введите email' }]}> <Input /></Form.Item>
-            <Form.Item name="tel" label="Телефон"> <Input /></Form.Item>
-            <Form.Item name="address" label="Адрес"> <Input /></Form.Item>
-            <Form.Item name="whatsapp" label="WhatsApp"> <Input /></Form.Item>
-            <Form.Item name="telegram" label="Telegram"> <Input /></Form.Item>
+            <ContactFormFields />
           </Form>
         </Modal>
       </Content>
@@ -151,4 +214,4 @@ const ContactsPage  = () => {
   );
 };
 
-export default ContactsPage ;
+export default ContactsPage;

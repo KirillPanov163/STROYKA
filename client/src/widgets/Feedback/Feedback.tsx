@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Button, Modal, Form, Input, Checkbox, message, theme } from 'antd';
+import { Button, Modal, Form, Input, Checkbox, message, theme } from 'antd/es';
 import { PhoneOutlined, CloseOutlined } from '@ant-design/icons';
 import { sendRecordingThunk } from '@/entities/recording/api/RecordingFormApi';
 import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
