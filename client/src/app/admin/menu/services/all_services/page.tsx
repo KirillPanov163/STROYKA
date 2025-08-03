@@ -18,7 +18,7 @@ import {
   List,
   Typography,
   Layout,
-} from 'antd';
+} from 'antd/es';
 import {
   UploadOutlined,
   EditOutlined,
@@ -301,6 +301,9 @@ const ServiceManager = () => {
             borderRadius: 8,
             color: '#69b1ff',
           }}
+          styles={{
+            body: { padding: 16 }
+          }}
         >
           <Spin spinning={loading}>
             <Table
@@ -363,14 +366,16 @@ const ServiceManager = () => {
             onCancel={handleCancel}
             footer={null}
             width={800}
-            style={{
-              background: 'linear-gradient(135deg, #1e293b 0%, #334155 25%, #475569 50%, #64748b 75%, #94a3b8 100%)',
-              borderRadius: 8,
-            }}
-            bodyStyle={{
-              background: 'linear-gradient(135deg, #1e293b 0%, #334155 25%, #475569 50%, #64748b 75%, #94a3b8 100%)',
-              padding: 16,
-              borderRadius: 8,
+            styles={{
+              content: {
+                background: '#1e293b',
+                borderRadius: 8,
+              },
+              body: {
+                padding: 16,
+                background: '#1e293b',
+                color: '#69b1ff'
+              }
             }}
           >
             {!editMode && currentService ? (
@@ -379,7 +384,6 @@ const ServiceManager = () => {
                   lineHeight: 1.8,
                   color: '#69b1ff',
                   display: 'flex',
-                  background: 'transparent',
                   padding: 16,
                   borderRadius: 8,
                 }}
@@ -429,7 +433,6 @@ const ServiceManager = () => {
                 }}
                 style={{
                   color: '#69b1ff',
-                  background: 'transparent',
                   padding: 16,
                   borderRadius: 8,
                 }}
@@ -534,14 +537,16 @@ const ServiceManager = () => {
             okText="Удалить"
             cancelText="Отмена"
             title={<Text style={{ color: '#69b1ff' }}>Вы уверены, что хотите удалить услугу?</Text>}
-            style={{
-              background: 'linear-gradient(135deg, #1e293b 0%, #334155 25%, #475569 50%, #64748b 75%, #94a3b8 100%)',
-              borderRadius: 8,
-            }}
-            bodyStyle={{
-              background: 'transparent',
-              color: '#69b1ff',
-              padding: 16,
+            styles={{
+              content: {
+                background: '#1e293b',
+                borderRadius: 8,
+              },
+              body: {
+                background: 'transparent',
+                color: '#69b1ff',
+                padding: 16,
+              }
             }}
             okButtonProps={{
               style: { color: '#fd9b9b', borderColor: '#fd9b9b', background: 'transparent' },

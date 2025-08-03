@@ -1,7 +1,5 @@
 export const dynamic = 'force-dynamic';
 import type { Metadata } from 'next';
-import { AppProps } from 'next/app';
-import Head from 'next/head';
 import './globals.css';
 import Navigation from '../widgets/Navigation/Navigation';
 import Footer from '../widgets/Footer/Footer';
@@ -16,9 +14,9 @@ export const viewport = {
   ],
 };
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata(index: number): Promise<Metadata> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/metaData`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/metaData`, {
       next: { revalidate: 3600 } // Revalidate every hour
     });
 
@@ -27,8 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
     }
 
     const metaDatas = await res.json();
-    const meta = metaDatas.data?.[0];
-    // Provide a default URL if NEXT_PUBLIC_SITE_URL is not set
+    const meta = metaDatas.data?.[index];
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://вашкомфорт.рф';
     const currentYear = new Date().getFullYear();
 
@@ -86,13 +83,13 @@ export async function generateMetadata(): Promise<Metadata> {
       },
       icons: {
         icon: [
-          { url: meta?.icons_icon || '/favicon.ico' },
-          new URL(meta?.icons_icon || '/favicon.ico', siteUrl),
+          { url: meta?.icons_icon || '/icon_oktogon.ico' },
+          new URL(meta?.icons_icon || '/icon_oktogon.ico', siteUrl),
         ],
-        shortcut: [meta?.icons_shortcut || '/favicon.ico'],
+        shortcut: [meta?.icons_shortcut || '/icon_oktogon.ico'],
         apple: [
-          { url: meta?.icons_apple || '/apple-touch-icon.png' },
-          { url: meta?.icons_apple || '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+          { url: meta?.icons_apple || '/icon_oktogon.png' },
+          { url: meta?.icons_apple || '/icon_oktogon.png', sizes: '180x180', type: 'image/png' },
         ],
         other: [
           {
@@ -103,7 +100,6 @@ export async function generateMetadata(): Promise<Metadata> {
         ],
       },
       manifest: '/site.webmanifest',
-      // УДАЛЕНО: themeColor больше не здесь
       appleWebApp: {
         capable: true,
         statusBarStyle: 'default',
@@ -113,7 +109,7 @@ export async function generateMetadata(): Promise<Metadata> {
         'application-name': 'ВашКомфорт',
         'msapplication-TileColor': '#da532c',
         'msapplication-config': '/browserconfig.xml',
-        'theme-color': '#ffffff', // Это можно оставить, так как это часть other
+        'theme-color': '#ffffff',
         'copyright': `© ${currentYear} ВашКомфорт. Все права защищены.`,
         'geo.region': meta?.other_geo_region || 'RU',
         'geo.placename': meta?.other_geo_placename || 'Москва',
@@ -131,6 +127,8 @@ export async function generateMetadata(): Promise<Metadata> {
     };
   }
 }
+
+generateMetadata(0);
 
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { ThemeToggle } from '@/components/ThemeToggle/ThemeToggle';

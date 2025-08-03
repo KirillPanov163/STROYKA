@@ -3,7 +3,7 @@
 import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
 import { useRouter } from 'next/navigation';
 import { createFaq } from '@/entities/FAQ/api/faqThunkApi';
-import { Button, Form, Input, Layout, Typography, Space, Card } from 'antd';
+import { Button, Form, Input, Layout, Typography, Space, Card } from 'antd/es';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Button, Modal, Table, Form, Input, message, Space, Typography, Layout } from 'antd';
+import { Button, Modal, Table, Form, Input, message, Space, Typography, Layout } from 'antd/es';
 import { EditOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
 import { useAppSelector } from '@/shared/Hooks/useAppSelector';

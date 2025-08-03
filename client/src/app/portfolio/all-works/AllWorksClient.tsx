@@ -1,25 +1,14 @@
-'use client';
-import React, { useEffect } from 'react';
-import { useAppSelector } from '@/shared/Hooks/useAppSelector';
-import { getAllMyWorks } from '@/entities/portfolio/api/portfolio';
-import { MyWork } from '@/entities/portfolio/model';
+export const dynamic = 'force-dynamic';
+
 import Link from 'next/link';
 import styles from './allWorks.module.css';
-import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
-import { useRouter } from 'next/navigation';
+import { MyWork } from '@/entities/portfolio/model';
+import { transliterate } from '@/entities/Translater';
 
-const AllWorksClient = () => {
-  const router = useRouter();
-  const dispatch = useAppDispatch();
-  const { works, loading } = useAppSelector((state) => state.myWork);
-
-  useEffect(() => {
-    dispatch(getAllMyWorks());
-  }, [dispatch]);
-
-  if (loading) {
-    return <div className={styles.loading}>Загрузка работ...</div>;
-  }
+const AllWorksServer = async () => {
+  const works = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/my_work`, {
+    cache: 'no-store',
+  }).then((res) => res.json());
 
   if (!works?.length) {
     return <div className={styles.empty}>Нет доступных работ</div>;
@@ -28,18 +17,14 @@ const AllWorksClient = () => {
   return (
     <div className={styles.container}>
       <div className={styles.headerContainer}>
-        <button
-          onClick={() => router.back()}
-          className={styles.backButton}
-          aria-label="Назад"
-        >
+        <Link href="/" className={styles.backButton} aria-label="Назад">
           Назад
-        </button>
+        </Link>
         <h1 className={styles.title}>Все наши работы</h1>
       </div>
 
       <div className={styles.worksGrid}>
-        {works.map((work) => (
+        {works.map((work: MyWork) => (
           <div key={work.id} className={styles.workCard}>
             <h3 className={styles.workTitle}>{work.title}</h3>
 
@@ -53,7 +38,12 @@ const AllWorksClient = () => {
               </div>
             )}
 
-            <Link href={`/portfolio/details/${work.id}`} className={styles.detailsButton}>
+            <Link
+              href={`/portfolio/details/${transliterate(work.title || 'наша работа')}-${
+                work.id
+              }`}
+              className={styles.detailsButton}
+            >
               Подробнее
             </Link>
           </div>
@@ -63,4 +53,4 @@ const AllWorksClient = () => {
   );
 };
 
-export default AllWorksClient;
+export default AllWorksServer;

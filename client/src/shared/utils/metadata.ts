@@ -10,9 +10,9 @@ const PAGE_INDICES: Record<string, number> = {
   '/contacts': 5, // Контакты
 };
 
-export async function generatePageMetadata(pagePath: string = ''): Promise<Metadata> {
+export async function generatePageMetadata(pagePath: string = '/'): Promise<Metadata> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/metaData`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/metaData`);
 
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);

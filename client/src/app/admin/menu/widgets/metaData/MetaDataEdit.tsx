@@ -16,7 +16,7 @@ import {
   Spin,
   Tag,
   Space,
-} from 'antd';
+} from 'antd/es';
 import { EditOutlined, PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -210,7 +210,6 @@ export const MetaDataEditor = ({ index }: MetaDataEditorProps) => {
             borderRadius: 8,
             color: '#69b1ff',
           }}
-          bodyStyle={{ padding: 16 }}
         >
           <Spin spinning={isLoading}>
             {isEditing ? (

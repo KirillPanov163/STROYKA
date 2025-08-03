@@ -10,8 +10,8 @@ import {
   signOutThunk,
   verifySignIn2FAForAdminThunk,
 } from '@/entities/user/api/userThunkApi';
-import { Button, Form, Input, Layout, Typography, Space, Card, message } from 'antd';
-import type { FormProps } from 'antd';
+import { Button, Form, Input, Layout, Typography, Space, Card, message } from 'antd/es';
+import type { FormProps } from 'antd/es';
 
 const { Content } = Layout;
 const { Text } = Typography;

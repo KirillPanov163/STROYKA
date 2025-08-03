@@ -1,14 +1,13 @@
 import { Metadata } from 'next';
 import { generatePageMetadata } from '@/shared/utils/metadata';
+export const dynamic = 'force-dynamic';
+import ServicesList from '@/entities/service/ui/ServiceList';
+import styles from './services-page.module.css';
 
-// Generate metadata for the services page
 export async function generateMetadata(): Promise<Metadata> {
   return generatePageMetadata('/services');
 }
 
-export const dynamic = 'force-dynamic';
-import ServicesList from '@/entities/service/ui/ServiceList';
-import styles from './services-page.module.css';
 
 interface Service {
   id: number;
@@ -21,7 +20,7 @@ export default async function ServicesPage() {
   let services: Service[] = [];
 
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/service`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/service`, {
       cache: 'no-store',
     });
     
