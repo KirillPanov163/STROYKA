@@ -17,14 +17,14 @@ const WorkCard = ({ work, onClick }: WorkCardProps) => {
       {work.image && (
         <div className={styles.imageContainer}>
           <img 
-            src={work.image} 
+            src={`http://localhost:3001${work.image}`} 
             alt={work.title || 'Work image'} 
             className={styles.workImage}
           />
         </div>
       )}
       <Link 
-        href={`/portfolio/details/${transliterate(work.title || '')}`}
+        href={`/portfolio/details/${transliterate(work.title || '')}-${work.id}`}
         className={styles.detailsButton}
       >
         Подробнее

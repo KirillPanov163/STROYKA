@@ -14,10 +14,10 @@ export const viewport = {
   ],
 };
 
-export async function generateMetadata(index: number): Promise<Metadata> {
+export async function generateMetadata(): Promise<Metadata> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/metaData`, {
-      next: { revalidate: 3600 } // Revalidate every hour
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/metadata`, {
+      next: { revalidate: 3600 }
     });
 
     if (!res.ok) {
@@ -25,7 +25,7 @@ export async function generateMetadata(index: number): Promise<Metadata> {
     }
 
     const metaDatas = await res.json();
-    const meta = metaDatas.data?.[index];
+    const meta = metaDatas.data?.[0];
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://вашкомфорт.рф';
     const currentYear = new Date().getFullYear();
 
@@ -94,7 +94,7 @@ export async function generateMetadata(index: number): Promise<Metadata> {
         other: [
           {
             rel: 'mask-icon',
-            url: '/safari-pinned-tab.svg',
+            url: '/icon_oktogon.svg',
             color: '#5bbad5',
           },
         ],
@@ -127,8 +127,6 @@ export async function generateMetadata(index: number): Promise<Metadata> {
     };
   }
 }
-
-generateMetadata(0);
 
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { ThemeToggle } from '@/components/ThemeToggle/ThemeToggle';

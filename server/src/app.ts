@@ -1,37 +1,35 @@
 import express from 'express';
 import dotenv from 'dotenv';
-// import path from 'path'; // <== добавляем
 import serverConfig from './configs/serverConfig.js';
 import indexRouter from './routes/index.route.js';
-import authRouter from './routes/auth.route.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Путь к папке с изображениями
+const uploadsPath = path.join(__dirname, '../public/uploads');
+
+// Статическая раздача
 
 dotenv.config();
 
-const app = express();
+const expressApp = express();
+serverConfig(expressApp);
 
-app.use((req, res, next) => {
+expressApp.use('/api', indexRouter);
+expressApp.use('/uploads', express.static(uploadsPath));
+
+expressApp.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
   next();
 });
 
-serverConfig(app);
-
-app.use('/api', indexRouter);
-
-// const __dirname = path.resolve();
-// const clientBuildPath = path.join('/root/madewlove/client/dist');
-
-// app.use(express.static(clientBuildPath));
-
-// app.get(/(.*)/, (req, res) => {
-//   if (!req.url.startsWith('/api')) {
-//     res.sendFile(path.join(clientBuildPath, 'index.html'));
-//   }
-// });
-
 const PORT = process.env.PORT || 3001;
 
-app.listen(PORT, () => {
+expressApp.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log(

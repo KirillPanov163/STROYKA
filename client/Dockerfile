@@ -1,21 +1,24 @@
-# 1. Сборка проекта
-FROM node:24-alpine AS builder
-
+FROM node:24-alpine AS deps
 WORKDIR /app
-
-# Копируем только client из корня
-COPY ../client ./
-
+COPY package*.json ./
 RUN npm install
+
+FROM node:24-alpine AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
 RUN npm run build
 
-# 2. Продакшн-стадия
-FROM node:24-alpine
-
+FROM node:24-alpine AS runner
 WORKDIR /app
+ENV NODE_ENV=production
 
-COPY --from=builder /app ./
+COPY package*.json ./
+RUN npm install --omit=dev
 
-EXPOSE 3000
-ENV PORT=3000
-CMD ["npm", "start"]
+COPY --from=builder /app/.next .next
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/node_modules ./node_modules
+
+EXPOSE 4000
+CMD ["npx", "next", "start", "-p", "4000"]

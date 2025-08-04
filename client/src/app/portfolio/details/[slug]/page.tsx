@@ -1,98 +1,66 @@
-'use client';
+export const dynamic = 'force-dynamic';
+import { Metadata } from 'next';
+import WorkDetailsPage from './ClientPage';
+import { notFound } from 'next/navigation';
+import { reverseTransliterate } from '@/entities/Translater';
 
-import React, { useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { useAppSelector } from '@/shared/Hooks/useAppSelector';
-import { getMyWorkById } from '@/entities/portfolio/api/portfolio';
-import styles from './details.module.css';
-import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
+async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/metaData`);
+    const id = params.slug.split('-')[1];
+    const slug = params.slug.split('-')[0];
 
-const WorkDetailsPage = () => {
-  const router = useRouter();
-  const { slug } = useParams();
-  const id = (slug as string).split('-').pop() || '1';
-  const dispatch = useAppDispatch();
-  const { currentWork, loading } = useAppSelector((state) => state.myWork);
+    if (!id || isNaN(Number(id))) return notFound();
 
-  useEffect(() => {
-    if (id) {
-      dispatch(getMyWorkById(Number(id)));
+    const data = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/my-work/${id}`);
+
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
     }
-  }, [id, dispatch]);
-  if (loading) {
-    return <div className={styles.loading}>Загрузка...</div>;
+
+    const metaDatas = await res.json();
+    const meta = metaDatas.data?.[4];
+
+    return {
+      title: `${meta?.title} | ${reverseTransliterate(slug)}`,
+      description: meta?.description,
+      keywords: meta?.keywords.split(',').join(', '),
+      authors: {
+        name: 'Колчин Александр, Садиков Денис, Азамат Болатчиев, Кирилл Панов, Николай Володин, Владислав Бурихин',
+      },
+      openGraph: {
+        title: meta?.openGraph_title || meta?.title,
+        description: meta?.openGraph_description || meta?.description,
+        url: meta?.openGraph_url || '',
+        siteName: meta?.openGraph_siteName,
+        locale: 'ru_RU',
+        type: 'website',
+      },
+      icons: {
+        icon: meta?.icons_icon,
+        shortcut: meta?.icons_shortcut,
+        apple: meta?.icons_apple,
+      },
+      other: {
+        'geo.region': meta?.other_geo_region,
+        'geo.placename': meta?.other_geo_placename,
+        'geo.position': meta?.other_geo_position,
+        ICBM: meta?.other_ICBM,
+      },
+    };
+  } catch (error) {
+    console.error('Error generating metadata:', error);
+    return {
+      title: 'ВашКомфорт',
+      description: '',
+    };
   }
+}
 
-  if (!currentWork) {
-    return <div className={styles.notFound}>Работа не найдена</div>;
-  }
-
-  return (
-    <div className={styles.container}>
-      <div className={styles.headerContainer}>
-        <button
-          onClick={() => router.back()}
-          className={styles.backButton}
-          aria-label="Назад"
-        >
-          Назад
-        </button>
-        <h1 className={styles.title}>{currentWork.title}</h1>
-      </div>
-      <div className={styles.content}>
-        <div className={styles.imageContainer}>
-          {currentWork.image && (
-            <img
-              src={currentWork.image}
-              alt={currentWork.title || 'Изображение работы'}
-              className={styles.image}
-            />
-          )}
-        </div>
-
-        <div className={styles.details}>
-          <div className={styles.detailItem}>
-            <span className={styles.detailLabel}>Площадь:</span>
-            <span className={styles.detailValue}>{currentWork.square}</span>
-          </div>
-
-          <div className={styles.detailItem}>
-            <span className={styles.detailLabel}>Помещения:</span>
-            <span className={styles.detailValue}>{currentWork.quantity}</span>
-          </div>
-
-          <div className={styles.detailItem}>
-            <span className={styles.detailLabel}>Время выполнения:</span>
-            <span className={styles.detailValue}>{currentWork.time}</span>
-          </div>
-
-          <div className={styles.description}>
-            <h3 className={styles.descriptionTitle}>Что было сделано:</h3>
-            <ul className={styles.descriptionList}>
-              {(() => {
-                try {
-                  const parsed = JSON.parse(currentWork.success_work || '[]');
-                  return Array.isArray(parsed) ? (
-                    parsed.map((item, idx) => (
-                      <li key={idx} className={styles.descriptionItem}>
-                        {item}
-                      </li>
-                    ))
-                  ) : (
-                    <li className={styles.descriptionItem}>{currentWork.success_work}</li>
-                  );
-                } catch {
-                  return (
-                    <li className={styles.descriptionItem}>{currentWork.success_work}</li>
-                  );
-                }
-              })()}
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default WorkDetailsPage;
+export default function WorkDetails() {
+  return <WorkDetailsPage />;
+}

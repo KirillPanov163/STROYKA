@@ -6,8 +6,16 @@ const nextConfig = {
     },
   },
   async rewrites() {
-    return [{ source: '/api/:path*', destination: 'http://localhost:3001/api/:path*' }];
-  }
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'http://server:3001/api/:path*',
+      },
+    ];
+  },
+  devIndicators: {
+    buildActivity: true,
+  },
 };
 
 module.exports = nextConfig;

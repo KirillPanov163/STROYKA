@@ -10,7 +10,7 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
   return (
     <div>
       {images.map((image, index) => (
-        <img key={index} src={image} alt={`Image ${index}`} />
+        <img key={index} src={`http://localhost:3001${image}`} alt={`Image ${index}`} />
       ))}
     </div>
   );

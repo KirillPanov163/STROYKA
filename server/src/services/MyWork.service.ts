@@ -10,7 +10,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // Общие настройки для загрузки изображений
-const uploadsDir = path.join(__dirname, '../../../client/public/uploads');
+const uploadsDir = path.join(__dirname, '../../public/uploads');
 
 // Создаем папку для загрузок, если ее нет
 if (!fs.existsSync(uploadsDir)) {

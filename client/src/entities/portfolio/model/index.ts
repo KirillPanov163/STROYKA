@@ -1,11 +1,11 @@
 export interface MyWork {
   id: number;
-  title?: string;
-  square?: string;
-  quantity?: string;
-  time?: string;
-  success_work?: string;
-  image?: string;
+  title: string;
+  square: string;
+  quantity: string;
+  time: string;
+  success_work: string;
+  image: string;
   createdAt?: string;
   updatedAt?: string;
 }
