@@ -218,11 +218,11 @@ const ServiceManager = () => {
       render: (image: string) =>
         image ? (
           <Image
-            src={image}
+            src={`http://localhost:3001${image}`}
             width={50}
             height={50}
             style={{ objectFit: 'cover', borderRadius: 4 }}
-            preview={{ src: image }}
+            preview={{ src: `http://localhost:3001${image}` }}
           />
         ) : null,
     },
@@ -391,10 +391,10 @@ const ServiceManager = () => {
                 {currentService.images && (
                   <div style={{ marginTop: 12, flex: '0 0 40%' }}>
                     <Image
-                      src={currentService.images}
+                      src={`http://localhost:3001${currentService.images}`}
                       alt="Превью"
                       style={{ maxWidth: '100%', maxHeight: 300, borderRadius: 8 }}
-                      preview={{ src: currentService.images }}
+                      preview={{ src: `http://localhost:3001${currentService.images}` }}
                     />
                   </div>
                 )}
@@ -508,10 +508,10 @@ const ServiceManager = () => {
                   </Upload>
                   {currentService?.images && !fileList.length && (
                     <Image
-                      src={currentService.images}
+                      src={`http://localhost:3001${currentService.images}`}
                       alt="Изображение"
                       style={{ maxWidth: '100%', maxHeight: 200, marginTop: 12, borderRadius: 8 }}
-                      preview={{ src: currentService.images }}
+                      preview={{ src: `http://localhost:3001${currentService.images}` }}
                     />
                   )}
                 </Form.Item>

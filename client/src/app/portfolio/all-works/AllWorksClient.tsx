@@ -6,11 +6,15 @@ import { MyWork } from '@/entities/portfolio/model';
 import { transliterate } from '@/entities/Translater';
 
 const AllWorksServer = async () => {
-  const works = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/my_work`, {
-    cache: 'no-store',
-  }).then((res) => res.json());
+  const url = `http://server:3001/api/my-work`;
 
-  if (!works?.length) {
+  console.log('📡 Запрос по адресу:', url);
+  const works = await fetch(url, { cache: 'no-store' }).then((works) => works.json());
+
+  // const works = await res.json();
+  console.log('✅ Полученные данные:', works);
+
+  if (!works?.data.length) {
     return <div className={styles.empty}>Нет доступных работ</div>;
   }
 
@@ -24,14 +28,14 @@ const AllWorksServer = async () => {
       </div>
 
       <div className={styles.worksGrid}>
-        {works.map((work: MyWork) => (
+        {works.data.map((work: MyWork) => (
           <div key={work.id} className={styles.workCard}>
             <h3 className={styles.workTitle}>{work.title}</h3>
 
             {work.image && (
               <div className={styles.imageContainer}>
                 <img
-                  src={work.image}
+                  src={`http://localhost:3001${work.image}`}
                   alt={work.title || 'Изображение работы'}
                   className={styles.workImage}
                 />
@@ -39,7 +43,7 @@ const AllWorksServer = async () => {
             )}
 
             <Link
-              href={`/portfolio/details/${transliterate(work.title || 'наша работа')}-${
+              href={`/portfolio/details/${transliterate(work.title || 'my_work')}-${
                 work.id
               }`}
               className={styles.detailsButton}

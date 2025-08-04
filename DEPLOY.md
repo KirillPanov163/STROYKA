@@ -15,9 +15,10 @@ Backend подключается к облачной БД (PostgreSQL/MongoDB и
 ---
 
 ```bash
-docker compose down
-docker compose build
-docker compose up -d
+docker-compose down
+docker-compose up --build
+
+http://localhost:8080
 ```
 
 ## 📋 Структура проекта

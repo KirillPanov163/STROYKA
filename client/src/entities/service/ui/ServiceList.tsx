@@ -1,3 +1,5 @@
+'use client';
+
 import styles from './ServicePage.module.css';
 interface Service {
   id: number;
@@ -35,7 +37,7 @@ export default function ServicesList({ services }: ServiceListProps) {
         return (
           <div key={service.id} className={styles.serviceItem}>
             <img
-              src={service.images}
+              src={`http://localhost:3001${service.images}`}
               alt={`Изображение услуги: ${service.service}`}
               className={imageClass}
             />

@@ -16,7 +16,7 @@ const WorkDetail = ({ work }: WorkDetailProps) => {
       {images.length > 0 &&
         images.map((image) => (
           <div key={image}>
-            <img src={image} alt={work.title} />
+            <img src={`http://localhost:3001${image}`} alt={work.title} />
             <Button>Описание</Button>
           </div>
         ))}

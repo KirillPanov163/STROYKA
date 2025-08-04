@@ -70,13 +70,22 @@ export const Contacts = () => {
 
         {contact.email && (
           <div className={styles.contactItem}>
-            <span className={styles.value}>{contact.email}</span>
+            <a href={`mailto:${contact.email}`} className={styles.value}>
+              {contact.email}
+            </a>
           </div>
         )}
 
         {contact.address && (
           <div className={styles.contactItem}>
-            <span className={styles.value}>{contact.address}</span>
+            <a
+              href={`https://yandex.ru/maps/?text=${encodeURIComponent(contact.address)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.value}
+            >
+              {contact.address}
+            </a>
           </div>
         )}
       </div>
@@ -84,7 +93,9 @@ export const Contacts = () => {
       <div className={styles.socialLinks}>
         {contact.whatsapp && (
           <a
-            href={`https://wa.me/${contact.whatsapp.replace(/\D/g, '')}`}
+            href={`https://wa.me/${contact.whatsapp
+              .replace(/^8/, '7')
+              .replace(/\D/g, '')}`}
             target="_blank"
             rel="noopener noreferrer"
             className={styles.socialLink}
@@ -101,7 +112,7 @@ export const Contacts = () => {
 
         {contact.telegram && (
           <a
-            // href={`https://t.me/${contact.telegram.replace('@', '')}`}
+            href={`https://t.me/${contact.telegram.replace('@', '')}`}
             target="_blank"
             rel="noopener noreferrer"
             className={styles.socialLink}

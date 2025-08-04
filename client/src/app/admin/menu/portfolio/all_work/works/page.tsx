@@ -208,11 +208,11 @@ const PortfolioManager = () => {
       render: (image: string) =>
         image ? (
           <Image
-            src={image}
+            src={`http://localhost:3001${image}`}
             width={50}
             height={50}
             style={{ objectFit: 'cover', borderRadius: 4 }}
-            preview={{ src: image }}
+            preview={{ src: `http://localhost:3001${image}`}}
           />
         ) : null,
     },
@@ -380,10 +380,10 @@ const PortfolioManager = () => {
                 {currentWork.image && (
                   <div style={{ marginTop: 12 }}>
                     <Image
-                      src={currentWork.image}
+                      src={`http://localhost:3001${currentWork.image}`}
                       alt="Превью"
                       style={{ maxWidth: '100%', maxHeight: 300, borderRadius: 8 }}
-                      preview={{ src: currentWork.image }}
+                      preview={{ src: `http://localhost:3001${currentWork.image}` }}
                     />
                   </div>
                 )}
@@ -567,7 +567,7 @@ const PortfolioManager = () => {
                   </Upload>
                   {currentWork?.image && !fileList.length && (
                     <Image
-                      src={currentWork.image}
+                      src={`http://localhost:3001${currentWork.image}`}
                       alt="Изображение"
                       style={{
                         maxWidth: '100%',
@@ -575,7 +575,7 @@ const PortfolioManager = () => {
                         marginTop: 12,
                         borderRadius: 8,
                       }}
-                      preview={{ src: currentWork.image }}
+                      preview={{ src: `http://localhost:3001${currentWork.image}` }}
                     />
                   )}
                 </Form.Item>

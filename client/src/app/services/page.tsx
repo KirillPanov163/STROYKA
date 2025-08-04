@@ -8,7 +8,6 @@ export async function generateMetadata(): Promise<Metadata> {
   return generatePageMetadata('/services');
 }
 
-
 interface Service {
   id: number;
   service: string;
@@ -20,26 +19,20 @@ export default async function ServicesPage() {
   let services: Service[] = [];
 
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/service`, {
+    const { data } = await fetch(`http://server:3001/api/service`, {
       cache: 'no-store',
-    });
-    
-    if (res.ok) {
-      const data = await res.json();
-      services = data.data || [];
-      console.log('Services data:', services);
-      console.log(data, '===========================')
-    }
+    }).then((data) => data.json());
+    services = data || [];
+    console.log('Services data:', data);
+    console.log(data, '===========================');
   } catch (error) {
     console.error('Error fetching services:', error);
   }
-  
+
   return (
     <div className={styles['services-page-container']}>
       <div className={styles['services-header']}>
-        <h1 className={styles['services-title']}>
-          Наши услуги
-        </h1>
+        <h1 className={styles['services-title']}>Наши услуги</h1>
         <div className={styles['services-divider']}></div>
         <h2 className={styles['services-subtitle']}>
           Профессиональные строительные услуги высочайшего качества

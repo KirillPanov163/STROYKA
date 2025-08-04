@@ -8,7 +8,7 @@ import { dirname } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const uploadsDir = path.join(__dirname, '../../../client/public/uploads');
+const uploadsDir = path.join(__dirname, '../../public/uploads');
 
 export class ServiceService {
   static async getAllService() {

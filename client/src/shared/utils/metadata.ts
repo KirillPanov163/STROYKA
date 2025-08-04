@@ -6,27 +6,22 @@ const PAGE_INDICES: Record<string, number> = {
   '/services': 2, // Услуги
   '/portfolio': 1, // Мои работы главная
   '/portfolio/all-works': 3, // Мои работы все работы
-  '/portfolio/details/[id]': 4, // Мои работы отдельная работа
+  '/portfolio/details/[slug]': 4, // Мои работы отдельная работа
   '/contacts': 5, // Контакты
 };
 
 export async function generatePageMetadata(pagePath: string = '/'): Promise<Metadata> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/metaData`);
-
-    if (!res.ok) {
-      throw new Error(`HTTP error! status: ${res.status}`);
-    }
+    const res = await fetch(`http://server:3001/api/metadata`);
 
     const metaDatas = await res.json();
-    const index = PAGE_INDICES[pagePath] ?? 0; // Default to index 0 if path not found
+    const index = PAGE_INDICES[pagePath] ?? 0;
     const meta = metaDatas.data?.[index];
 
     if (!meta) {
       throw new Error('No metadata found');
     }
 
-    // You can customize the title/description based on the page path if needed
     const pageTitle = meta.title;
     const pageDescription = meta.description;
 
