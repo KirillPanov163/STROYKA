@@ -5,6 +5,12 @@ import AchievementsPage from './achievements/AchievementsWidgets';
 import Slider from '@/widgets/Slider/Slider';
 import ContactsPage from './contacts/page';
 import HeroSection from '@/entities/hero/HeroSection';
+import { generatePageMetadata } from '@/shared/utils/metadata';
+import { Metadata } from 'next';
+
+export async function generateMetadata(): Promise<Metadata> {
+  return generatePageMetadata('/');
+}
 
 export default function Home() {
   return (

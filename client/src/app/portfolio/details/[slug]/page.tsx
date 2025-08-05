@@ -10,13 +10,13 @@ async function generateMetadata({
   params: { slug: string };
 }): Promise<Metadata> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/metaData`);
+    const res = await fetch(`http://server:3001/api/metadata`);
     const id = params.slug.split('-')[1];
     const slug = params.slug.split('-')[0];
 
     if (!id || isNaN(Number(id))) return notFound();
 
-    const data = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/my-work/${id}`);
+    const data = await fetch(`http://server:3001/api/my-work/${id}`);
 
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);

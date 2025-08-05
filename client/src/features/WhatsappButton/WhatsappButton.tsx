@@ -1,13 +1,13 @@
-// components/GoodAppWidget.js
 import Script from 'next/script';
 
 const GoodAppWidget = () => {
   return (
-    <Script
-      id="goodapp-widget"
-      strategy="afterInteractive" // или 'lazyOnload' если не критично
-      dangerouslySetInnerHTML={{
-        __html: `
+    <>
+      <Script
+        id="goodapp-widget"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
           (function () { 
             var widget = document.createElement('script'); 
             widget.defer = true; 
@@ -16,8 +16,24 @@ const GoodAppWidget = () => {
             document.head.appendChild(widget); 
           })()
         `,
-      }}
-    />
+        }}
+      />
+      <Script
+        dangerouslySetInnerHTML={{
+          __html: `
+      (function() {
+        try {
+          const theme = localStorage.getItem('theme');
+          const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (theme === 'dark' || (!theme && systemPrefersDark)) {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (_) {}
+      })();
+    `,
+        }}
+      />
+    </>
   );
 };
 

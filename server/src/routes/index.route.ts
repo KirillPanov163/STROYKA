@@ -7,6 +7,7 @@ import serviceRouter from './service.route.js';
 import contactsRouter from './contacts.routes.js';
 import faqRouter from './FAQ.route.js';
 import myWorkRouter from './myWork.route.js';
+import yandexMetrikaRouter from './Yandex.route.js';
 
 const router = Router();
 
@@ -17,6 +18,7 @@ router.use('/service', serviceRouter);
 router.use('/contacts', contactsRouter)
 router.use('/faq', faqRouter);
 router.use('/my-work', myWorkRouter);
+router.use('/yandex', yandexMetrikaRouter);
 router.use((req: Request, res: Response) => {
   res.status(404).json(formatResponse(404, 'Not found' , req.body));
 });
