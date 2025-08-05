@@ -11,6 +11,10 @@ const nextConfig = {
         source: '/api/:path*',
         destination: 'http://server:3001/api/:path*',
       },
+      {
+        source: '/uploads/:path*',
+        destination: 'http://server:3001/uploads/:path*',
+      },
     ];
   },
   devIndicators: {

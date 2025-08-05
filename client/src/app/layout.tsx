@@ -3,7 +3,6 @@ import type { Metadata } from 'next';
 import './globals.css';
 import Navigation from '../widgets/Navigation/Navigation';
 import Footer from '../widgets/Footer/Footer';
-
 import { ClientLayoutWrapper } from './ClientLayoutWrapper';
 
 // Новый экспорт viewport
@@ -16,8 +15,8 @@ export const viewport = {
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/metadata`, {
-      next: { revalidate: 3600 }
+    const res = await fetch(`http://server:3001/api/metadata`, {
+      next: { revalidate: 3600 },
     });
 
     if (!res.ok) {
@@ -31,15 +30,20 @@ export async function generateMetadata(): Promise<Metadata> {
 
     return {
       title: meta?.title || 'ВашКомфорт',
-      description: meta?.description || 'Профессиональные услуги по ремонту и отделке помещений',
-      keywords: meta?.keywords?.split(',').join(', ') || 'ремонт, отделка, строительство, дизайн интерьера',
+      description:
+        meta?.description || 'Профессиональные услуги по ремонту и отделке помещений',
+      keywords:
+        meta?.keywords?.split(',').join(', ') ||
+        'ремонт, отделка, строительство, дизайн интерьера',
       metadataBase: new URL(siteUrl),
       alternates: {
         canonical: siteUrl,
       },
       authors: [
-        { name: 'Колчин Александр, Садиков Денис, Азамат Болатчиев, Кирилл Панов, Николай Володин, Владислав Бурихин' },
-        { name: 'ВашКомфорт', url: siteUrl }
+        {
+          name: 'Колчин Александр, Садиков Денис, Азамат Болатчиев, Кирилл Панов, Николай Володин, Владислав Бурихин',
+        },
+        { name: 'ВашКомфорт', url: siteUrl },
       ],
       creator: 'Команда ВашКомфорт',
       publisher: 'ВашКомфорт',
@@ -50,7 +54,10 @@ export async function generateMetadata(): Promise<Metadata> {
       },
       openGraph: {
         title: meta?.openGraph_title || meta?.title || 'ВашКомфорт',
-        description: meta?.openGraph_description || meta?.description || 'Профессиональные услуги по ремонту и отделке помещений',
+        description:
+          meta?.openGraph_description ||
+          meta?.description ||
+          'Профессиональные услуги по ремонту и отделке помещений',
         url: meta?.openGraph_url || siteUrl,
         siteName: meta?.openGraph_siteName || 'ВашКомфорт',
         locale: 'ru_RU',
@@ -67,7 +74,10 @@ export async function generateMetadata(): Promise<Metadata> {
       twitter: {
         card: 'summary_large_image',
         title: meta?.openGraph_title || meta?.title || 'ВашКомфорт',
-        description: meta?.openGraph_description || meta?.description || 'Профессиональные услуги по ремонту и отделке помещений',
+        description:
+          meta?.openGraph_description ||
+          meta?.description ||
+          'Профессиональные услуги по ремонту и отделке помещений',
         images: [meta?.openGraph_image || `${siteUrl}/images/og-image.jpg`],
       },
       robots: {
@@ -89,7 +99,11 @@ export async function generateMetadata(): Promise<Metadata> {
         shortcut: [meta?.icons_shortcut || '/icon_oktogon.ico'],
         apple: [
           { url: meta?.icons_apple || '/icon_oktogon.png' },
-          { url: meta?.icons_apple || '/icon_oktogon.png', sizes: '180x180', type: 'image/png' },
+          {
+            url: meta?.icons_apple || '/icon_oktogon.png',
+            sizes: '180x180',
+            type: 'image/png',
+          },
         ],
         other: [
           {
@@ -110,11 +124,11 @@ export async function generateMetadata(): Promise<Metadata> {
         'msapplication-TileColor': '#da532c',
         'msapplication-config': '/browserconfig.xml',
         'theme-color': '#ffffff',
-        'copyright': `© ${currentYear} ВашКомфорт. Все права защищены.`,
+        copyright: `© ${currentYear} ВашКомфорт. Все права защищены.`,
         'geo.region': meta?.other_geo_region || 'RU',
         'geo.placename': meta?.other_geo_placename || 'Москва',
         'geo.position': meta?.other_geo_position || '55.7558,37.6173',
-        'ICBM': meta?.other_ICBM || '55.7558, 37.6173',
+        ICBM: meta?.other_ICBM || '55.7558, 37.6173',
         'yandex-verification': meta?.yandex_verification || '',
         'google-site-verification': meta?.google_verification || '',
       },
@@ -131,25 +145,9 @@ export async function generateMetadata(): Promise<Metadata> {
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { ThemeToggle } from '@/components/ThemeToggle/ThemeToggle';
 import { Providers } from '@/store/Providers';
+import Script from 'next/script';
 
-
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  // let services = [];
-
-  // try {
-  //   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/service`, {
-  //     cache: 'no-store',
-  //   });
-
-  //   if (res.ok) {
-  //     const data = await res.json();
-  //     services = data.data || [];
-  //     console.log('Fetched services:', services);
-  //   }
-  // } catch (error) {
-  //   console.error('Error fetching services:', error);
-  // }
-
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ru" suppressHydrationWarning>
       <body className="flex flex-col min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200 relative">
@@ -157,6 +155,16 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <ThemeProvider>
             <ThemeToggle />
             <Navigation />
+            <Script defer src={`http://server:3001/yandex/metrika.js`}/>
+            <noscript>
+              <div>
+                <img
+                  src={`http://server:3001/yandex/metrika-img`}
+                  style={{ position: 'absolute', left: '-9999px' }}
+                  alt=""
+                />
+              </div>
+            </noscript>
             <main className="flex-1 relative z-0">
               <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
             </main>
