@@ -3,6 +3,7 @@ import styles from './WorkCard.module.css';
 import { MyWork } from '@/entities/portfolio/model';
 import Link from 'next/link';
 import { transliterate } from '@/entities/Translater';
+import Image from 'next/image';
 
 interface WorkCardProps {
   work: MyWork;
@@ -16,10 +17,11 @@ const WorkCard = ({ work, onClick }: WorkCardProps) => {
       <h3 className={styles.workTitle}>{work.title}</h3>
       {work.image && (
         <div className={styles.imageContainer}>
-          <img 
+          <Image 
             src={`http://localhost:3001${work.image}`} 
             alt={work.title || 'Work image'} 
             className={styles.workImage}
+            fetchPriority="high"
           />
         </div>
       )}

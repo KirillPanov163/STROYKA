@@ -95,6 +95,7 @@ export const ThemeToggle = () => {
             : 'none'
         }}
         aria-label={theme === 'light' ? 'Переключить на темную тему' : 'Переключить на светлую тему'}
+        role="button"
       >
         {theme === 'light' ? <MoonIcon /> : <SunIcon />}
       </div>

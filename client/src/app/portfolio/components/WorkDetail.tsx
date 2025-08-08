@@ -2,6 +2,7 @@ import React from 'react';
 import { MyWork } from '@/entities/portfolio/model/index';
 import ImageGallery from '../ui/ImageGallery';
 import { Button } from '@/shared/ui';
+import Image from 'next/image';
 
 interface WorkDetailProps {
   work: MyWork;
@@ -16,7 +17,7 @@ const WorkDetail = ({ work }: WorkDetailProps) => {
       {images.length > 0 &&
         images.map((image) => (
           <div key={image}>
-            <img src={`http://localhost:3001${image}`} alt={work.title} />
+            <Image src={`http://localhost:3001${image}`} alt={work.title} fetchPriority="high" />
             <Button>Описание</Button>
           </div>
         ))}

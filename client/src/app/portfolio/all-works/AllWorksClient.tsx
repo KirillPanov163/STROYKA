@@ -4,9 +4,11 @@ import Link from 'next/link';
 import styles from './allWorks.module.css';
 import { MyWork } from '@/entities/portfolio/model';
 import { transliterate } from '@/entities/Translater';
+import Image from 'next/image';
 
 const AllWorksServer = async () => {
-  const url = `http://server:3001/api/my-work`;
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/my-work`;
+  // const url = `http://server:3001/api/my-work`;
 
   console.log('📡 Запрос по адресу:', url);
   const works = await fetch(url, { cache: 'no-store' }).then((works) => works.json());
@@ -34,10 +36,11 @@ const AllWorksServer = async () => {
 
             {work.image && (
               <div className={styles.imageContainer}>
-                <img
+                <Image
                   src={`http://localhost:3001${work.image}`}
                   alt={work.title || 'Изображение работы'}
                   className={styles.workImage}
+                  fetchPriority="high"
                 />
               </div>
             )}

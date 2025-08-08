@@ -12,7 +12,8 @@ const PAGE_INDICES: Record<string, number> = {
 
 export async function generatePageMetadata(pagePath: string = '/'): Promise<Metadata> {
   try {
-    const res = await fetch(`http://server:3001/api/metadata`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/metadata`);
+    // const res = await fetch(`http://server:3001/api/metadata`);
 
     const metaDatas = await res.json();
     const index = PAGE_INDICES[pagePath] ?? 0;
@@ -55,7 +56,7 @@ export async function generatePageMetadata(pagePath: string = '/'): Promise<Meta
   } catch (error) {
     console.error('Error generating metadata:', error);
     return {
-      title: 'ВашКомфорт',
+      title: 'ВентСтройМонтаж',
       description: 'Ваш надежный партнер в создании комфортного микроклимата',
     };
   }

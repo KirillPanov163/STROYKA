@@ -3,11 +3,11 @@ import { generatePageMetadata } from '@/shared/utils/metadata';
 import React from 'react';
 import styles from './Oferta.module.css';
 
-// Generate metadata for the oferta page
-export async function generateMetadata(): Promise<Metadata> {
-  // Using default index 0 as oferta doesn't have a specific index in the provided list
-  return generatePageMetadata('/');
-}
+export const metadata: Metadata = {
+  title: 'ВентСтройМонтаж | Оферта | Профессиональный монтаж вентиляции и кондиционеров ',
+  description:
+    'Установка и обслуживание систем вентиляции, кондиционирования и очистки воздуха в Москве и области. Гарантия качества, индивидуальные решения.',
+};
 
 export default function Oferta() {
   return (
