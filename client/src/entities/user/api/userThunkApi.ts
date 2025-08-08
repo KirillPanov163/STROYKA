@@ -1,4 +1,4 @@
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { axiosInstance, setAccessToken } from '@/shared/lib/axiosInstance'
 import type { ServerResponseType } from "@/shared/types";
@@ -18,23 +18,62 @@ import { AUTH_API_ROUTES } from "@/shared/enums/authApiRoutes";
 
 // Обновление токенов
 export const refreshTokenThunk = createAsyncThunk<
-ServerResponseType<UserWithTokenType>,
+  ServerResponseType<UserWithTokenType>,
   void,
   { rejectValue: ServerResponseType<null> }
->(USER_THUNK_TYPES.REFRESH_TOKEN, async (_, { rejectWithValue }) => {
-  try {
-    const { data } = await axiosInstance.post<
-    ServerResponseType<UserWithTokenType>
-    >(AUTH_API_ROUTES.REFRESH_TOKEN);
-    console.log("refreshTokenThunk full response:", JSON.stringify(data, null, 2));  // убрать когда пофиксю ошибки
-    setAccessToken(data.data.accessToken);
-    return data;
-  } catch (error) {
-    const err = error as AxiosError<ServerResponseType<null>>;
-    console.error("refreshTokenThunk error:", err.response?.data);
-    return rejectWithValue(err.response!.data);
+>(
+  USER_THUNK_TYPES.REFRESH_TOKEN,
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post<ServerResponseType<UserWithTokenType>>(
+        AUTH_API_ROUTES.REFRESH_TOKEN
+      );
+
+      if (!response.data?.data?.accessToken) {
+        throw new Error("Сервер не вернул accessToken");
+      }
+
+      const accessToken = response.data.data.accessToken;
+
+      // Сохраняем токен в localStorage
+      if (typeof window !== 'undefined' && accessToken) {
+        localStorage.setItem('token', accessToken);
+      }
+
+      // Если у тебя есть функция для установки токена в axios или куда-то еще, вызывай её тоже
+      setAccessToken(accessToken);
+
+      return response.data;
+    } catch (error: unknown) {
+      // Обработка ошибок
+      let errorMessage = 'Неизвестная ошибка при обновлении токена';
+      let statusCode = 500;
+      let errorData = null;
+
+      if (axios.isAxiosError<ServerResponseType<null>>(error)) {
+        errorMessage = error.response?.data?.message || error.message;
+        statusCode = error.response?.status || 500;
+        errorData = error.response?.data || null;
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+
+      console.error('Ошибка обновления токена:', {
+        message: errorMessage,
+        statusCode,
+        error: errorData,
+      });
+
+      return rejectWithValue({
+        statusCode,
+        message: errorMessage,
+        data: null,
+        error: errorData?.error || 'Token refresh failed',
+      });
+    }
   }
-});
+);
+
 
 // в случае выхода из система лучше использовать метод delete или post,так как изменения происходят
 // на уровне удаления текущей сессии,

@@ -6,6 +6,7 @@ import { useAppSelector } from '@/shared/Hooks/useAppSelector';
 import { getMyWorkById } from '@/entities/portfolio/api/portfolio';
 import styles from './details.module.css';
 import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
+import Image from 'next/image';
 
 const WorkDetailsPage = () => {
   const router = useRouter();
@@ -42,10 +43,11 @@ const WorkDetailsPage = () => {
       <div className={styles.content}>
         <div className={styles.imageContainer}>
           {currentWork.image && (
-            <img
+            <Image
               src={`http://localhost:3001${currentWork.image}`}
               alt={currentWork.title || 'Изображение работы'}
               className={styles.image}
+              fetchPriority="high"
             />
           )}
         </div>

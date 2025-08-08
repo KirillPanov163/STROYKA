@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import styles from './ServicePage.module.css';
 interface Service {
   id: number;
@@ -36,10 +37,11 @@ export default function ServicesList({ services }: ServiceListProps) {
 
         return (
           <div key={service.id} className={styles.serviceItem}>
-            <img
+            <Image
               src={`http://localhost:3001${service.images}`}
               alt={`Изображение услуги: ${service.service}`}
               className={imageClass}
+              fetchPriority="high"
             />
             <div className={styles.serviceContent}>
               <h2 className={styles.serviceTitle}>{service.service}</h2>

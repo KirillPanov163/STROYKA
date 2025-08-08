@@ -1,11 +1,10 @@
 import { Metadata } from 'next';
-import { generatePageMetadata } from '@/shared/utils/metadata';
 
-// Generate metadata for the privacy policy page
-export async function generateMetadata(): Promise<Metadata> {
-  // Using default index 0 as privacy policy doesn't have a specific index in the provided list
-  return generatePageMetadata('/');
-}
+export const metadata: Metadata = {
+  title: 'ВентСтройМонтаж  | Политика обработки персональных данных | Профессиональный монтаж вентиляции и кондиционеров ',
+  description:
+    'Установка и обслуживание систем вентиляции, кондиционирования и очистки воздуха в Москве и области. Гарантия качества, индивидуальные решения.',
+};
 
 import React from 'react'
 import styles from './PoliticsPage.module.css'

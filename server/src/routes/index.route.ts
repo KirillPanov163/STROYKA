@@ -8,6 +8,7 @@ import contactsRouter from './contacts.routes.js';
 import faqRouter from './FAQ.route.js';
 import myWorkRouter from './myWork.route.js';
 import yandexMetrikaRouter from './Yandex.route.js';
+import goodappRouter from './goodApp.route.js';
 
 const router = Router();
 
@@ -18,7 +19,8 @@ router.use('/service', serviceRouter);
 router.use('/contacts', contactsRouter)
 router.use('/faq', faqRouter);
 router.use('/my-work', myWorkRouter);
-router.use('/yandex', yandexMetrikaRouter);
+// router.use('/yandex', yandexMetrikaRouter);
+router.use('/proxy', goodappRouter);
 router.use((req: Request, res: Response) => {
   res.status(404).json(formatResponse(404, 'Not found' , req.body));
 });

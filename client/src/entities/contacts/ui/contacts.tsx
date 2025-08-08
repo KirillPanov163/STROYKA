@@ -142,6 +142,7 @@ export const Contacts = () => {
           >
             Политика конфиденциальности
           </Link>
+          <br/>
           <Link
             href="/oferta"
             className={styles.legalText}

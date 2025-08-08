@@ -4,9 +4,11 @@ export const dynamic = 'force-dynamic';
 import ServicesList from '@/entities/service/ui/ServiceList';
 import styles from './services-page.module.css';
 
-export async function generateMetadata(): Promise<Metadata> {
-  return generatePageMetadata('/services');
-}
+export const metadata: Metadata = {
+  title: 'ВентСтройМонтаж | Услуги | Профессиональный монтаж вентиляции и кондиционеров ',
+  description:
+    'Установка и обслуживание систем вентиляции, кондиционирования и очистки воздуха в Москве и области. Гарантия качества, индивидуальные решения.',
+};
 
 interface Service {
   id: number;
@@ -19,9 +21,12 @@ export default async function ServicesPage() {
   let services: Service[] = [];
 
   try {
-    const { data } = await fetch(`http://server:3001/api/service`, {
+    const { data } = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/service`, {
       cache: 'no-store',
     }).then((data) => data.json());
+    // const { data } = await fetch(`http://server:3001/api/service`, {
+    //   cache: 'no-store',
+    // }).then((data) => data.json());
     services = data || [];
     console.log('Services data:', data);
     console.log(data, '===========================');

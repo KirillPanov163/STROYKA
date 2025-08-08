@@ -5,12 +5,13 @@ import AchievementsPage from './achievements/AchievementsWidgets';
 import Slider from '@/widgets/Slider/Slider';
 import ContactsPage from './contacts/page';
 import HeroSection from '@/entities/hero/HeroSection';
-import { generatePageMetadata } from '@/shared/utils/metadata';
 import { Metadata } from 'next';
 
-export async function generateMetadata(): Promise<Metadata> {
-  return generatePageMetadata('/');
-}
+export const metadata: Metadata = {
+  title: 'ВентСтройМонтаж | Профессиональный монтаж вентиляции и кондиционеров ',
+  description:
+    'Установка и обслуживание систем вентиляции, кондиционирования и очистки воздуха в Москве и области. Гарантия качества, индивидуальные решения.',
+};
 
 export default function Home() {
   return (
