@@ -1,11 +1,11 @@
-import styles from './page.module.css';
-import HomeClient from './HomeClient';
-import FAQPage from './faq/page';
-import AchievementsPage from './achievements/AchievementsWidgets';
-import Slider from '@/widgets/Slider/Slider';
+import styles from './components/styles/page.module.css';
+import {FAQ} from './components/Main/faq/FAQ';
+import Slider from '@/app/components/Main/Slider/Slider';
 import ContactsPage from './contacts/page';
-import HeroSection from '@/entities/hero/HeroSection';
+import HeroSection from '@/app/components/Main/hero/HeroSection';
 import { Metadata } from 'next';
+import AchievementsSection from './components/Main/achievements/AchievementsSection';
+import HomeClient from './components/Main/Effects/HomeClient';
 
 export const metadata: Metadata = {
   title: 'ВентСтройМонтаж | Профессиональный монтаж вентиляции и кондиционеров ',
@@ -24,7 +24,7 @@ export default function Home() {
           <HeroSection />
 
           <div className="fade-in-up">
-            <AchievementsPage />
+            <AchievementsSection />
           </div>
 
           <div className="section-divider"></div>
@@ -95,7 +95,7 @@ export default function Home() {
           <div className="section-divider"></div>
 
           <div className="fade-in-up delay-3">
-            <FAQPage />
+            <FAQ />
           </div>
         </div>
       </div>

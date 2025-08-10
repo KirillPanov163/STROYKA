@@ -1,14 +1,15 @@
 export const dynamic = 'force-dynamic';
 import type { Metadata } from 'next';
-import './globals.css';
-import Navigation from '../widgets/Navigation/Navigation';
-import Footer from '../widgets/Footer/Footer';
-import { ClientLayoutWrapper } from './ClientLayoutWrapper';
-import { ThemeProvider } from '@/contexts/ThemeContext';
-import { ThemeToggle } from '@/components/ThemeToggle/ThemeToggle';
-import { Providers } from '@/store/Providers';
-import Script from 'next/script';
+import './components/styles/globals.css';
+import Header from './components/contexts/Header/Header';
+import Footer from './components/contexts/Footer/Footer';
+import { ClientLayoutWrapper } from './components/contexts/LayoutContext/ClientLayoutWrapper';
+import { ThemeProvider } from '@/app/components/contexts/LayoutContext/theme/ThemeContext';
+import { ThemeToggle } from '@/app/components/contexts/LayoutContext/theme/ThemeToggle/ThemeToggle';
+import { Providers } from '@/app/components/contexts/LayoutContext/store/Providers';
 import Head from 'next/head';
+import Script from 'next/script';
+import Link from 'next/link';
 
 // Новый экспорт viewport
 export const viewport = {
@@ -38,9 +39,6 @@ export async function generateMetadata(): Promise<Metadata> {
     const currentYear = new Date().getFullYear();
 
     return {
-      // title: meta?.title || 'ВентСтройМонтаж',
-      // description:
-      //   meta?.description || 'Профессиональные услуги по ремонту и отделке помещений',
       title: 'ВентСтройМонтаж | Профессиональный монтаж вентиляции и кондиционеров ',
       description:
         'Установка и обслуживание систем вентиляции, кондиционирования и очистки воздуха в Москве и области. Гарантия качества, индивидуальные решения.',
@@ -249,28 +247,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ru" suppressHydrationWarning>
       <Head>
-        <script
+        <Script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <link
+        <Link
           rel="preconnect"
           href="https://widget.yourgood.app"
-          crossOrigin="anonymous"
+          // crossOrigin="anonymous"
         />
-        <link rel="preconnect" href="https://mc.yandex.ru" crossOrigin="anonymous" />
+        <Link rel="preconnect" href="https://mc.yandex.ru" />
       </Head>
-      <body className="flex flex-col min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200 relative">
-        <Providers>
-          <ThemeProvider>
-            <ThemeToggle />
-            <Navigation />
-            <main className="flex-1 relative z-0">
-              <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
-            </main>
-            <Footer />
-          </ThemeProvider>
-        </Providers>
+      <body className="wind-effect">
+        <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
       </body>
     </html>
   );
