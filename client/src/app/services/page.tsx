@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { generatePageMetadata } from '@/shared/utils/metadata';
 export const dynamic = 'force-dynamic';
-import ServicesList from '@/entities/service/ui/ServiceList';
+import ServicesList from '@/app/services/ui/ServiceList';
 import styles from './services-page.module.css';
 
 export const metadata: Metadata = {

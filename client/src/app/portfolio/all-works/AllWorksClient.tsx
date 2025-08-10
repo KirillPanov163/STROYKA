@@ -3,7 +3,7 @@ export const dynamic = 'force-dynamic';
 import Link from 'next/link';
 import styles from './allWorks.module.css';
 import { MyWork } from '@/entities/portfolio/model';
-import { transliterate } from '@/entities/Translater';
+import { transliterate } from '@/shared/utils/translater';
 import Image from 'next/image';
 
 const AllWorksServer = async () => {
