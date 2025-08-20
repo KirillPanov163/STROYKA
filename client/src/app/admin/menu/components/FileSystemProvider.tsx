@@ -13,12 +13,21 @@ interface UrlNode {
 interface FileSystemContextType {
   urlStructure: UrlNode[];
   toggleNode: (path: string) => void;
+  burger: boolean;
+  setBurger: (burger: boolean) => void;
 }
 
 const FileSystemContext = createContext<FileSystemContextType | undefined>(undefined);
 
-export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
-  const router = useRouter();
+export const FileSystemProvider = ({
+  children,
+  burger,
+  setBurger,
+}: {
+  children: ReactNode;
+  burger: boolean;
+  setBurger: (value: boolean) => void;
+}) => {
   const [urlStructure, setUrlStructure] = useState<UrlNode[]>([
     {
       path: '/',
@@ -27,25 +36,13 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
       children: [
         {
           path: '/admin/menu/',
-          name: 'Управление метаданными',
+          name: 'Управление metadata',
           isOpen: false,
         },
         {
-          path: '/faq',
+          path: '/admin/menu/faq',
           name: 'FAQ',
           isOpen: false,
-          children: [
-            {
-              path: '/admin/menu/faq/add_answers',
-              name: 'Добавить частые вопросы',
-              isOpen: false,
-            },
-            {
-              path: '/admin/menu/faq/all_answers',
-              name: 'Управление всеми вопросами',
-              isOpen: false,
-            },
-          ],
         },
       ],
     },
@@ -56,20 +53,13 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
       children: [
         {
           path: '/admin/menu/services/metadata',
-          name: 'Управление метаданными',
+          name: 'Управление metadata',
           isOpen: false,
         },
         {
           path: '/admin/menu/services/all_services',
-          name: 'Все услуги',
+          name: 'Управление услугами',
           isOpen: false,
-          children: [
-            {
-              path: '/admin/menu/services/all_services',
-              name: 'Управление всеми услугами',
-              isOpen: false,
-            },
-          ],
         },
       ],
     },
@@ -85,32 +75,25 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
           children: [
             {
               path: '/admin/menu/portfolio/metadata/main',
-              name: 'Управление метаданными "/portfolio"',
+              name: 'metadata "/portfolio"',
               isOpen: false,
             },
             {
               path: '/admin/menu/portfolio/metadata/all_work',
-              name: 'Управление метаданными всех работ',
+              name: 'metadata "/all_works"',
               isOpen: false,
             },
             {
               path: '/admin/menu/portfolio/metadata/(alias)',
-              name: 'Управление метаданными каждой отдельной работы',
+              name: 'metadata "/(alias)"',
               isOpen: false,
             },
           ],
         },
         {
-          path: '/admin/menu/portfolio/all_work',
+          path: '/admin/menu/portfolio/works',
           name: 'Все работы',
           isOpen: false,
-          children: [
-            {
-              path: '/admin/menu/portfolio/all_work/works',
-              name: 'Управление всеми работами',
-              isOpen: false,
-            },
-          ],
         },
       ],
     },
@@ -121,15 +104,25 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
       children: [
         {
           path: '/admin/menu/contact/metadata',
-          name: 'Управление метаданными',
+          name: 'Управление metadata',
           isOpen: false,
         },
         {
           path: '/admin/menu/contact/',
-          name: 'Создать контакт и управление ими',
+          name: 'Управление контактами',
           isOpen: false,
         },
       ],
+    },
+    {
+      path: '/admin/menu/images/',
+      name: 'Управление img',
+      isOpen: false,
+    },
+    {
+      path: '/admin/menu',
+      name: 'amdin',
+      isOpen: false,
     },
   ]);
 
@@ -151,7 +144,9 @@ export const FileSystemProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <FileSystemContext.Provider value={{ urlStructure, toggleNode: handleToggle }}>
+    <FileSystemContext.Provider
+      value={{ urlStructure, toggleNode: handleToggle, burger, setBurger }}
+    >
       {children}
     </FileSystemContext.Provider>
   );

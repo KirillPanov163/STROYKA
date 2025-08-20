@@ -5,24 +5,42 @@ const nextConfig = {
     },
   },
   async rewrites() {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
-    const uploadsUrl =
-      process.env.NEXT_PUBLIC_UPLOADS_URL || 'http://localhost:3001/uploads';
-    const apiDocker = process.env.NEXT_PUBLIC_API_URL || 'http://server:3001/api';
-    const uploadsDocker = process.env.NEXT_PUBLIC_API_URL || 'http://server:3001/uploads';
+    const apiUrl = 'http://localhost:3001/api';
+    const uploadsUrl = 'http://localhost:3001/uploads';
+    const apiDocker = 'http://server:3001/api';
+    const uploadsDocker = 'http://server:3001/uploads';
 
     return [
       {
         source: '/api/:path*',
-        destination: `${apiUrl}/:path*`,
+        // destination: `${apiUrl}/:path*`,
+        destination: `${apiDocker}/:path*`,
       },
       {
         source: '/uploads/:path*',
-        destination: `${uploadsUrl}/:path*`,
+        // destination: `${uploadsUrl}/:path*`,
+        destination: `${uploadsDocker}/:path*`,
       },
     ];
   },
-  // Удалите `devIndicators`, так как это устаревшая опция
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'http',
+        // hostname: 'localhost',
+        hostname: 'server',
+        port: '3001',
+        pathname: '/**',
+      },
+      {
+        protocol: 'http',
+        // hostname: 'localhost',
+        hostname: 'server',
+        port: '4000',
+        pathname: '/**',
+      },
+    ],
+  },
 };
 
 module.exports = nextConfig;

@@ -64,6 +64,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  filter: var(--logo-filter);
 }
 
 .logoFooter a {
@@ -141,17 +142,24 @@
 
 @media (max-width: 767px) {
   .footer {
-    padding: 1.5rem 0;
+    display: grid;
   }
 
-  .container {
-    padding: 0 15px;
+  .logoFooter {
+    flex: auto;
+    justify-content: center;
+    margin: 0 100px;
   }
 
   .textBlock {
-    min-width: 200px;
+    flex: auto;
+    justify-content: center;
   }
 
+  .iconsContainer {
+    flex: auto;
+    justify-content: center;
+  }
   .link {
     font-size: 0.85rem;
     margin: 0 0.8rem;
@@ -178,69 +186,44 @@
 
 @media (max-width: 575px) {
   .footer {
-    padding: 1rem 0;
+    display: grid;
   }
 
-  .container {
-    padding: 0 10px;
+  .logoFooter {
+    flex: auto;
+    justify-content: center;
+    margin: 0 100px;
   }
 
   .textBlock {
-    min-width: 180px;
-  }
-
-  .link {
-    font-size: 0.8rem;
-    margin: 0 0.5rem;
-    display: block;
-  }
-
-  .legal {
-    font-size: 0.75rem;
-  }
-
-  .logoFooter img {
-    width: 80px;
+    flex: auto;
+    justify-content: center;
   }
 
   .iconsContainer {
-    margin-right: 30px;
-  }
-
-  .iconLink {
-    width: 25px;
-    height: 25px;
+    flex: auto;
+    justify-content: center;
   }
 }
 
 @media (max-width: 480px) {
-  .contentWrapper {
-    gap: 1rem;
+  .footer {
+    display: grid;
+  }
+
+  .logoFooter {
+    flex: auto;
+    justify-content: center;
+    margin: 0 100px;
   }
 
   .textBlock {
-    min-width: 150px;
-  }
-
-  .link {
-    font-size: 0.75rem;
-    margin: 0 0.3rem;
-  }
-
-  .legal {
-    font-size: 0.7rem;
-  }
-
-  .logoFooter img {
-    width: 70px;
+    flex: auto;
+    justify-content: center;
   }
 
   .iconsContainer {
-    margin-right: 20px;
-  }
-
-  .iconLink {
-    width: 20px;
-    height: 20px;
+    flex: auto;
+    justify-content: center;
   }
 }

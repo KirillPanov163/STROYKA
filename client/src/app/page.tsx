@@ -6,12 +6,11 @@ import HeroSection from '@/app/components/Main/hero/HeroSection';
 import { Metadata } from 'next';
 import AchievementsSection from './components/Main/achievements/AchievementsSection';
 import HomeClient from './components/Main/Effects/HomeClient';
+import { generateMetadatas } from '@/shared/utils/metadata';
 
-export const metadata: Metadata = {
-  title: 'ВентСтройМонтаж | Профессиональный монтаж вентиляции и кондиционеров ',
-  description:
-    'Установка и обслуживание систем вентиляции, кондиционирования и очистки воздуха в Москве и области. Гарантия качества, индивидуальные решения.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generateMetadatas(1);
+}
 
 export default function Home() {
   return (
@@ -76,9 +75,8 @@ export default function Home() {
             className="fade-in-up delay-2"
             style={{
               width: '100%',
-              maxWidth: '1200px',
+              maxWidth: '1150px',
               margin: '0 auto',
-              padding: '0 1rem 4rem',
               boxSizing: 'border-box',
             }}
           >

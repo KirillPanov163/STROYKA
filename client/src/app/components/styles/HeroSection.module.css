@@ -41,37 +41,11 @@
   transition: opacity 0.3s ease;
 }
 
-/* Анимация ветра на фоне */
-.background-wind {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  background: transparent;
-  overflow: hidden;
-}
-
-.wind-effect {
-  position: absolute;
-  width: 200%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.1) 50%,
-    transparent 100%
-  );
-  opacity: 0.3;
-  animation: windFlow 10s linear infinite;
-}
-
 /* Контент Hero */
 .heroContent {
   max-width: 1200px;
   width: 100%;
-  margin: 0 auto;
+  margin: 60px auto 0;
   padding: 0 20px;
   position: relative;
   z-index: 2;
@@ -120,7 +94,7 @@
   min-width: 250px;
   padding: 14px 20px;
   font-size: clamp(0.9rem, 1.5vw, 1.1rem);
-  border: 2px solid  var(--accent);
+  border: 2px solid var(--accent);
   background: rgba(225, 225, 225, 0); /* Фиксированный фон */
   color: #f6ff8f; /* Фиксированный цвет текста */
   border-radius: 10px;
@@ -143,7 +117,7 @@
   font-size: clamp(0.9rem, 1.5vw, 1.1rem);
   font-weight: 600;
   color: #fff;
-  background:  var(--accent);
+  background: var(--accent);
   border: none;
   border-radius: 10px;
   cursor: pointer;
@@ -151,15 +125,16 @@
 }
 
 .ctaButton:hover {
-  transform: scale(1.05);
-  background: #3a80d2;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  background: var(--accent-gold-light);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(175, 173, 76, 0.3);
 }
 
 .ctaButton:disabled {
-  opacity: 0.6;
+  background: var(--text-muted);
   cursor: not-allowed;
   transform: none;
+  box-shadow: none;
 }
 
 /* Сообщения об успехе и ошибке */
@@ -185,18 +160,18 @@
 .features {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: 2.3rem;
   justify-content: flex-start;
 }
 
 .featureItem {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  border:  var(--accent) solid 2px;
+  gap: 1.5rem;
+  border: var(--accent) solid 2px;
   color: rgb(255, 255, 255);
   padding: 12px 20px;
-  background:  var(--card-bg);
+  background: var(--card-bg);
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -209,7 +184,9 @@
 
 .featureIcon {
   font-size: clamp(1.2rem, 2vw, 1.5rem);
-  color: #1a2b4b; /* Фиксированный цвет иконки */
+  color: #1a2b4b;
+  transition: color 0.3s ease;
+  filter: invert(1) sepia(0) saturate(0) hue-rotate(0deg);
 }
 
 /* Анимация появления */
@@ -359,58 +336,5 @@
 
   .featureIcon {
     font-size: clamp(1rem, 1.5vw, 1.2rem);
-  }
-}
-
-/* Кроссбраузерные стили для анимаций */
-@-moz-keyframes fadeIn {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@-webkit-keyframes fadeIn {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@-moz-keyframes windFlow {
-  0% {
-    transform: translateX(-50%);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-
-@-webkit-keyframes windFlow {
-  0% {
-    transform: translateX(-50%);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-
-/* Поддержка упрощённых анимаций */
-@media (prefers-reduced-motion: reduce) {
-  .heroContent,
-  .featureItem,
-  .ctaButton,
-  .phoneInput,
-  .wind-effect {
-    transition: none;
-    animation: none;
   }
 }

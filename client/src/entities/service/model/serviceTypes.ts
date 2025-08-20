@@ -2,7 +2,7 @@ export interface Service {
   id: number;
   service?: string;
   description?: string;
-  images?: string;
+  image?: string;
   createdAt?: string;
   updatedAt?: string;
 }

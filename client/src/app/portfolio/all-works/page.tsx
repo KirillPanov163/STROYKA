@@ -1,14 +1,39 @@
+export const dynamic = 'force-dynamic';
+import { generateMetadatas } from '@/shared/utils/metadata';
+import Cards from '../components/Cards';
+import styles from '../components/styles/WorksList.module.css';
 import { Metadata } from 'next';
-import AllWorksClient from './AllWorksClient';
+import { MyWork } from '@/entities/my-work/model';
 
+export async function generateMetadata(): Promise<Metadata> {
+  return generateMetadatas(4);
+}
 
+export default async function WorksList() {
+  async function fetchWorks(): Promise<MyWork[]> {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/my-work`, {
+      next: { revalidate: 3600 * 3 },
+    });
 
-export const metadata: Metadata = {
-  title: 'ВентСтройМонтаж | Наши работы | Профессиональный монтаж вентиляции и кондиционеров ',
-  description:
-    'Установка и обслуживание систем вентиляции, кондиционирования и очистки воздуха в Москве и области. Гарантия качества, индивидуальные решения.',
-};
+    if (!res.ok) throw new Error('Failed to fetch works');
+    const { data } = await res.json();
+    return (Array.isArray(data) ? data : []).map((work: MyWork) => ({
+      ...work,
+    }));
+  }
 
-export default function AllWorksPage() {
-  return <AllWorksClient />;
+  const data = await fetchWorks();
+  const works = data;
+
+  return (
+    <div className={styles.container}>
+      <h1 className={styles.title}>Все работы</h1>
+      <div className={styles.cards}>
+        {works.map((work: MyWork) => (
+          <Cards key={work.id} work={work} />
+        ))}
+      </div>
+      <div className={styles.viewAll}></div>
+    </div>
+  );
 }

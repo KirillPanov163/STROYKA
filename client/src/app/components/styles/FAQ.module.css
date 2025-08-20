@@ -1,17 +1,17 @@
 /* Контейнер страницы */
 .pageContainer {
   position: relative;
-  min-height: 100vh;
   width: 100%;
-  background: transparent; /* Прозрачный фон для интеграции с --bg-primary сайта */
-  padding: 4rem 1rem;
+  background: transparent;
+  margin-bottom: 80px;
+  padding: 4rem 6rem;
   box-sizing: border-box;
   overflow: hidden;
 }
 
 /* Контейнер контента */
 .contentContainer {
-  max-width: 1200px;
+  max-width: 1150px;
   margin: 0 auto;
   padding: 0 20px;
   display: flex;
@@ -30,22 +30,9 @@
   position: relative;
 }
 
-.pageTitle::after {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80px;
-  height: 3px;
-  background: var(--accent);
-  border-radius: 2px;
-}
-
 /* Контейнер FAQ */
 .faqContainer {
   width: 100%;
-  max-width: 800px;
 }
 
 /* Заголовок секции */
@@ -66,9 +53,8 @@
 
 /* Элемент FAQ */
 .faqItem {
-  background: var(--card-bg);
+  background: var(--bg-primary);
   border-radius: 12px;
-  box-shadow: 0 4px 15px var(--shadow);
   overflow: hidden;
   transition: all 0.3s ease;
 }
@@ -143,7 +129,7 @@
 /* Адаптивность */
 @media (max-width: 991px) {
   .pageContainer {
-    padding: 3rem 0.75rem;
+    padding: 3rem 5rem;
   }
 
   .contentContainer {
@@ -174,7 +160,7 @@
 
 @media (max-width: 767px) {
   .pageContainer {
-    padding: 2rem 0.5rem;
+    padding: 2rem 4rem;
   }
 
   .contentContainer {
@@ -223,7 +209,7 @@
 
 @media (max-width: 575px) {
   .pageContainer {
-    padding: 1.5rem 0.5rem;
+    padding: 1.5rem 3rem;
   }
 
   .contentContainer {
@@ -272,7 +258,7 @@
 
 @media (max-width: 480px) {
   .pageContainer {
-    padding: 1rem 0.5rem;
+    padding: 1rem 1rem;
   }
 
   .contentContainer {

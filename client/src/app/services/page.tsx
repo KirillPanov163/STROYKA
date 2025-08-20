@@ -1,50 +1,89 @@
 import { Metadata } from 'next';
-import { generatePageMetadata } from '@/shared/utils/metadata';
 export const dynamic = 'force-dynamic';
-import ServicesList from '@/app/services/ui/ServiceList';
 import styles from './services-page.module.css';
+import { Image } from 'antd/es';
+import { generateMetadatas } from '@/shared/utils/metadata';
 
-export const metadata: Metadata = {
-  title: 'ВентСтройМонтаж | Услуги | Профессиональный монтаж вентиляции и кондиционеров ',
-  description:
-    'Установка и обслуживание систем вентиляции, кондиционирования и очистки воздуха в Москве и области. Гарантия качества, индивидуальные решения.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generateMetadatas(3);
+}
 
 interface Service {
   id: number;
   service: string;
   description: string;
-  images: string;
+  image: string;
 }
 
 export default async function ServicesPage() {
   let services: Service[] = [];
 
   try {
-    const { data } = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/service`, {
-      cache: 'no-store',
-    }).then((data) => data.json());
-    // const { data } = await fetch(`http://server:3001/api/service`, {
-    //   cache: 'no-store',
-    // }).then((data) => data.json());
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/service`, {
+      next: { revalidate: 3600 * 5 },
+    });
+    if (!response.ok) throw new Error('Failed to fetch services');
+    const { data } = await response.json();
     services = data || [];
-    console.log('Services data:', data);
-    console.log(data, '===========================');
+    if (!services || services.length === 0) {
+      return <p className={styles.noServices}>Нет доступных услуг</p>;
+    }
   } catch (error) {
     console.error('Error fetching services:', error);
+    return <p className={styles.noServices}>Произошла ошибка</p>;
   }
 
   return (
     <div className={styles['services-page-container']}>
       <div className={styles['services-header']}>
         <h1 className={styles['services-title']}>Наши услуги</h1>
-        <div className={styles['services-divider']}></div>
         <h2 className={styles['services-subtitle']}>
           Профессиональные строительные услуги высочайшего качества
         </h2>
       </div>
       <div className={styles['services-content']}>
-        <ServicesList services={services} />
+        <div className={styles.servicesList}>
+          {services.map((service) => {
+            let descriptionItems: string[] = [];
+            try {
+              descriptionItems = JSON.parse(service.description);
+            } catch (e) {
+              console.error('Error parsing description:', e);
+              descriptionItems = [service.description];
+            }
+            const imageClass = `${styles.serviceImage} ${
+              descriptionItems.length > 5
+                ? styles.largeImage
+                : descriptionItems.length > 3
+                ? styles.mediumImage
+                : styles.baseImage
+            }`;
+
+            return (
+              <div key={service.id} className={styles.serviceItem}>
+                <Image
+                  src={`${process.env.NEXT_PUBLIC_URL}${service.image}`}
+                  alt={`Изображение услуги: ${service.service}`}
+                  className={imageClass}
+                  fetchPriority="high"
+                  width={500}
+                  height={500}
+                  preview={false}
+                />
+                <div className={styles.serviceContent}>
+                  <h2 className={styles.serviceTitle}>{service.service}</h2>
+                  <div className={styles.serviceDescription}>
+                    <ul>
+                      {descriptionItems.map((item, index) => (
+                        <li key={index}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

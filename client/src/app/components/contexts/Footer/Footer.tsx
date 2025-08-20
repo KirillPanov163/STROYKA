@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import styles from '../../styles/Footer.module.css';
 import Link from 'next/link';
@@ -27,7 +29,7 @@ export default function Footer() {
           <div className={styles.logoFooter}>
             <Link href="/">
               <Image
-                src="/logo_oktogon.png"
+                src={'/logo_oktogon.png'}
                 alt="Логотип"
                 width={120}
                 height={80}

@@ -82,6 +82,9 @@ const metaDataSlice = createSlice({
             item.id === updatedData.id ? { ...item, ...updatedData } : item,
           );
         }
+        if (state.metaData?.id === updatedData.id) {
+          state.metaData = { ...state.metaData, ...updatedData };
+        }
       })
       .addCase(updateMetaData.rejected, (state, action: { payload: any }) => {
         state.isLoading = false;

@@ -2,7 +2,7 @@ import { AxiosError } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { axiosInstance } from '@/shared/lib/axiosInstance';
 import type { ServerResponseType } from '@/shared/types';
-import { IMetaData } from '../model/metaDataTypes';
+import { IMetaData, IMetaDataInput } from '../model/metaDataTypes';
 import { METADATA_TYPES } from '@/shared/enums/metaDataThunkTypes';
 import { METADATA_API_ROUTES } from '@/shared/enums/metaDataApiRoutes';
 
@@ -56,21 +56,41 @@ export const getOneMetaData = createAsyncThunk<
 
 export const updateMetaData = createAsyncThunk<
   ServerResponseType<IMetaData>,
-  IMetaData,
+  { id: number; data: Partial<IMetaDataInput>; files?: { [key: string]: File } },
   { rejectValue: ServerResponseType<null> }
->(METADATA_TYPES.UPDATE_METADATA, async (updatedData, { rejectWithValue }) => {
+>(METADATA_TYPES.UPDATE_METADATA, async ({ id, data, files }, { rejectWithValue }) => {
   try {
-    const { data } = await axiosInstance.put<ServerResponseType<IMetaData>>(
-      `${METADATA_API_ROUTES.METADATA}/${updatedData.id}`, updatedData
+    const formData = new FormData();
+    // Добавляем текстовые поля
+    Object.entries(data).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        formData.append(key, value.toString());
+      }
+    });
+    // Добавляем файлы
+    if (files) {
+      Object.entries(files).forEach(([key, file]) => {
+        formData.append(key, file);
+      });
+    }
+
+    const { data: responseData } = await axiosInstance.put<ServerResponseType<IMetaData>>(
+      `${METADATA_API_ROUTES.METADATA}/${id}`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      },
     );
-    return data;
+    return responseData;
   } catch (error) {
     const err = error as AxiosError<ServerResponseType<null>>;
-    console.error('getAllMetaData error:', err.response?.data);
+    console.error('updateMetaData error:', err.response?.data);
     return rejectWithValue(
       err.response?.data || {
         statusCode: 500,
-        message: 'Ошибка получения METADATA',
+        message: 'Ошибка обновления METADATA',
         data: null,
         error: err.message || 'Unknown error',
       },

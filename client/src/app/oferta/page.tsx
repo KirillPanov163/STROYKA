@@ -1,13 +1,11 @@
 import { Metadata } from 'next';
-import { generatePageMetadata } from '@/shared/utils/metadata';
+import { generateMetadatas } from '@/shared/utils/metadata';
 import React from 'react';
 import styles from './Oferta.module.css';
 
-export const metadata: Metadata = {
-  title: 'ВентСтройМонтаж | Оферта | Профессиональный монтаж вентиляции и кондиционеров ',
-  description:
-    'Установка и обслуживание систем вентиляции, кондиционирования и очистки воздуха в Москве и области. Гарантия качества, индивидуальные решения.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generateMetadatas(1);
+}
 
 export default function Oferta() {
   return (

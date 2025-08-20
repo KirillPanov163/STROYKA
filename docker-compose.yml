@@ -9,7 +9,11 @@ services:
     depends_on:
       - server
     environment:
+      - NODE_ENV=production
+      - DOCKER_ENV=true
       - NEXT_PUBLIC_API_URL=http://server:3001/api
+      - NEXT_PUBLIC_UPLOADS_URL=http://server:3001/uploads
+      - NEXT_PUBLIC_URL=http://server:3001
     restart: unless-stopped
 
   server:
@@ -22,13 +26,15 @@ services:
     volumes:
       - ./server/uploads:/app/uploads
     environment:
-      - DATABASE_URL=${DATABASE_URL}
-      - ACCESS_TOKEN_SECRET=${ACCESS_TOKEN_SECRET}
-      - REFRESH_TOKEN_SECRET=${REFRESH_TOKEN_SECRET}
+      - NODE_ENV=production
+      - DOCKER_ENV=true
+      - DATABASE_URL=mysql://u1770310_admin:Chernichkin_123@31.31.198.5:3310/u1770310_Denis_Condicioner
+      - ACCESS_TOKEN_SECRET=asdgagdgagadggewqghqhfhfhqahq
+      - REFRESH_TOKEN_SECRET=asdgagrweqhqchqfhfhqerfqfhqdh
       - CLIENT_URL=http://client:4000
       - PORT=3001
-      - SMTP_PASS=${SMTP_PASS}
-      - SMTP_USER=${SMTP_USER}
-      - SMTP_FROM=${SMTP_FROM}
-      - SMTP_ADMIN=${SMTP_ADMIN}
+      - SMTP_PASS=AYajNgOYFQ9f5gP4JriV
+      - SMTP_USER=madewlove@mail.ru
+      - SMTP_FROM=madewlove@mail.ru
+      - SMTP_ADMIN=juniorletto03092001@gmail.com
     restart: unless-stopped

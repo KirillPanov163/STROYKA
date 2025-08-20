@@ -7,6 +7,7 @@ import globals from 'globals';
 
 export default defineConfig([
   { files: ['**/*.js'], languageOptions: { sourceType: 'commonjs' } },
+  { sourceType: 'module' },
   {
     files: ['**/*.{js,mjs,cjs}'],
     languageOptions: {
@@ -34,4 +35,3 @@ export default defineConfig([
     extends: ['json/recommended'],
   },
 ]);
-

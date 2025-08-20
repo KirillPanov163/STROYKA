@@ -4,7 +4,7 @@ import { ServerResponseType } from '@/shared/types';
 import { Service } from '../model/serviceTypes';
 import { AxiosError } from 'axios';
 
-const handleApiError = (error: AxiosError | any) => {
+export const handleApiError = (error: AxiosError | any) => {
   return error.response?.data || { message: 'Произошла ошибка при выполнении запроса' };
 };
 
@@ -80,40 +80,6 @@ export const deleteService = createAsyncThunk(
     try {
       const { data } = await axiosInstance.delete<ServerResponseType<Service>>(
         `/service/${id}`
-      );
-      return data.data;
-    } catch (error) {
-      return rejectWithValue(handleApiError(error));
-    }
-  }
-);
-
-export const uploadServiceImage = createAsyncThunk(
-  'service/uploadImage',
-  async ({ id, formData }: { id: number; formData: FormData }, { rejectWithValue }) => {
-    try {
-      const { data } = await axiosInstance.post<ServerResponseType<Service>>(
-        `/service/${id}/upload-image`,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        }
-      );
-      return data.data;
-    } catch (error) {
-      return rejectWithValue(handleApiError(error));
-    }
-  }
-);
-
-export const deleteServiceImage = createAsyncThunk(
-  'service/deleteImage',
-  async (id: number, { rejectWithValue }) => {
-    try {
-      const { data } = await axiosInstance.delete<ServerResponseType<Service>>(
-        `/service/${id}/image`
       );
       return data.data;
     } catch (error) {
