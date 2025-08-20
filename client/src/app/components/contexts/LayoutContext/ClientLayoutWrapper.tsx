@@ -15,26 +15,30 @@ import { Providers } from './store/Providers';
 import { ThemeProvider } from './theme/ThemeContext';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
-import { ThemeToggle } from './theme/ThemeToggle/ThemeToggle';
+import { ThemeToggle } from './theme/ThemeToggle';
+import { FileSystemProvider } from '@/app/admin/menu/components/FileSystemProvider';
+import { useState } from 'react';
 
 export function ClientLayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isAdminPath = pathname?.includes('/admin') ?? false;
+    const [burger, setBurger] = useState(false);
 
   return (
     <>
       <Providers>
-        <ThemeProvider>
-          {!isAdminPath && <ThemeToggle />}
-          <Header />
-          <main>
-            {children}
-            {!isAdminPath && <Feedback />}
-            {!isAdminPath && <GoodAppWidget />}
-            <YandexMetrika />
-          </main>
-          <Footer />
-        </ThemeProvider>
+        <FileSystemProvider burger={burger} setBurger={setBurger}>
+          <ThemeProvider>
+            {!isAdminPath && <ThemeToggle />}
+            <Header burger={burger} setBurger={setBurger}/>
+            <main>
+              {children}
+              {!isAdminPath && <Feedback />}
+              <YandexMetrika />
+            </main>
+            {!isAdminPath && <Footer />}
+          </ThemeProvider>
+        </FileSystemProvider>
       </Providers>
     </>
   );

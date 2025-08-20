@@ -6,12 +6,9 @@ const AchievementsSection: React.FC = () => {
   return (
     <section className={styles.achievementsSection}>
       <div className={styles.container}>
-        {/* Заголовок */}
         <div className={styles.sectionHeader}>
           <h2 className={styles.sectionTitle}>НАШИ ДОСТИЖЕНИЯ</h2>
         </div>
-
-        {/* Статистика */}
         <div className={styles.statsGrid}>
           <div className={styles.statItem}>
             <div className={styles.statNumber}>6</div>
@@ -31,8 +28,6 @@ const AchievementsSection: React.FC = () => {
             </div>
           </div>
         </div>
-
-        {/* Преимущества */}
         <div className={styles.advantagesGrid}>
           <div className={styles.advantageItem}>
             <div className={styles.advantageIcon}>

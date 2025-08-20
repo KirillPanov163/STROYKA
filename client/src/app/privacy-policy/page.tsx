@@ -1,13 +1,12 @@
-import { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'ВентСтройМонтаж  | Политика обработки персональных данных | Профессиональный монтаж вентиляции и кондиционеров ',
-  description:
-    'Установка и обслуживание систем вентиляции, кондиционирования и очистки воздуха в Москве и области. Гарантия качества, индивидуальные решения.',
-};
-
 import React from 'react'
 import styles from './PoliticsPage.module.css'
+import { Metadata } from 'next';
+import { generateMetadatas } from '@/shared/utils/metadata';
+
+export async function generateMetadata(): Promise<Metadata> {
+  return generateMetadatas(1);
+}
+
 
 export default function PoliticsPage() {
   return (

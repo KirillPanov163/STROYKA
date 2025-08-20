@@ -94,3 +94,14 @@
 .folderIcon:hover, .fileIcon:hover {
   opacity: 0.8;
 }
+
+.menu {
+  display: block;
+  width: 20%;
+}
+
+@media (max-width: 767px) {
+  .menu {
+    display: none;
+  }
+}

@@ -9,18 +9,6 @@
   position: relative;
 }
 
-.sectionTitle::after {
-  content: '';
-  position: absolute;
-  bottom: -8px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 380px;
-  height: 3px;
-  background: var(--accent);
-  border-radius: 2px;
-}
-
 /* Обертка контента */
 .contentWrapper {
   display: grid;
@@ -50,6 +38,105 @@
   padding: 1.5rem;
   background: transparent;
   border-radius: 8px;
+}
+
+.pageContainer {
+  width: 100%;
+  padding: 7rem 1rem;
+}
+
+.contentContainer {
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pageTitle {
+  font-size: clamp(2rem, 4.5vw, 2.5rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 2rem;
+  text-align: center;
+  letter-spacing: -0.025em;
+  position: relative;
+}
+
+@media (max-width: 1199px) {
+  .contentContainer {
+    max-width: 1000px;
+    padding: 0 15px;
+  }
+
+  .pageTitle {
+    font-size: clamp(1.8rem, 4vw, 2.2rem);
+  }
+}
+
+@media (max-width: 991px) {
+  .pageContainer {
+    padding: 7rem 0.75rem;
+  }
+
+  .contentContainer {
+    max-width: 800px;
+  }
+
+  .pageTitle {
+    font-size: clamp(1.6rem, 3.5vw, 2rem);
+  }
+}
+
+@media (max-width: 767px) {
+  .pageContainer {
+    padding: 6rem 0.5rem;
+  }
+
+  .contentContainer {
+    padding: 0 10px;
+  }
+
+  .pageTitle {
+    font-size: clamp(1.4rem, 3vw, 1.8rem);
+  }
+}
+
+@media (max-width: 575px) {
+  .pageContainer {
+    padding: 6rem 0.5rem;
+  }
+
+  .contentContainer {
+    padding: 0 8px;
+  }
+
+  .pageTitle {
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+    margin-bottom: 1.5rem;
+  }
+
+  .pageTitle::after {
+    width: 60px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pageContainer {
+    padding: 6rem 0.5rem;
+  }
+
+  .contentContainer {
+    padding: 0 5px;
+  }
+
+  .pageTitle {
+    font-size: clamp(1rem, 2vw, 1.4rem);
+  }
+
+  .pageTitle::after {
+    width: 50px;
+  }
 }
 
 /* Адаптивность */

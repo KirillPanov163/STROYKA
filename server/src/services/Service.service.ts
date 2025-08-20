@@ -24,7 +24,7 @@ export class ServiceService {
       data: {
         service: data.service,
         description: data.description,
-        images: data.imagesPath || null, // Make sure this matches what you send from controller
+        image: data.imagesPath || null,
       },
     });
   }
@@ -32,8 +32,8 @@ export class ServiceService {
   static async updateService(id: number, data: any) {
     const currentService = await prisma.service.findUnique({ where: { id } });
 
-    if (data.newImage && currentService?.images) {
-      this.deleteImage(currentService.images);
+    if (data.newImage && currentService?.image) {
+      this.deleteImage(currentService.image);
     }
 
     return await prisma.service.update({
@@ -41,7 +41,7 @@ export class ServiceService {
       data: {
         service: data.service,
         description: data.description,
-        images: data.newImage || currentService?.images,
+        image: data.newImage || currentService?.image,
       },
     });
   }
@@ -50,8 +50,8 @@ export class ServiceService {
     const service = await prisma.service.findUnique({ where: { id } });
     if (!service) throw new Error('Service not found');
 
-    if (service.images) {
-      this.deleteImage(service.images);
+    if (service.image) {
+      this.deleteImage(service.image);
     }
 
     return await prisma.service.delete({ where: { id } });

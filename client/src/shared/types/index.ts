@@ -4,3 +4,5 @@ export type ServerResponseType<DataType> = {
   error: string | null;
   data: DataType;
 };
+
+

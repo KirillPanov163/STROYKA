@@ -7,8 +7,8 @@ import serviceRouter from './service.route.js';
 import contactsRouter from './contacts.routes.js';
 import faqRouter from './FAQ.route.js';
 import myWorkRouter from './myWork.route.js';
-import yandexMetrikaRouter from './Yandex.route.js';
 import goodappRouter from './goodApp.route.js';
+import imageRouter from './image.route.js';
 
 const router = Router();
 
@@ -16,13 +16,13 @@ router.use('/auth', authRouter);
 router.use('/recording', recordingRouter);
 router.use('/metadata', metaDataRouter);
 router.use('/service', serviceRouter);
-router.use('/contacts', contactsRouter)
+router.use('/contacts', contactsRouter);
 router.use('/faq', faqRouter);
 router.use('/my-work', myWorkRouter);
-// router.use('/yandex', yandexMetrikaRouter);
 router.use('/proxy', goodappRouter);
+router.use('/images', imageRouter);
 router.use((req: Request, res: Response) => {
-  res.status(404).json(formatResponse(404, 'Not found' , req.body));
+  res.status(404).json(formatResponse(404, 'Not found', req.body));
 });
 
 export default router;

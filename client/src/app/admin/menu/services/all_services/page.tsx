@@ -7,7 +7,6 @@ import {
   Button,
   Modal,
   Upload,
-  Table,
   Spin,
   Form,
   Input,
@@ -23,7 +22,6 @@ import {
   UploadOutlined,
   EditOutlined,
   DeleteOutlined,
-  EyeOutlined,
   PlusOutlined,
   MinusOutlined,
 } from '@ant-design/icons';
@@ -34,9 +32,9 @@ import {
   getServiceById,
   updateService,
   deleteService,
-} from '../../../../../entities/service/api/serviceThunkApi';
-import { clearCurrentService } from '../../../../../entities/service/slice/serviceSlice';
-import { Service } from '../../../../../entities/service/model/serviceTypes';
+} from '@/entities/service/api/serviceThunkApi';
+import { clearCurrentService } from '@/entities/service/slice/serviceSlice';
+import { Service } from '@/entities/service/model/serviceTypes';
 
 const { Text } = Typography;
 const { Content } = Layout;
@@ -53,16 +51,28 @@ const ServiceManager = () => {
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [editMode, setEditMode] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const pageSize = 1;
 
   useEffect(() => {
     dispatch(getAllServices());
   }, [dispatch]);
-
+  const [windowWidth, setWindowWidth] = useState(
+    typeof window !== 'undefined' ? window.innerWidth : 0,
+  );
   useEffect(() => {
     if (error) {
       message.error(error);
     }
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    return () => window.removeEventListener('resize', handleResize);
   }, [error]);
+
+  const margin = windowWidth < 765 ? '60px auto' : '0px auto';
+
 
   useEffect(() => {
     if (currentService && editMode) {
@@ -87,13 +97,13 @@ const ServiceManager = () => {
         description: parsedDescriptions,
       });
 
-      if (currentService.images) {
+      if (currentService.image) {
         setFileList([
           {
             uid: '-1',
             name: 'current-image',
             status: 'done',
-            url: currentService.images,
+            url: currentService.image,
           },
         ]);
       }
@@ -122,12 +132,6 @@ const ServiceManager = () => {
   const handleEdit = (id: number) => {
     dispatch(getServiceById(id));
     setEditMode(true);
-    showModal();
-  };
-
-  const handleView = (id: number) => {
-    dispatch(getServiceById(id));
-    setEditMode(false);
     showModal();
   };
 
@@ -184,75 +188,10 @@ const ServiceManager = () => {
     }
   };
 
-  const columns = [
-    {
-      title: 'Название услуги',
-      dataIndex: 'service',
-      key: 'service',
-      render: (text: string) => (
-        <Text style={{ color: '#69b1ff', fontWeight: 'bold' }}>{text}</Text>
-      ),
-    },
-    {
-      title: 'Описание',
-      dataIndex: 'description',
-      key: 'description',
-      render: (text: string) => {
-        try {
-          const parsed = JSON.parse(text || '[]');
-          return (
-            <Text style={{ color: '#69b1ff' }}>
-              {Array.isArray(parsed) ? parsed.join(', ') : text}
-            </Text>
-          );
-        } catch {
-          return <Text style={{ color: '#69b1ff' }}>{text}</Text>;
-        }
-      },
-      ellipsis: true,
-    },
-    {
-      title: 'Изображение',
-      dataIndex: 'images',
-      key: 'images',
-      render: (image: string) =>
-        image ? (
-          <Image
-            src={`http://localhost:3001${image}`}
-            width={50}
-            height={50}
-            style={{ objectFit: 'cover', borderRadius: 4 }}
-            preview={{ src: `http://localhost:3001${image}` }}
-          />
-        ) : null,
-    },
-    {
-      title: 'Действия',
-      key: 'actions',
-      render: (_: any, record: Service) => (
-        <Space>
-          <Button
-            type="text"
-            icon={<EyeOutlined style={{ color: '#69b1ff' }} />}
-            onClick={() => handleView(record.id)}
-            style={{ color: '#69b1ff', padding: 0 }}
-          />
-          <Button
-            type="text"
-            icon={<EditOutlined style={{ color: '#69b1ff' }} />}
-            onClick={() => handleEdit(record.id)}
-            style={{ color: '#69b1ff', padding: 0 }}
-          />
-          <Button
-            type="text"
-            icon={<DeleteOutlined style={{ color: '#fd9b9b' }} />}
-            onClick={() => handleDelete(record.id)}
-            style={{ color: '#fd9b9b', padding: 0 }}
-          />
-        </Space>
-      ),
-    },
-  ];
+  const paginatedServices = services.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize,
+  );
 
   const uploadProps = {
     onRemove: () => setFileList([]),
@@ -272,19 +211,21 @@ const ServiceManager = () => {
   };
 
   return (
-    <Layout style={{ minHeight: '100vh', background: 'transparent' }}>
+    <Layout style={{ minWidth: '80vw', background: 'transparent' }}>
       <Content
         style={{
-          width: '80%',
-          margin: '120px auto',
-          background: 'linear-gradient(135deg, #1e293b 0%, #334155 25%, #475569 50%, #64748b 75%, #94a3b8 100%)',
+          width: '100%',
+          margin,
+          background: 'transparent',
           height: 'auto',
-          padding: 16,
+          padding: 8,
           borderRadius: 8,
         }}
       >
         <Card
-          title={<Text style={{ color: '#69b1ff', fontSize: 18 }}>Управление услугами</Text>}
+          title={
+            <Text style={{ color: '#69b1ff', fontSize: 18 }}>Управление услугами</Text>
+          }
           extra={
             <Button
               type="text"
@@ -297,60 +238,171 @@ const ServiceManager = () => {
           }
           style={{
             background: 'transparent',
-            padding: 16,
+            padding: 8,
             borderRadius: 8,
             color: '#69b1ff',
           }}
-          styles={{
-            body: { padding: 16 }
-          }}
+          styles={{ body: { padding: 0 } }}
         >
           <Spin spinning={loading}>
-            <Table
-              columns={columns}
-              dataSource={services}
-              rowKey={(record) => record.id.toString()}
-              pagination={{ pageSize: 5 }}
-              style={{ background: 'transparent' }}
-              rowClassName={() => 'custom-table-row'}
-              components={{
-                header: {
-                  cell: (props: any) => (
-                    <th
-                      {...props}
-                      style={{
-                        background: 'transparent',
-                        color: '#69b1ff',
-                        borderBottom: '1px solid #64748b',
-                      }}
-                    />
-                  ),
-                },
-                body: {
-                  row: (props: any) => (
-                    <tr
-                      {...props}
-                      style={{
-                        background: 'transparent',
-                        color: '#69b1ff',
-                        borderBottom: '1px solid #64748b',
-                      }}
-                    />
-                  ),
-                  cell: (props: any) => (
-                    <td
-                      {...props}
-                      style={{
-                        background: 'transparent',
-                        color: '#69b1ff',
-                        borderBottom: '1px solid #64748b',
-                      }}
-                    />
-                  ),
-                },
-              }}
-            />
+            {paginatedServices.map((service) => {
+              let descriptionItems: string[] = [];
+              try {
+                descriptionItems = JSON.parse(service.description || '[]');
+                if (!Array.isArray(descriptionItems)) {
+                  descriptionItems = [service.description || ''];
+                }
+              } catch {
+                descriptionItems = [service.description || ''];
+              }
+
+              return (
+                <Card
+                  key={service.id}
+                  style={{
+                    background: 'transparent',
+                    border: '2px solid #64748b',
+                    borderTop: 'none',
+                    borderRadius: 12,
+                  }}
+                  actions={[
+                    <Button
+                      type="text"
+                      icon={<EditOutlined style={{ color: '#69b1ff' }} />}
+                      onClick={() => handleEdit(service.id)}
+                      style={{ color: '#69b1ff', padding: 0 }}
+                    />,
+                    <Button
+                      type="text"
+                      icon={<DeleteOutlined style={{ color: '#fd9b9b' }} />}
+                      onClick={() => handleDelete(service.id)}
+                      style={{ color: '#fd9b9b', padding: 0 }}
+                    />,
+                  ]}
+                  styles={{ actions: { background: 'transparent' } }}
+                >
+                  <Card.Meta
+                    title={
+                      <Text
+                        style={{ color: '#69b1ff', fontSize: 20, fontWeight: 'bold' }}
+                      >
+                        Услуга #{service.id}
+                      </Text>
+                    }
+                    description={
+                      <div style={{ padding: 0 }}>
+                        <div style={{ marginBottom: 12 }}>
+                          <Text style={{ color: '#69b1ff', fontWeight: 'bold' }}>
+                            Название:
+                          </Text>
+                          <div
+                            style={{
+                              background: '#1e293b',
+                              padding: 8,
+                              borderRadius: 6,
+                              marginTop: 4,
+                              color: '#a3bffa',
+                              minHeight: 20,
+                            }}
+                          >
+                            {service.service || '-'}
+                          </div>
+                        </div>
+                        <div style={{ marginBottom: 12 }}>
+                          <Text style={{ color: '#69b1ff', fontWeight: 'bold' }}>
+                            Описание:
+                          </Text>
+                          <div
+                            style={{
+                              background: '#1e293b',
+                              padding: 8,
+                              borderRadius: 6,
+                              marginTop: 4,
+                              color: '#a3bffa',
+                              minHeight: 20,
+                            }}
+                          >
+                            <ul style={{ listStyle: 'none', paddingLeft: 0, margin: 0 }}>
+                              {descriptionItems.map((item, index) => (
+                                <li
+                                  key={index}
+                                  style={{
+                                    position: 'relative',
+                                    paddingLeft: '22px',
+                                    marginBottom: '8px',
+                                    color: 'var(--text-color)',
+                                    lineHeight: '1.4',
+                                  }}
+                                >
+                                  <span
+                                    style={{
+                                      position: 'absolute',
+                                      left: '0',
+                                      color: 'var(--secondary-color)',
+                                      fontSize: '0.9rem',
+                                      top: '2px',
+                                    }}
+                                  >
+                                    ✔
+                                  </span>
+                                  {item}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                        {service.image && (
+                          <div style={{ marginBottom: 12 }}>
+                            <Image
+                              src={`${process.env.NEXT_PUBLIC_URL}${service.image}`}
+                              alt={`Изображение услуги: ${service.service}`}
+                              style={{
+                                maxWidth: '100%',
+                                maxHeight: 300,
+                                marginTop: 4,
+                                borderRadius: 6,
+                              }}
+                              preview={{
+                                src: `${process.env.NEXT_PUBLIC_URL}${service.image}`,
+                              }}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    }
+                  />
+                </Card>
+              );
+            })}
           </Spin>
+
+          {services.length > pageSize && (
+            <div style={{ marginTop: 24, textAlign: 'center' }}>
+              <Button
+                type="text"
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                style={{ color: '#69b1ff', padding: 0, marginRight: 8 }}
+              >
+                Предыдущая
+              </Button>
+              <Text style={{ color: '#69b1ff', margin: '0 16px' }}>
+                Страница {currentPage} из {Math.ceil(services.length / pageSize)}
+              </Text>
+              <Button
+                type="text"
+                onClick={() =>
+                  setCurrentPage((prev) =>
+                    Math.min(prev + 1, Math.ceil(services.length / pageSize)),
+                  )
+                }
+                disabled={currentPage === Math.ceil(services.length / pageSize)}
+                style={{ color: '#69b1ff', padding: 0, marginLeft: 8 }}
+              >
+                Следующая
+              </Button>
+            </div>
+          )}
 
           <Modal
             title={
@@ -365,17 +417,20 @@ const ServiceManager = () => {
             open={isModalVisible}
             onCancel={handleCancel}
             footer={null}
-            width={800}
             styles={{
               content: {
-                background: '#1e293b',
+                background:
+                  'linear-gradient(135deg, #1e293b 0%, #334155 25%, #475569 50%, #64748b 75%, #94a3b8 100%)',
                 borderRadius: 8,
               },
               body: {
                 padding: 16,
-                background: '#1e293b',
-                color: '#69b1ff'
-              }
+                background: 'transparent',
+                color: '#69b1ff',
+              },
+              header: {
+                background: 'transparent',
+              },
             }}
           >
             {!editMode && currentService ? (
@@ -388,13 +443,15 @@ const ServiceManager = () => {
                   borderRadius: 8,
                 }}
               >
-                {currentService.images && (
+                {currentService.image && (
                   <div style={{ marginTop: 12, flex: '0 0 40%' }}>
                     <Image
-                      src={`http://localhost:3001${currentService.images}`}
+                      src={`${process.env.NEXT_PUBLIC_URL}${currentService.image}`}
                       alt="Превью"
                       style={{ maxWidth: '100%', maxHeight: 300, borderRadius: 8 }}
-                      preview={{ src: `http://localhost:3001${currentService.images}` }}
+                      preview={{
+                        src: `${process.env.NEXT_PUBLIC_URL}${currentService.image}`,
+                      }}
                     />
                   </div>
                 )}
@@ -408,13 +465,17 @@ const ServiceManager = () => {
                       dataSource={(() => {
                         try {
                           const parsed = JSON.parse(currentService.description || '[]');
-                          return Array.isArray(parsed) ? parsed : [currentService.description];
+                          return Array.isArray(parsed)
+                            ? parsed
+                            : [currentService.description];
                         } catch {
                           return [currentService.description];
                         }
                       })()}
                       renderItem={(item: string) => (
-                        <List.Item style={{ color: '#69b1ff', borderBottom: '1px solid #64748b' }}>
+                        <List.Item
+                          style={{ color: '#69b1ff', borderBottom: '1px solid #64748b' }}
+                        >
                           {item}
                         </List.Item>
                       )}
@@ -458,7 +519,11 @@ const ServiceManager = () => {
                       {fields.map(({ key, name, ...restField }) => (
                         <Form.Item
                           key={key}
-                          label={<Text style={{ color: '#69b1ff' }}>{`Описание ${name + 1}`}</Text>}
+                          label={
+                            <Text style={{ color: '#69b1ff' }}>{`Описание ${
+                              name + 1
+                            }`}</Text>
+                          }
                           {...restField}
                           name={name}
                         >
@@ -506,12 +571,19 @@ const ServiceManager = () => {
                       Выбрать файл
                     </Button>
                   </Upload>
-                  {currentService?.images && !fileList.length && (
+                  {currentService?.image && !fileList.length && (
                     <Image
-                      src={`http://localhost:3001${currentService.images}`}
+                      src={`${process.env.NEXT_PUBLIC_URL}${currentService.image}`}
                       alt="Изображение"
-                      style={{ maxWidth: '100%', maxHeight: 200, marginTop: 12, borderRadius: 8 }}
-                      preview={{ src: `http://localhost:3001${currentService.images}` }}
+                      style={{
+                        maxWidth: '100%',
+                        maxHeight: 200,
+                        marginTop: 12,
+                        borderRadius: 8,
+                      }}
+                      preview={{
+                        src: `${process.env.NEXT_PUBLIC_URL}${currentService.image}`,
+                      }}
                     />
                   )}
                 </Form.Item>
@@ -536,23 +608,39 @@ const ServiceManager = () => {
             onOk={confirmDelete}
             okText="Удалить"
             cancelText="Отмена"
-            title={<Text style={{ color: '#69b1ff' }}>Вы уверены, что хотите удалить услугу?</Text>}
+            title={
+              <Text style={{ color: '#69b1ff' }}>
+                Вы уверены, что хотите удалить услугу?
+              </Text>
+            }
             styles={{
               content: {
-                background: '#1e293b',
+                background:
+                  'linear-gradient(135deg, #1e293b 0%, #334155 25%, #475569 50%, #64748b 75%, #94a3b8 100%)',
                 borderRadius: 8,
+                padding: 16,
               },
               body: {
                 background: 'transparent',
                 color: '#69b1ff',
-                padding: 16,
-              }
+              },
+              header: {
+                background: 'transparent',
+              },
             }}
             okButtonProps={{
-              style: { color: '#fd9b9b', borderColor: '#fd9b9b', background: 'transparent' },
+              style: {
+                color: '#fd9b9b',
+                borderColor: '#fd9b9b',
+                background: 'transparent',
+              },
             }}
             cancelButtonProps={{
-              style: { color: '#69b1ff', borderColor: '#69b1ff', background: 'transparent' },
+              style: {
+                color: '#69b1ff',
+                borderColor: '#69b1ff',
+                background: 'transparent',
+              },
             }}
           >
             <Text style={{ color: '#69b1ff' }}>Это действие нельзя отменить.</Text>
