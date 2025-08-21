@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!id || isNaN(Number(id))) return notFound();
   async function fetchWork(id: string): Promise<MyWork | null> {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/my-work/${id}`, {
+      const res = await fetch(`http://server:3001/api/my-work/${id}`, {
         next: { revalidate: 3600 * 3 },
       });
       if (!res.ok) return null;
@@ -38,7 +38,7 @@ export default async function WorkDetails({ params }: PageProps) {
 
   async function fetchWork(id: string): Promise<MyWork | null> {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/my-work/${id}`, {
+      const res = await fetch(`http://server:3001/api/my-work/${id}`, {
         next: { revalidate: 3600 * 3 },
       });
       if (!res.ok) return null;

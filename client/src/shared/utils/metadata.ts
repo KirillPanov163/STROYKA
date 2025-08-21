@@ -3,7 +3,7 @@ import { Metadata } from "next";
 
 export async function generateMetadatas(index: number, title: string = ''): Promise<Metadata> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/metadata/${index}`, {
+    const res = await fetch(`http://server:3001/api/metadata/${index}`, {
       next: { revalidate: 3600 * 3 },
     });
 
@@ -22,16 +22,16 @@ export async function generateMetadatas(index: number, title: string = ''): Prom
       keywords:
         meta?.keywords?.split(',').join(', ') ||
         'ремонт, отделка, строительство, дизайн интерьера',
-      metadataBase: new URL(process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL : 'http://server:3001/api'),
+      metadataBase: new URL(process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL : 'http://localhost:3001/api'),
       alternates: {
-        canonical: process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL : 'http://server:3001/api',
+        canonical: process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL : 'http://localhost:3001/api',
       },
       applicationName: 'ВентСтройМонтаж',
       authors: [
         {
           name: 'Колчин Александр, Садиков Денис, Азамат Болатчиев, Кирилл Панов, Николай Володин, Владислав Бурихин',
         },
-        { name: 'ВентСтройМонтаж', url: process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL : 'http://server:3001/api' },
+        { name: 'ВентСтройМонтаж', url: process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL : 'http://localhost:3001/api' },
       ],
       creator: 'Команда ВентСтройМонтаж',
       generator: 'Next.js', 
@@ -49,13 +49,13 @@ export async function generateMetadatas(index: number, title: string = ''): Prom
           meta?.openGraph_description ||
           meta?.description ||
           'Профессиональные услуги по ремонту и отделке помещений',
-        url: meta?.openGraph_url || process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL : 'http://server:3001/api',
+        url: meta?.openGraph_url || process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL : 'http://localhost:3001/api',
         siteName: meta?.openGraph_siteName || 'ВентСтройМонтаж',
         locale: 'ru_RU',
         type: 'website',
         images: [
           {
-            url: `${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://server:3001'}${meta?.icons_shortcut}`,
+            url: `${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}${meta?.icons_shortcut}`,
             width: 1200,
             height: 630,
             alt: meta?.openGraph_title || 'ВентСтройМонтаж',
@@ -69,7 +69,7 @@ export async function generateMetadatas(index: number, title: string = ''): Prom
           meta?.openGraph_description ||
           meta?.description ||
           'Профессиональные услуги кондиционированию и вентиляции помещений',
-        images: [`${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://server:3001'}${meta?.icons_shortcut}`],
+        images: [`${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}${meta?.icons_shortcut}`],
       },
       facebook: {
         appId: `${meta?.id}` || '',
@@ -90,15 +90,15 @@ export async function generateMetadatas(index: number, title: string = ''): Prom
       abstract: 'Сайт компании ВентСтройМонтаж',
 
       appLinks: {
-        ios: { app_store_id: `${meta?.id}` || '', url: process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL : 'http://server:3001/api' },
-        android: { package: meta?.title || '', url: process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL : 'http://server:3001/api' },
+        ios: { app_store_id: `${meta?.id}` || '', url: process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL : 'http://localhost:3001/api' },
+        android: { package: meta?.title || '', url: process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL : 'http://localhost:3001/api' },
       },
-      archives: [process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL : 'http://server:3001/api'],
-      assets: [process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL : 'http://server:3001/api' + '/uploads/'],
-      bookmarks: [process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL : 'http://server:3001/api'],
+      archives: [process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL : 'http://localhost:3001/api'],
+      assets: [process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL + '/uploads/' : 'http://localhost:3001/api' + '/uploads/'],
+      bookmarks: [process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL : 'http://localhost:3001/api'],
       pagination: {
-        previous: process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL : 'http://server:3001/api' + '/services',
-        next: process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL : 'http://server:3001/api' + '/portfolio',
+        previous: process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL + '/services' : 'http://localhost:3001/api' + '/services',
+        next: process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL + '/portfolio' : 'http://localhost:3001/api' + '/portfolio',
       }, // Комментарий: Настройка пагинации для SEO
 
       // Категории и классификация
@@ -119,14 +119,14 @@ export async function generateMetadatas(index: number, title: string = ''): Prom
       },
       icons: {
         icon: [
-          { url: `${process.env.NEXT_PUBLIC_URL}${meta?.icons_icon}` },
-          new URL(`${process.env.NEXT_PUBLIC_URL}${meta?.icons_icon}`),
+          { url: `${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}${meta?.icons_icon}` },
+          new URL(`${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}${meta?.icons_icon}`),
         ],
-        shortcut: [`${process.env.NEXT_PUBLIC_URL}${meta?.icons_shortcut}`],
+        shortcut: [`${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}${meta?.icons_shortcut}`],
         apple: [
-          { url: `${process.env.NEXT_PUBLIC_URL}${meta?.icons_apple}` },
+          { url: `${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}${meta?.icons_apple}` },
           {
-            url: `${process.env.NEXT_PUBLIC_URL}${meta?.icons_apple}`,
+            url: `${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}${meta?.icons_apple}`,
             sizes: '180x180',
             type: 'image/png',
           },
@@ -162,14 +162,14 @@ export async function generateMetadatas(index: number, title: string = ''): Prom
         'Установка и обслуживание систем вентиляции, кондиционирования и очистки воздуха в Москве и области. Гарантия качества, индивидуальные решения.',
       icons: {
         icon: [
-          { url: `${process.env.NEXT_PUBLIC_URL}/uploads/1755586218652-496532904.ico` },
-          new URL(`${process.env.NEXT_PUBLIC_URL}/uploads/1755586218652-496532904.ico`),
+          { url: `${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}/uploads/icons_icon.ico` },
+          new URL(`${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}/uploads/icons_icon.ico`),
         ],
-        shortcut: [`${process.env.NEXT_PUBLIC_URL}/uploads/1755586218653-707383481.ico`],
+        shortcut: [`${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}/uploads/icons_icon.ico`],
         apple: [
-          { url: `${process.env.NEXT_PUBLIC_URL}/uploads/1755586218653-650393179.png` },
+          { url: `${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}/uploads/icons_icon.png` },
           {
-            url: `${process.env.NEXT_PUBLIC_URL}/uploads/1755586218653-650393179.png`,
+            url: `${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}/uploads/icons_icon.png`,
             sizes: '180x180',
             type: 'image/png',
           },
@@ -177,7 +177,7 @@ export async function generateMetadatas(index: number, title: string = ''): Prom
         other: [
           {
             rel: 'mask-icon',
-            url: `${process.env.NEXT_PUBLIC_URL}/uploads/1755586218652-496532904.ico`,
+            url: `${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}/uploads/icons_icon.ico`,
             color: '#000000',
           },
         ],

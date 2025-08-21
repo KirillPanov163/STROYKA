@@ -19,7 +19,7 @@ export default async function ServicesPage() {
   let services: Service[] = [];
 
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/service`, {
+    const response = await fetch(`http://server:3001/api/service`, {
       next: { revalidate: 3600 * 5 },
     });
     if (!response.ok) throw new Error('Failed to fetch services');
@@ -62,7 +62,7 @@ export default async function ServicesPage() {
             return (
               <div key={service.id} className={styles.serviceItem}>
                 <Image
-                  src={`${process.env.NEXT_PUBLIC_URL}${service.image}`}
+                  src={`${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}${service.image}`}
                   alt={`Изображение услуги: ${service.service}`}
                   className={imageClass}
                   fetchPriority="high"

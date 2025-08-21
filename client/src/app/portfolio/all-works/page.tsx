@@ -11,7 +11,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function WorksList() {
   async function fetchWorks(): Promise<MyWork[]> {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/my-work`, {
+    const res = await fetch(`http://server:3001/api/my-work`, {
       next: { revalidate: 3600 * 3 },
     });
 

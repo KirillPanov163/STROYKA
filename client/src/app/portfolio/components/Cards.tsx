@@ -1,20 +1,19 @@
 'use client';
 
-import Image from 'next/image';
 import React from 'react';
 import Link from 'next/link';
 import { transliterate } from '@/shared/utils/translater';
 import styles from './styles/WorksSlider.module.css';
 import { MyWork } from '@/entities/my-work/model';
+import { Image } from 'antd/es';
 
 export default function Cards({work, handleCardClick}: {work: MyWork, handleCardClick?: () => void}) {
-  const baseUrl = process.env.NEXT_PUBLIC_URL || 'http://localhost:4000';
   return (
     <div className={styles.card} onClick={handleCardClick}>
-      {work.image[0] && work.image[0].trim() ? (
+      {work.image ? (
         <Image
           alt={work.title || 'Work image'}
-          src={`${baseUrl}${work.image[0]}`}
+          src={`${process.env.NEXT_PUBLIC_URL}${work.image[0]}`}
           className={styles.cardImage}
           width={360}
           height={240}

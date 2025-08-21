@@ -131,7 +131,7 @@ const PortfolioManager = () => {
             uid: `-${index + 1}`, // Уникальный идентификатор файла
             name: `image-${index + 1}`, // Имя файла
             status: 'done', // Статус загрузки
-            url: `${process.env.NEXT_PUBLIC_URL}${img}`, // Полный URL изображения
+            url: `${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}${img}`, // Полный URL изображения
           })),
         );
       } else {
@@ -223,7 +223,7 @@ const PortfolioManager = () => {
     // Существующие изображения
     const existingImages = fileList
       .filter((file) => file.url && !file.originFileObj)
-      .map((file) => file.url!.replace(process.env.NEXT_PUBLIC_URL || '', ''));
+      .map((file) => file.url!.replace(process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001', ''));
 
     if (existingImages.length > 0) {
       formData.append('existing_images', JSON.stringify(existingImages));
@@ -265,7 +265,7 @@ const PortfolioManager = () => {
         setRemovedImages((prev) => [
           // Добавляем путь удаленного изображения в список
           ...prev,
-          file.url!.replace(process.env.NEXT_PUBLIC_URL || '', ''), // Убираем базовый URL
+          file.url!.replace(process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001', ''), // Убираем базовый URL
         ]);
       }
       setFileList((prev) => prev.filter((item) => item.uid !== file.uid)); // Удаляем файл из списка
@@ -523,7 +523,7 @@ const PortfolioManager = () => {
                                   ) => (
                                     <Image
                                       key={index} // Уникальный ключ
-                                      src={`${process.env.NEXT_PUBLIC_URL}${img}`} // URL изображения
+                                      src={`${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}${img}`} // URL изображения
                                       alt={`Изображение ${index + 1}`} // Альтернативный текст
                                       style={{
                                         width: 50, // Ширина изображения
@@ -532,7 +532,7 @@ const PortfolioManager = () => {
                                         borderRadius: 4, // Скругленные углы
                                       }}
                                       preview={{
-                                        src: `${process.env.NEXT_PUBLIC_URL}${img}`,
+                                        src: `${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}${img}`,
                                       }} // Предпросмотр изображения
                                     />
                                   ),
@@ -632,7 +632,7 @@ const PortfolioManager = () => {
                           ) => (
                             <Image
                               key={index} // Уникальный ключ
-                              src={`${process.env.NEXT_PUBLIC_URL}${img}`} // URL изображения
+                              src={`${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}${img}`} // URL изображения
                               alt={`Изображение ${index + 1}`} // Альтернативный текст
                               style={{
                                 width: 50, // Ширина изображения
@@ -640,7 +640,7 @@ const PortfolioManager = () => {
                                 objectFit: 'cover', // Режим отображения
                                 borderRadius: 4, // Скругленные углы
                               }}
-                              preview={{ src: `${process.env.NEXT_PUBLIC_URL}${img}` }} // Предпросмотр изображения
+                              preview={{ src: `${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}${img}` }} // Предпросмотр изображения
                             />
                           ),
                         )}
