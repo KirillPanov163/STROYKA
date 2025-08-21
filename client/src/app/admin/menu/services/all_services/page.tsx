@@ -354,7 +354,7 @@ const ServiceManager = () => {
                         {service.image && (
                           <div style={{ marginBottom: 12 }}>
                             <Image
-                              src={`${process.env.NEXT_PUBLIC_URL}${service.image}`}
+                              src={`${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}${service.image}`}
                               alt={`Изображение услуги: ${service.service}`}
                               style={{
                                 maxWidth: '100%',
@@ -363,7 +363,7 @@ const ServiceManager = () => {
                                 borderRadius: 6,
                               }}
                               preview={{
-                                src: `${process.env.NEXT_PUBLIC_URL}${service.image}`,
+                                src: `${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}${service.image}`,
                               }}
                             />
                           </div>
@@ -446,11 +446,11 @@ const ServiceManager = () => {
                 {currentService.image && (
                   <div style={{ marginTop: 12, flex: '0 0 40%' }}>
                     <Image
-                      src={`${process.env.NEXT_PUBLIC_URL}${currentService.image}`}
+                      src={`${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}${currentService.image}`}
                       alt="Превью"
                       style={{ maxWidth: '100%', maxHeight: 300, borderRadius: 8 }}
                       preview={{
-                        src: `${process.env.NEXT_PUBLIC_URL}${currentService.image}`,
+                        src: `${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}${currentService.image}`,
                       }}
                     />
                   </div>
@@ -573,7 +573,7 @@ const ServiceManager = () => {
                   </Upload>
                   {currentService?.image && !fileList.length && (
                     <Image
-                      src={`${process.env.NEXT_PUBLIC_URL}${currentService.image}`}
+                      src={`${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}${currentService.image}`}
                       alt="Изображение"
                       style={{
                         maxWidth: '100%',
@@ -582,7 +582,7 @@ const ServiceManager = () => {
                         borderRadius: 8,
                       }}
                       preview={{
-                        src: `${process.env.NEXT_PUBLIC_URL}${currentService.image}`,
+                        src: `${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}${currentService.image}`,
                       }}
                     />
                   )}

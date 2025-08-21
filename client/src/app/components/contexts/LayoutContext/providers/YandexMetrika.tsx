@@ -15,9 +15,9 @@ const YandexMetrika = () => (
             }
             k=e.createElement(t),a=e.getElementsByTagName(t)[0];
             k.async=1;
-            k.src='${process.env.NEXT_PUBLIC_API_URL || ''}/proxy/metrika/tag.js';
+            k.src='${process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL : 'http://localhost:3001/api'}/proxy/metrika/tag.js';
             a.parentNode.insertBefore(k,a);
-          })(window, document, 'script', '${process.env.NEXT_PUBLIC_API_URL || ''}/proxy/metrika/tag.js', 'ym');
+          })(window, document, 'script', '${process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL : 'http://localhost:3001/api'}/proxy/metrika/tag.js', 'ym');
 
           ym(103542231, 'init', {
             ssr:true,
@@ -34,7 +34,7 @@ const YandexMetrika = () => (
     <noscript>
       <div>
         <img
-          src={`${process.env.NEXT_PUBLIC_API_URL || ''}/proxy/metrika/watch/103542231`}
+          src={`${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_API_URL : 'http://localhost:3001/api'}/proxy/metrika/watch/103542231`}
           style={{ position: 'absolute', left: '-9999px' }}
           alt=""
         />

@@ -13,13 +13,19 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        // destination: `${apiUrl}/:path*`,
         destination: `${apiDocker}/:path*`,
       },
       {
         source: '/uploads/:path*',
-        // destination: `${uploadsUrl}/:path*`,
         destination: `${uploadsDocker}/:path*`,
+      },
+      {
+        source: '/api/:path*',
+        destination: `${apiUrl}/:path*`,
+      },
+      {
+        source: '/uploads/:path*',
+        destination: `${uploadsUrl}/:path*`,
       },
     ];
   },
@@ -27,15 +33,25 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'http',
-        // hostname: 'localhost',
         hostname: 'server',
         port: '3001',
         pathname: '/**',
       },
       {
         protocol: 'http',
-        // hostname: 'localhost',
         hostname: 'server',
+        port: '4000',
+        pathname: '/**',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '3001',
+        pathname: '/**',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
         port: '4000',
         pathname: '/**',
       },

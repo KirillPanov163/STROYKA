@@ -686,7 +686,7 @@ export const MetaDataEditor = ({ index }: MetaDataEditorProps) => {
                       <Space>
                         <Image
                           src={
-                            `${process.env.NEXT_PUBLIC_URL}${metaData.icons_icon}` || ''
+                            `${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}${metaData.icons_icon}` || ''
                           }
                           alt="Icon preview"
                           width={50}
@@ -729,7 +729,7 @@ export const MetaDataEditor = ({ index }: MetaDataEditorProps) => {
                       <Space>
                         <Image
                           src={
-                            `${process.env.NEXT_PUBLIC_URL}${metaData.icons_shortcut}` ||
+                            `${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}${metaData.icons_shortcut}` ||
                             ''
                           }
                           alt="Shortcut preview"
@@ -773,7 +773,7 @@ export const MetaDataEditor = ({ index }: MetaDataEditorProps) => {
                       <Space>
                         <Image
                           src={
-                            `${process.env.NEXT_PUBLIC_URL}${metaData.icons_apple}` || ''
+                            `${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}${metaData.icons_apple}` || ''
                           }
                           alt="Apple icon preview"
                           width={50}
@@ -1198,7 +1198,7 @@ export const MetaDataEditor = ({ index }: MetaDataEditorProps) => {
                   >
                     {metaData?.icons_icon ? (
                       <Image
-                        src={`${process.env.NEXT_PUBLIC_URL}${metaData.icons_icon}`}
+                        src={`${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}${metaData.icons_icon}`}
                         alt="Icon"
                         width={50}
                         height={50}
@@ -1226,7 +1226,7 @@ export const MetaDataEditor = ({ index }: MetaDataEditorProps) => {
                   >
                     {metaData?.icons_shortcut ? (
                       <Image
-                        src={`${process.env.NEXT_PUBLIC_URL}${metaData.icons_shortcut}`}
+                        src={`${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}${metaData.icons_shortcut}`}
                         alt="Shortcut icon"
                         width={50}
                         height={50}
@@ -1254,7 +1254,7 @@ export const MetaDataEditor = ({ index }: MetaDataEditorProps) => {
                   >
                     {metaData?.icons_apple ? (
                       <Image
-                        src={`${process.env.NEXT_PUBLIC_URL}${metaData.icons_apple}`}
+                        src={`${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}${metaData.icons_apple}`}
                         alt="Apple icon"
                         width={50}
                         height={50}

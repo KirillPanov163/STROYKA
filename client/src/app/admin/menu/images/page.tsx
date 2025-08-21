@@ -191,7 +191,7 @@ const ImageManager: React.FC = () => {
                       <Image
                         src={
                           img.url ||
-                          `${process.env.NEXT_PUBLIC_UPLOADS_URL}/${img.filename}`
+                          `${process.env.NEXT_PUBLIC_UPLOADS_URL ? process.env.NEXT_PUBLIC_UPLOADS_URL : 'http://localhost:3001/uploads'}/${img.filename}`
                         }
                         alt={img.filename}
                         style={{

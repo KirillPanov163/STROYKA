@@ -9,7 +9,6 @@ interface ImageCarouselProps {
 }
 
 export default function ImageCarousel({ images, title }: ImageCarouselProps) {
-  const baseUrl = process.env.NEXT_PUBLIC_URL || 'http://localhost:4000';
   const validImages = Array.isArray(images) ? images : [];
 
   return (
@@ -25,7 +24,7 @@ export default function ImageCarousel({ images, title }: ImageCarouselProps) {
             <div key={index} className={styles.carouselSlide}>
               <Image
                 alt={`${title} image ${index + 1}`}
-                src={img.startsWith('/') ? `${baseUrl}${img}` : img}
+                src={img.startsWith('/') ? `${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}${img}` : img}
                 className={styles.carouselImage}
                 width={600}
                 height={400}
