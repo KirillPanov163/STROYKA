@@ -20,7 +20,7 @@ const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, uploadsDir),
   filename: (req, file, cb) => {
     const ext = path.extname(file.originalname);
-    const uniqueName = `${Date.now()}-${Math.round(Math.random() * 1e9)}${ext}`;
+    const uniqueName = `Empty-${Date.now()}-${Math.round(Math.random() * 1e9)}${ext}`;
     cb(null, uniqueName);
   },
 });
@@ -66,7 +66,7 @@ export const getImageListWithUsage = async () => {
       if (service.image) {
         const filename = path.basename(service.image);
         if (files.includes(filename)) {
-          usageMap.set(filename, [...(usageMap.get(filename) || []), 'Service']);
+          usageMap.set(filename, [...(usageMap.get(filename) || []), 'Услуги']);
         }
       }
     });
@@ -82,7 +82,7 @@ export const getImageListWithUsage = async () => {
           images.forEach((image: string) => {
             const filename = path.basename(image);
             if (files.includes(filename)) {
-              usageMap.set(filename, [...(usageMap.get(filename) || []), 'My_work']);
+              usageMap.set(filename, [...(usageMap.get(filename) || []), 'Портфолио']);
             }
           });
         }
@@ -100,30 +100,47 @@ export const getImageListWithUsage = async () => {
       },
     });
     metaData.forEach((meta) => {
-      if (meta.icons_icon) {
-        const filename = path.basename(meta.icons_icon);
-        if (files.includes(filename)) {
-          usageMap.set(filename, [...(usageMap.get(filename) || []), 'Meta_data']);
+      // Функция для парсинга и обработки JSON массивов
+      const parseAndCheckField = (field: string | null, category: string) => {
+        if (!field) return;
+        
+        try {
+          // Пытаемся распарсить как JSON массив
+          const parsedField = JSON.parse(field);
+          if (Array.isArray(parsedField)) {
+            parsedField.forEach((imagePath: string) => {
+              const filename = path.basename(imagePath);
+              if (files.includes(filename)) {
+                usageMap.set(filename, [...(usageMap.get(filename) || []), category]);
+              }
+            });
+          } else {
+            // Если это одиночная строка
+            const filename = path.basename(parsedField);
+            if (files.includes(filename)) {
+              usageMap.set(filename, [...(usageMap.get(filename) || []), category]);
+            }
+          }
+        } catch {
+          // Если не JSON, обрабатываем как обычную строку
+          const filename = path.basename(field);
+          if (files.includes(filename)) {
+            usageMap.set(filename, [...(usageMap.get(filename) || []), category]);
+          }
         }
-      }
-      if (meta.icons_shortcut) {
-        const filename = path.basename(meta.icons_shortcut);
-        if (files.includes(filename)) {
-          usageMap.set(filename, [...(usageMap.get(filename) || []), 'Meta_data']);
-        }
-      }
-      if (meta.icons_apple) {
-        const filename = path.basename(meta.icons_apple);
-        if (files.includes(filename)) {
-          usageMap.set(filename, [...(usageMap.get(filename) || []), 'Meta_data']);
-        }
-      }
+      };
+
+      parseAndCheckField(meta.icons_icon, 'Метаданные');
+      parseAndCheckField(meta.icons_shortcut, 'Метаданные');
+      parseAndCheckField(meta.icons_apple, 'Метаданные');
     });
 
     // Формирование результата
     return files.map((file) => ({
       filename: file,
-      usedIn: usageMap.get(file) || [],
+      usedIn: usageMap.get(file) && usageMap.get(file).length > 0
+        ? usageMap.get(file)
+        : ['Не используется'],
       url: `http://localhost:3001/uploads/${file}`,
     }));
   } catch (error) {

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { MyWorkController } from '../controllers/MyWork.controller.js';
-import { uploads } from '../services/upload.service.js';
+import { uploads } from '../services/MyWork.service.js';
 
 const myWorkRouter = Router();
 

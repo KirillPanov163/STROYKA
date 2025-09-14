@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { MetaDataController } from '../controllers/metaData.controller.js';
-import { uploads } from '../services/upload.service.js';
+import { uploads } from '../services/MetaData.service.js';
 
 const metaDataRouter = Router();
 

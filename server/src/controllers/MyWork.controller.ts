@@ -9,7 +9,15 @@ export class MyWorkController {
       console.log('Files from multer:', files);
       console.log('Body from multer:', req.body);
 
-      const imagePaths = files ? files.map((file) => `/uploads/${file.filename}`) : [];
+      // Обрабатываем изображения
+      const imagePaths: string[] = [];
+      if (files) {
+        for (const file of files) {
+          const processedImages = await MyWorkService.processWorkImage(file);
+          const parsedImages = JSON.parse(processedImages);
+          imagePaths.push(...parsedImages);
+        }
+      }
 
       // Обрабатываем success_work
       let successWorkArray: string[] = [];
@@ -56,7 +64,15 @@ export class MyWorkController {
       console.log('Files from multer:', files);
       console.log('Body from multer:', req.body);
 
-      const newImagePaths = files ? files.map((file) => `/uploads/${file.filename}`) : [];
+      // Обрабатываем новые изображения
+      const newImagePaths: string[] = [];
+      if (files) {
+        for (const file of files) {
+          const processedImages = await MyWorkService.processWorkImage(file);
+          const parsedImages = JSON.parse(processedImages);
+          newImagePaths.push(...parsedImages);
+        }
+      }
 
       // Обрабатываем existing_images
       let existingImages: string[] = [];

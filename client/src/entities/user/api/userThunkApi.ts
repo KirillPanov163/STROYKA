@@ -7,7 +7,7 @@ import type {
   ISignInData,
   ISignUpData,
   Verify2FADataType,
-  TwoFAResponseType,
+  TwoFAResponseType, 
   UserType,
 } from "../model/userTypes";
 import { USER_THUNK_TYPES } from "@/shared/enums/userThunkTypes";

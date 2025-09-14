@@ -25,9 +25,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - '3001:3001'
-    volumes:
-      - ./server/uploads:/app/uploads
-      - ./server/public:/app/public
     environment:
       - NODE_ENV=production
       - DOCKER_ENV=true

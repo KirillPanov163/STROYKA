@@ -95,7 +95,13 @@ export default function SignUpForm() {
               <Form.Item
                 label={<Text style={{ color: '#69b1ff' }}>Код 2FA</Text>}
                 name="code"
-                rules={[{ required: true, message: 'Код 2FA обязателен' }]}
+                rules={[
+                  { required: true, message: 'Пожалуйста, введите код 2FA!' },
+                  {
+                    pattern: /^[0-9]{6}$/,
+                    message: 'Код 2FA должен состоять ровно из 6 цифр',
+                  },
+                ]}
               >
                 <Input
                   placeholder="Введите код 2FA"

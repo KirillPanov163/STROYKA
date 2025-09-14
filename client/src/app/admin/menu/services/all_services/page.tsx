@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
 import { useAppSelector } from '@/shared/Hooks/useAppSelector';
+import SearchFilter from '../../components/SearchFilter';
 import {
   Button,
   Modal,
@@ -52,12 +53,45 @@ const ServiceManager = () => {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [editMode, setEditMode] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [filteredServices, setFilteredServices] = useState(services);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const pageSize = 1;
 
   useEffect(() => {
     dispatch(getAllServices());
   }, [dispatch]);
+
+  useEffect(() => {
+    setFilteredServices(services);
+  }, [services]);
+
+  useEffect(() => {
+    if (!searchTerm.trim()) {
+      setFilteredServices(services);
+      return;
+    }
+
+    const filtered = services.filter((service) =>
+      ['service', 'description'].some((field) => {
+        const value = service[field as keyof typeof service];
+        
+        if (typeof value === 'string') {
+          return value.toLowerCase().includes(searchTerm.toLowerCase());
+        }
+        
+        if (Array.isArray(value)) {
+          return value.some((v: any) =>
+            String(v).toLowerCase().includes(searchTerm.toLowerCase())
+          );
+        }
+        
+        return String(value).toLowerCase().includes(searchTerm.toLowerCase());
+      })
+    );
+    
+    setFilteredServices(filtered);
+  }, [services, searchTerm]);
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== 'undefined' ? window.innerWidth : 0,
   );
@@ -188,7 +222,7 @@ const ServiceManager = () => {
     }
   };
 
-  const paginatedServices = services.slice(
+  const paginatedServices = filteredServices.slice(
     (currentPage - 1) * pageSize,
     currentPage * pageSize,
   );
@@ -242,9 +276,17 @@ const ServiceManager = () => {
             borderRadius: 8,
             color: '#69b1ff',
           }}
-          styles={{ body: { padding: 0 } }}
+          styles={{ body: { padding: 18 } }}
         >
           <Spin spinning={loading}>
+            {services.length > 0 && (
+              <div style={{ marginBottom: 16 }}>
+                <SearchFilter
+                  placeholder="Поиск по названию услуги или описанию..."
+                  onSearchChange={setSearchTerm}
+                />
+              </div>
+            )}
             {paginatedServices.map((service) => {
               let descriptionItems: string[] = [];
               try {
@@ -262,7 +304,6 @@ const ServiceManager = () => {
                   style={{
                     background: 'transparent',
                     border: '2px solid #64748b',
-                    borderTop: 'none',
                     borderRadius: 12,
                   }}
                   actions={[
@@ -376,7 +417,7 @@ const ServiceManager = () => {
             })}
           </Spin>
 
-          {services.length > pageSize && (
+          {filteredServices.length > pageSize && (
             <div style={{ marginTop: 24, textAlign: 'center' }}>
               <Button
                 type="text"
@@ -387,7 +428,7 @@ const ServiceManager = () => {
                 Предыдущая
               </Button>
               <Text style={{ color: '#69b1ff', margin: '0 16px' }}>
-                Страница {currentPage} из {Math.ceil(services.length / pageSize)}
+                Страница {currentPage} из {Math.ceil(filteredServices.length / pageSize)}
               </Text>
               <Button
                 type="text"
@@ -396,7 +437,7 @@ const ServiceManager = () => {
                     Math.min(prev + 1, Math.ceil(services.length / pageSize)),
                   )
                 }
-                disabled={currentPage === Math.ceil(services.length / pageSize)}
+                disabled={currentPage === Math.ceil(filteredServices.length / pageSize)}
                 style={{ color: '#69b1ff', padding: 0, marginLeft: 8 }}
               >
                 Следующая

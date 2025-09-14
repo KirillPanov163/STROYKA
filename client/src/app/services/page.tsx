@@ -19,7 +19,7 @@ export default async function ServicesPage() {
   let services: Service[] = [];
 
   try {
-    const response = await fetch(`http://server:3001/api/service`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_DOCKER_API_URL}/service`, {
       next: { revalidate: 3600 * 5 },
     });
     if (!response.ok) throw new Error('Failed to fetch services');

@@ -3,6 +3,8 @@
 
 // Импортируем React и хуки useEffect, useState для управления состоянием и эффектами
 import React, { useEffect, useState } from 'react';
+// Импортируем компонент поиска
+import SearchFilter from '../../components/SearchFilter';
 // Импортируем пользовательский хук для отправки действий в Redux store
 import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
 // Импортируем пользовательский хук для получения данных из Redux store
@@ -75,6 +77,9 @@ const PortfolioManager = () => {
   const [editMode, setEditMode] = useState(false);
   // Состояние для управления текущей страницей пагинации
   const [currentPage, setCurrentPage] = useState(1);
+  // Состояние для хранения отфильтрованных работ
+  const [filteredWorks, setFilteredWorks] = useState(works);
+  const [searchTerm, setSearchTerm] = useState('');
 
   // Определяем количество работ на одной странице для пагинации
   const pageSize = 1;
@@ -83,6 +88,37 @@ const PortfolioManager = () => {
   useEffect(() => {
     dispatch(getAllMyWorks()); // Отправляем действие для получения всех работ с сервера
   }, [dispatch]); // Зависимость от dispatch
+
+  useEffect(() => {
+    setFilteredWorks(works);
+  }, [works]);
+
+  useEffect(() => {
+    if (!searchTerm.trim()) {
+      setFilteredWorks(works);
+      return;
+    }
+
+    const filtered = works.filter((work) =>
+      ['title', 'square', 'quantity', 'time', 'success_work'].some((field) => {
+        const value = work[field as keyof typeof work];
+        
+        if (typeof value === 'string') {
+          return value.toLowerCase().includes(searchTerm.toLowerCase());
+        }
+        
+        if (Array.isArray(value)) {
+          return value.some((v: any) =>
+            String(v).toLowerCase().includes(searchTerm.toLowerCase())
+          );
+        }
+        
+        return String(value).toLowerCase().includes(searchTerm.toLowerCase());
+      })
+    );
+    
+    setFilteredWorks(filtered);
+  }, [works, searchTerm]);
 
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== 'undefined' ? window.innerWidth : 0,
@@ -289,7 +325,7 @@ const PortfolioManager = () => {
   };
 
   // Выбираем работы для отображения на текущей странице (пагинация)
-  const paginatedWorks = works.slice(
+  const paginatedWorks = filteredWorks.slice(
     (currentPage - 1) * pageSize, // Начальный индекс для текущей страницы
     currentPage * pageSize, // Конечный индекс для текущей страницы
   );
@@ -328,10 +364,18 @@ const PortfolioManager = () => {
             borderRadius: 8, // Скругленные углы
             color: '#69b1ff', // Цвет текста
           }}
-          styles={{ body: { padding: 0 } }} // Стили для тела карточки
+          styles={{ body: { padding: 18 } }} // Стили для тела карточки
         >
           <Spin spinning={loading}>
             {/* Спиннер для индикации загрузки */}
+            {works.length > 0 && (
+              <div style={{ marginBottom: 16 }}>
+                <SearchFilter
+                  placeholder="Поиск по названию, площади, количеству, времени или выполненным работам..."
+                  onSearchChange={setSearchTerm}
+                />
+              </div>
+            )}
             {paginatedWorks.map(
               (
                 work, // Перебираем работы для текущей страницы
@@ -341,7 +385,6 @@ const PortfolioManager = () => {
                   style={{
                     background: 'transparent', // Прозрачный фон
                     border: '2px solid #64748b', // Граница карточки
-                    borderTop: 'none', // Без верхней границы
                     borderRadius: 12, // Скругленные углы
                   }}
                   actions={[
@@ -548,7 +591,7 @@ const PortfolioManager = () => {
             )}
           </Spin>
 
-          {works.length > pageSize && ( // Если работ больше, чем pageSize
+          {filteredWorks.length > pageSize && ( // Если отфильтрованных работ больше, чем pageSize
             <div style={{ marginTop: 24, textAlign: 'center' }}>
               {/* Контейнер для пагинации */}
               <Button
@@ -561,7 +604,7 @@ const PortfolioManager = () => {
               </Button>
               {/* Кнопка для перехода на предыдущую страницу */}
               <Text style={{ color: '#69b1ff', margin: '0 16px' }}>
-                Страница {currentPage} из {Math.ceil(works.length / pageSize)}
+                Страница {currentPage} из {Math.ceil(filteredWorks.length / pageSize)}
               </Text>
               {/* Отображаем текущую страницу и общее количество страниц */}
               <Button
@@ -571,7 +614,7 @@ const PortfolioManager = () => {
                     Math.min(prev + 1, Math.ceil(works.length / pageSize)),
                   )
                 } // Переход на следующую страницу
-                disabled={currentPage === Math.ceil(works.length / pageSize)} // Отключаем кнопку, если на последней странице
+                disabled={currentPage === Math.ceil(filteredWorks.length / pageSize)} // Отключаем кнопку, если на последней странице
                 style={{ color: '#69b1ff', padding: 0, marginLeft: 8 }} // Стили кнопки
               >
                 Следующая

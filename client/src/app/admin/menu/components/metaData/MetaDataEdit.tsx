@@ -50,6 +50,8 @@ export const MetaDataEditor = ({ index }: MetaDataEditorProps) => {
     icons_shortcut: null,
     icons_apple: null,
   });
+  const [filePreviews, setFilePreviews] = useState<{ [key: string]: string }>({});
+  const [isUploading, setIsUploading] = useState(false);
 
   const {
     control,
@@ -94,9 +96,19 @@ export const MetaDataEditor = ({ index }: MetaDataEditorProps) => {
         const formattedData = {
           ...metaData,
           keywords: metaData.keywords || '',
+          // Преобразуем массивы в строки для полей иконок (форма ожидает строки)
+          icons_icon: Array.isArray(metaData.icons_icon)
+            ? metaData.icons_icon[0] || ''
+            : metaData.icons_icon || '',
+          icons_shortcut: Array.isArray(metaData.icons_shortcut)
+            ? metaData.icons_shortcut[0] || ''
+            : metaData.icons_shortcut || '',
+          icons_apple: Array.isArray(metaData.icons_apple)
+            ? metaData.icons_apple[0] || ''
+            : metaData.icons_apple || '',
         };
         reset(formattedData);
-        setCurrentMeta(metaData);
+        setCurrentMeta(metaData); // Сохраняем оригинальные данные с массивами
       }
     }
   }, [metaData, index, reset]);
@@ -107,7 +119,20 @@ export const MetaDataEditor = ({ index }: MetaDataEditorProps) => {
 
   useEffect(() => {
     if (isEditing) {
-      reset(isEditing);
+      const formattedEditingData = {
+        ...isEditing,
+        // Преобразуем массивы в строки для полей иконок
+        icons_icon: Array.isArray(isEditing.icons_icon)
+          ? isEditing.icons_icon[0] || ''
+          : isEditing.icons_icon || '',
+        icons_shortcut: Array.isArray(isEditing.icons_shortcut)
+          ? isEditing.icons_shortcut[0] || ''
+          : isEditing.icons_shortcut || '',
+        icons_apple: Array.isArray(isEditing.icons_apple)
+          ? isEditing.icons_apple[0] || ''
+          : isEditing.icons_apple || '',
+      };
+      reset(formattedEditingData);
     }
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener('resize', handleResize);
@@ -136,54 +161,147 @@ export const MetaDataEditor = ({ index }: MetaDataEditorProps) => {
     e: React.ChangeEvent<HTMLInputElement>,
     field: 'icons_icon' | 'icons_shortcut' | 'icons_apple',
   ) => {
-    const file = e.target.files?.[0];
-    if (file) {
+    try {
+      const file = e.target.files?.[0];
+      if (!file) return;
+
+      // Валидация размера файла
       if (file.size > 5 * 1024 * 1024) {
         message.error('Файл слишком большой. Максимум 5 МБ.');
+        e.target.value = ''; // Сброс input
         return;
       }
+
+      // Валидация типа файла
+      if (!file.type.startsWith('image/')) {
+        message.error('Пожалуйста, выберите файл изображения.');
+        e.target.value = '';
+        return;
+      }
+
       setFiles((prev) => ({ ...prev, [field]: file }));
+
+      // Создаем preview и сохраняем URL для последующей очистки
       const previewUrl = URL.createObjectURL(file);
+      setFilePreviews((prev) => {
+        // Очищаем предыдущий preview, если он был
+        if (prev[field]) {
+          URL.revokeObjectURL(prev[field]);
+        }
+        return { ...prev, [field]: previewUrl };
+      });
+
       setValue(field, previewUrl, { shouldValidate: true });
+    } catch (error) {
+      console.error('Ошибка при обработке файла:', error);
+      message.error('Ошибка при загрузке файла. Попробуйте другой файл.');
+      e.target.value = '';
     }
   };
 
   const handleRemoveFile = (field: 'icons_icon' | 'icons_shortcut' | 'icons_apple') => {
-    setFiles((prev) => ({ ...prev, [field]: null }));
-    setValue(field, currentMeta?.[field] || '', { shouldValidate: true });
+    try {
+      // Очищаем preview URL
+      if (filePreviews[field]) {
+        URL.revokeObjectURL(filePreviews[field]);
+        setFilePreviews((prev) => {
+          const newPreviews = { ...prev };
+          delete newPreviews[field];
+          return newPreviews;
+        });
+      }
+
+      setFiles((prev) => ({ ...prev, [field]: null }));
+      // Получаем значение из currentMeta, преобразуя массивы в строки
+      const currentValue = currentMeta?.[field];
+      const stringValue = Array.isArray(currentValue)
+        ? currentValue[0] || ''
+        : currentValue || '';
+      setValue(field, stringValue, { shouldValidate: true });
+
+      // Сброс input файла
+      const fileInput = document.querySelector(
+        `input[type="file"][data-field="${field}"]`,
+      ) as HTMLInputElement;
+      if (fileInput) {
+        fileInput.value = '';
+      }
+    } catch (error) {
+      console.error('Ошибка при удалении файла:', error);
+      message.error('Ошибка при удалении файла.');
+    }
   };
 
   const onSubmit = async (data: MetaDataFormValues) => {
     if (!currentMeta?.id) {
-      message.error('Cannot update: no current meta data id');
+      message.error('Не удалось обновить: отсутствует ID метаданных');
       console.error('Cannot update: no current meta data id');
       return;
     }
+
+    setIsUploading(true);
 
     try {
       const updatePayload: IMetaDataInput = {
         ...data,
         id: currentMeta.id,
       };
+
+      // Фильтруем только файлы, которые были изменены
       const filesToSend = Object.fromEntries(
         Object.entries(files).filter(([_, file]) => file !== null),
       ) as { [key: string]: File };
 
-      await dispatch(
+      // Валидация: проверяем, что есть либо данные для обновления, либо файлы
+      const hasChanges =
+        Object.keys(updatePayload).some(
+          (key) =>
+            key !== 'id' &&
+            updatePayload[key as keyof IMetaDataInput] !==
+              currentMeta[key as keyof IMetaData],
+        ) || Object.keys(filesToSend).length > 0;
+
+      if (!hasChanges) {
+        message.info('Нет изменений для сохранения');
+        setIsUploading(false);
+        return;
+      }
+
+      const updatedMetaData = await dispatch(
         updateMetaData({ id: currentMeta.id, data: updatePayload, files: filesToSend }),
       ).unwrap();
+
       message.success('Метаданные успешно обновлены!');
       setIsEditing(null);
+
+      // Принудительно обновляем данные с сервера
+      await dispatch(getOneMetaData(index.toString())).unwrap();
+
+      // Очищаем preview URLs
+      Object.values(filePreviews).forEach((url) => URL.revokeObjectURL(url));
+      setFilePreviews({});
       setFiles({ icons_icon: null, icons_shortcut: null, icons_apple: null });
-    } catch (error) {
-      const errorAsError = error as Error;
-      message.error(`Ошибка обновления: ${errorAsError.message || 'Неизвестная ошибка'}`);
+    } catch (error: any) {
       console.error('Update failed:', {
-        error: errorAsError,
+        error,
         formData: data,
         files,
         currentMetaId: currentMeta?.id,
       });
+
+      let errorMessage = 'Неизвестная ошибка при обновлении';
+
+      if (error?.message) {
+        errorMessage = error.message;
+      } else if (typeof error === 'string') {
+        errorMessage = error;
+      } else if (error?.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      }
+
+      message.error(`Ошибка обновления: ${errorMessage}`);
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -214,14 +332,36 @@ export const MetaDataEditor = ({ index }: MetaDataEditorProps) => {
     setValue('keywords', updatedKeywords, { shouldValidate: true });
   };
 
+  // Очистка preview URLs при размонтировании
+  useEffect(() => {
+    return () => {
+      Object.values(filePreviews).forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [filePreviews]);
+
   if (isLoading && !metaData) {
-    return <Spin spinning={isLoading} tip="Загрузка метаданных..." />;
+    return (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          minHeight: 200,
+        }}
+      >
+        <Spin spinning={isLoading} tip="Загрузка метаданных..." />
+      </div>
+    );
   }
 
   if (!metaData) {
     return (
-      <div style={{ padding: 16, color: '#69b1ff' }}>
-        {apiError && <Text style={{ color: '#fd9b9b' }}>{apiError}</Text>}
+      <div style={{ padding: 16, color: '#69b1ff', textAlign: 'center' }}>
+        {apiError ? (
+          <Text style={{ color: '#fd9b9b' }}>{apiError}</Text>
+        ) : (
+          <Text>Метаданные не найдены</Text>
+        )}
       </div>
     );
   }
@@ -676,22 +816,27 @@ export const MetaDataEditor = ({ index }: MetaDataEditorProps) => {
                         type="file"
                         accept="image/*"
                         onChange={(e) => handleFileChange(e, 'icons_icon')}
+                        data-field="icons_icon"
                         style={{
                           background: '#334155',
                           color: '#69b1ff',
                           border: '1px solid #64748b',
                           borderRadius: 4,
                         }}
+                        disabled={isUploading}
                       />
                       <Space>
                         <Image
                           src={
-                            `${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}${metaData.icons_icon}` || ''
+                            filePreviews.icons_icon ||
+                            `${process.env.NEXT_PUBLIC_URL}${metaData.icons_icon[0]}` ||
+                            ''
                           }
                           alt="Icon preview"
                           width={50}
                           height={50}
                           style={{ borderRadius: 4, objectFit: 'cover' }}
+                          fallback="/icon_oktogon.png"
                         />
                         <Button
                           type="text"
@@ -719,23 +864,27 @@ export const MetaDataEditor = ({ index }: MetaDataEditorProps) => {
                         type="file"
                         accept="image/*"
                         onChange={(e) => handleFileChange(e, 'icons_shortcut')}
+                        data-field="icons_shortcut"
                         style={{
                           background: '#334155',
                           color: '#69b1ff',
                           border: '1px solid #64748b',
                           borderRadius: 4,
                         }}
+                        disabled={isUploading}
                       />
                       <Space>
                         <Image
                           src={
-                            `${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}${metaData.icons_shortcut}` ||
+                            filePreviews.icons_shortcut ||
+                            `${process.env.NEXT_PUBLIC_URL}${metaData.icons_shortcut[0]}` ||
                             ''
                           }
                           alt="Shortcut preview"
                           width={50}
                           height={50}
                           style={{ borderRadius: 4, objectFit: 'cover' }}
+                          fallback="/icon_oktogon.png"
                         />
                         <Button
                           type="text"
@@ -763,22 +912,27 @@ export const MetaDataEditor = ({ index }: MetaDataEditorProps) => {
                         type="file"
                         accept="image/*"
                         onChange={(e) => handleFileChange(e, 'icons_apple')}
+                        data-field="icons_apple"
                         style={{
                           background: '#334155',
                           color: '#69b1ff',
                           border: '1px solid #64748b',
                           borderRadius: 4,
                         }}
+                        disabled={isUploading}
                       />
                       <Space>
                         <Image
                           src={
-                            `${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}${metaData.icons_apple}` || ''
+                            filePreviews.icons_apple ||
+                            `${process.env.NEXT_PUBLIC_URL}${metaData.icons_apple[0]}` ||
+                            ''
                           }
                           alt="Apple icon preview"
                           width={50}
                           height={50}
                           style={{ borderRadius: 4, objectFit: 'cover' }}
+                          fallback="/icon_oktogon.png"
                         />
                         <Button
                           type="text"
@@ -921,10 +1075,11 @@ export const MetaDataEditor = ({ index }: MetaDataEditorProps) => {
                     <Button
                       type="text"
                       htmlType="submit"
-                      loading={isLoading}
+                      loading={isLoading || isUploading}
+                      disabled={isUploading}
                       style={{ color: '#69b1ff', padding: 0 }}
                     >
-                      Сохранить изменения
+                      {isUploading ? 'Обработка...' : 'Сохранить изменения'}
                     </Button>
                   </Space>
                 </Form.Item>
@@ -1198,7 +1353,7 @@ export const MetaDataEditor = ({ index }: MetaDataEditorProps) => {
                   >
                     {metaData?.icons_icon ? (
                       <Image
-                        src={`${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}${metaData.icons_icon}`}
+                        src={`${process.env.NEXT_PUBLIC_URL}${metaData.icons_icon[0]}`}
                         alt="Icon"
                         width={50}
                         height={50}
@@ -1226,7 +1381,7 @@ export const MetaDataEditor = ({ index }: MetaDataEditorProps) => {
                   >
                     {metaData?.icons_shortcut ? (
                       <Image
-                        src={`${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}${metaData.icons_shortcut}`}
+                        src={`${process.env.NEXT_PUBLIC_URL}${metaData.icons_shortcut[0]}`}
                         alt="Shortcut icon"
                         width={50}
                         height={50}
@@ -1254,7 +1409,7 @@ export const MetaDataEditor = ({ index }: MetaDataEditorProps) => {
                   >
                     {metaData?.icons_apple ? (
                       <Image
-                        src={`${process.env.NEXT_PUBLIC_URL ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3001'}${metaData.icons_apple}`}
+                        src={`${process.env.NEXT_PUBLIC_URL}${metaData.icons_apple[0]}`}
                         alt="Apple icon"
                         width={50}
                         height={50}

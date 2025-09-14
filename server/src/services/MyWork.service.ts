@@ -3,6 +3,9 @@ import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import multer from 'multer';
+import { Request } from 'express';
+import { processMyWorkImage, cleanupTempFile } from '../utils/imageProcessor.js';
 
 const prisma = new PrismaClient();
 
@@ -14,6 +17,35 @@ const uploadsDir = path.join(__dirname, '..', '..', 'public', 'uploads');
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, uploadsDir),
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    const uniqueName = `MyWork-${Date.now()}-${Math.round(Math.random() * 1e9)}${ext}`;
+    cb(null, uniqueName);
+  },
+});
+
+const fileFilter = (
+  req: Request,
+  file: Express.Multer.File,
+  cb: multer.FileFilterCallback,
+) => {
+  if (file.mimetype.startsWith('image/')) {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+
+// Для загрузки нескольких полей
+export const uploads = multer({
+  storage,
+  fileFilter,
+  limits: { fileSize: 10 * 1024 * 1024, files: 20 },
+});
+
 
 interface MyWorkData {
   title?: string;
@@ -146,5 +178,16 @@ export class MyWorkService {
     }
 
     return await prisma.my_work.delete({ where: { id } });
+  }
+
+  // Метод для обработки изображений работ
+  static async processWorkImage(imageFile: Express.Multer.File): Promise<string> {
+    const tempPath = path.join(uploadsDir, imageFile.filename);
+    try {
+      const processedImages = await processMyWorkImage(tempPath);
+      return JSON.stringify(processedImages);
+    } finally {
+      cleanupTempFile(tempPath);
+    }
   }
 }

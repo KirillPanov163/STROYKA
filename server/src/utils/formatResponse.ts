@@ -1,13 +1,15 @@
 export interface ResponseFormat {
-  status: number;
+  statusCode: number;
   message: string;
   data?: any;
+  error?: string;
 }
 
-const formatResponse = (status: number, message: string, data?: any): ResponseFormat => ({
-  status,
+const formatResponse = (statusCode: number, message: string, data?: any, error: string | null = null): ResponseFormat => ({
+  statusCode,
   message,
   ...(data && { data }),
+  error,
 });
 
 export default formatResponse;
