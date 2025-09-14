@@ -86,7 +86,11 @@ export const updateMetaData = createAsyncThunk<
     return responseData;
   } catch (error) {
     const err = error as AxiosError<ServerResponseType<null>>;
-    console.error('updateMetaData error:', err.response?.data);
+    console.error('updateMetaData error - full error:', error);
+    console.error('updateMetaData error - response:', err.response);
+    console.error('updateMetaData error - response data:', err.response?.data);
+    console.error('updateMetaData error - message:', err.message);
+    
     return rejectWithValue(
       err.response?.data || {
         statusCode: 500,

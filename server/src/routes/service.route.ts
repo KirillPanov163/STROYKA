@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { ServiceController } from '../controllers/service.controller.js';
-import { upload } from '../services/upload.service.js';
+import { upload } from '../services/Service.service.js';
 
 const serviceRouter = Router();
 

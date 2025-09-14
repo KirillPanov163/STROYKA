@@ -61,27 +61,59 @@ export class MetaDataController {
       // Явная типизация req.files
       const files = req.files as { [fieldname: string]: Express.Multer.File[] } | undefined;
 
+      // Обрабатываем иконки, если они были загружены
+      let processedIconsIcon = existingMeta.icons_icon;
+      let processedIconsShortcut = existingMeta.icons_shortcut;
+      let processedIconsApple = existingMeta.icons_apple;
+
+      if (files?.['icons_icon']?.[0]) {
+        try {
+          console.log('Processing icons_icon file:', files['icons_icon'][0].filename);
+          processedIconsIcon = await MetaDataService.processIcons(files['icons_icon'][0]);
+          console.log('Processed icons_icon:', processedIconsIcon);
+        } catch (error) {
+          console.error('Error processing icons_icon:', error);
+          return res.status(500).json(formatResponse(500, 'Ошибка обработки иконки', null, error instanceof Error ? error.message : 'Unknown error'));
+        }
+      }
+
+      if (files?.['icons_shortcut']?.[0]) {
+        try {
+          console.log('Processing icons_shortcut file:', files['icons_shortcut'][0].filename);
+          processedIconsShortcut = await MetaDataService.processShortcut(files['icons_shortcut'][0]);
+          console.log('Processed icons_shortcut:', processedIconsShortcut);
+        } catch (error) {
+          console.error('Error processing icons_shortcut:', error);
+          return res.status(500).json(formatResponse(500, 'Ошибка обработки shortcut иконки', null, error instanceof Error ? error.message : 'Unknown error'));
+        }
+      }
+
+      if (files?.['icons_apple']?.[0]) {
+        try {
+          console.log('Processing icons_apple file:', files['icons_apple'][0].filename);
+          processedIconsApple = await MetaDataService.processApple(files['icons_apple'][0]);
+          console.log('Processed icons_apple:', processedIconsApple);
+        } catch (error) {
+          console.error('Error processing icons_apple:', error);
+          return res.status(500).json(formatResponse(500, 'Ошибка обработки apple иконки', null, error instanceof Error ? error.message : 'Unknown error'));
+        }
+      }
+
       const dataImg = {
         ...updateData,
-        icons_icon: files?.['icons_icon']?.[0]
-          ? `/uploads/${files['icons_icon'][0].filename}`
-          : existingMeta.icons_icon,
-        icons_shortcut: files?.['icons_shortcut']?.[0]
-          ? `/uploads/${files['icons_shortcut'][0].filename}`
-          : existingMeta.icons_shortcut,
-        icons_apple: files?.['icons_apple']?.[0]
-          ? `/uploads/${files['icons_apple'][0].filename}`
-          : existingMeta.icons_apple,
+        icons_icon: processedIconsIcon,
+        icons_shortcut: processedIconsShortcut,
+        icons_apple: processedIconsApple,
       };
 
       const updatedMeta = await MetaDataService.updateMetaData(parsedId, dataImg);
-
-      return res.status(201).json(formatResponse(201, 'Данные обновлены', updatedMeta));
+      // Получаем обновленные данные в правильном формате (с распарсенными массивами)
+      const formattedMeta = await MetaDataService.getOneMetaData(parsedId);
+      
+      return res.status(201).json(formatResponse(201, 'Данные обновлены', formattedMeta));
     } catch (error) {
       console.error('Error in updateMetaData:', error);
-      return res
-        .status(500)
-        .json(formatResponse(500, 'Сервер не ответил в updateMetaData'));
+      return res.status(500).json(formatResponse(500, 'Ошибка сервера при обновлении метаданных', null, error instanceof Error ? error.message : 'Unknown error'));
     }
   }
 }

@@ -13,7 +13,10 @@ COPY . .
 RUN echo "NODE_ENV=production" > .env.prodction \
     && echo "NEXT_PUBLIC_API_URL=http://localhost:3001/api" >> .env.production \
     && echo "NEXT_PUBLIC_UPLOADS_URL=http://localhost:3001/uploads" >> .env.production \
-    && echo "NEXT_PUBLIC_URL=http://localhost:3001" >> .env.production
+    && echo "NEXT_PUBLIC_URL=http://localhost:3001" >> .env.production \
+    && echo "NEXT_PUBLIC_DOCKER_API_URL=http://server:3001/api" >> .env.production \
+    && echo "NEXT_PUBLIC_DOCKER_UPLOADS_URL=http://server:3001/uploads" >> .env.production \
+    && echo "NEXT_PUBLIC_DOCKER_URL=http://server:3001" >> .env.production
 RUN npm run build
 
 # Финальный этап

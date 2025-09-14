@@ -11,9 +11,6 @@ const HeroForm = dynamic(() => import('./HeroForm'), {
 const HeroSection = () => {
   return (
     <section className={styles.hero}>
-      <div className={styles.backgroundWind}>
-        <div className={styles.windEffect}></div>
-      </div>
       <div className={styles.heroBackground}>
         <Image
           src="/background.webp"

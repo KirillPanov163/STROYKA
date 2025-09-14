@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
 import { useAppSelector } from '@/shared/Hooks/useAppSelector';
+import SearchFilter from '../components/SearchFilter';
 import {
   getAllImages,
   uploadImage,
@@ -35,11 +36,44 @@ const ImageManager: React.FC = () => {
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [deleteFilename, setDeleteFilename] = useState<string | null>(null);
   const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const [filteredImages, setFilteredImages] = useState(images);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     console.log('Fetching images...');
     dispatch(getAllImages());
   }, [dispatch]);
+
+  useEffect(() => {
+    setFilteredImages(images);
+  }, [images]);
+
+  useEffect(() => {
+    if (!searchTerm.trim()) {
+      setFilteredImages(images);
+      return;
+    }
+
+    const filtered = images.filter((image) =>
+      ['filename', 'usedIn'].some((field) => {
+        const value = image[field as keyof typeof image];
+        
+        if (typeof value === 'string') {
+          return value.toLowerCase().includes(searchTerm.toLowerCase());
+        }
+        
+        if (Array.isArray(value)) {
+          return value.some((v: any) =>
+            String(v).toLowerCase().includes(searchTerm.toLowerCase())
+          );
+        }
+        
+        return String(value).toLowerCase().includes(searchTerm.toLowerCase());
+      })
+    );
+    
+    setFilteredImages(filtered);
+  }, [images, searchTerm]);
 
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== 'undefined' ? window.innerWidth : 0,
@@ -171,15 +205,20 @@ const ImageManager: React.FC = () => {
             {images.length === 0 && !loading ? (
               <Text style={{ color: '#69b1ff' }}>Изображения отсутствуют</Text>
             ) : (
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-                  gap: '16px',
-                }}
-              >
-                {images.map((img) => (
-                  <Card
+              <div style={{ marginBottom: 16 }}>
+                <SearchFilter
+                  placeholder="Поиск по названию или использованию..."
+                  onSearchChange={setSearchTerm}
+                />
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+                    gap: '16px',
+                  }}
+                >
+                  {filteredImages.map((img) => (
+                    <Card
                     key={img.filename}
                     hoverable
                     style={{
@@ -191,7 +230,7 @@ const ImageManager: React.FC = () => {
                       <Image
                         src={
                           img.url ||
-                          `${process.env.NEXT_PUBLIC_UPLOADS_URL ? process.env.NEXT_PUBLIC_UPLOADS_URL : 'http://localhost:3001/uploads'}/${img.filename}`
+                          `${process.env.NEXT_PUBLIC_UPLOADS_URL ? `${process.env.NEXT_PUBLIC_UPLOADS_URL}/${img.filename}` : 'http://localhost:3001/uploads'}/${img.filename}`
                         }
                         alt={img.filename}
                         style={{
@@ -209,6 +248,7 @@ const ImageManager: React.FC = () => {
                         icon={<DeleteOutlined style={{ color: '#fd9b9b' }} />}
                         onClick={() => handleDelete(img.filename)}
                         style={{ color: '#fd9b9b', padding: 0 }}
+                        disabled={img.filename === 'icon_oktogon.png' || img.filename === 'icon_oktogon.ico'}
                       />,
                     ]}
                     styles={{ actions: { background: 'transparent' } }}
@@ -221,13 +261,14 @@ const ImageManager: React.FC = () => {
                       }
                       description={
                         <Text style={{ color: '#a3bffa' }}>
-                          Используется в:{' '}
-                          {img.usedIn.slice(0, 4).join(', ') || 'Не используется'}
+                          Используется в:<br />
+                          {img.usedIn.slice(0, 2).join(', ') || 'Не используется'}
                         </Text>
                       }
                     />
                   </Card>
-                ))}
+                  ))}
+                </div>
               </div>
             )}
           </Spin>

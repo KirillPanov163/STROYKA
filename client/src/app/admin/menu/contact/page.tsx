@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import SearchFilter from '../components/SearchFilter';
 import {
   Button,
   Modal,
@@ -54,6 +55,8 @@ const ContactsManager = () => {
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== 'undefined' ? window.innerWidth : 0,
   );
+  const [filteredContacts, setFilteredContacts] = useState(contacts || []);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     dispatch(getAllContactsThunk());
@@ -62,6 +65,35 @@ const ContactsManager = () => {
     handleResize();
   }, [dispatch]);
   const margin = windowWidth < 765 ? '60px auto' : '0px auto';
+
+  useEffect(() => {
+    if (!contacts) return;
+
+    setFilteredContacts(contacts);
+  }, [contacts]);
+
+  useEffect(() => {
+    if (!contacts) return;
+
+    if (!searchTerm.trim()) {
+      setFilteredContacts(contacts);
+      return;
+    }
+
+    const filtered = contacts.filter((contact) =>
+      ['email', 'tel', 'address', 'whatsapp', 'telegram'].some((field) => {
+        const value = contact[field as keyof typeof contact];
+
+        if (typeof value === 'string') {
+          return value.toLowerCase().includes(searchTerm.toLowerCase());
+        }
+
+        return String(value).toLowerCase().includes(searchTerm.toLowerCase());
+      }),
+    );
+
+    setFilteredContacts(filtered);
+  }, [contacts, searchTerm]);
 
   useEffect(() => {
     if (editingContact) {
@@ -140,13 +172,13 @@ const ContactsManager = () => {
     }
   };
 
-  const paginatedContacts = contacts?.slice(
+  const paginatedContacts = filteredContacts?.slice(
     (currentPage - 1) * pageSize,
     currentPage * pageSize,
   );
 
   return (
-    <Layout style={{ minWidth: '100vh', background: 'transparent' }}>
+    <Layout style={{ maxWidth: '100vh', background: 'transparent' }}>
       <Content
         style={{
           width: '100%',
@@ -225,6 +257,14 @@ const ContactsManager = () => {
                 },
               }}
             >
+              {contacts && contacts.length > 0 && (
+                <div style={{ marginBottom: 16, width: '100%', maxWidth: 300 }}>
+                  <SearchFilter
+                    placeholder="Поиск по email, телефону, адресу, WhatsApp или Telegram..."
+                    onSearchChange={setSearchTerm}
+                  />
+                </div>
+              )}
               <Meta
                 title={
                   <Text style={{ color: '#69b1ff', fontSize: 20, fontWeight: 'bold' }}>
@@ -321,7 +361,7 @@ const ContactsManager = () => {
           ))}
         </div>
 
-        {contacts && contacts.length > pageSize && (
+        {filteredContacts && filteredContacts.length > pageSize && (
           <div style={{ marginTop: 24, textAlign: 'center' }}>
             <Button
               type="text"
@@ -332,16 +372,16 @@ const ContactsManager = () => {
               Предыдущая
             </Button>
             <Text style={{ color: '#69b1ff', margin: '0 16px' }}>
-              Страница {currentPage} из {Math.ceil(contacts.length / pageSize)}
+              Страница {currentPage} из {Math.ceil(filteredContacts.length / pageSize)}
             </Text>
             <Button
               type="text"
               onClick={() =>
                 setCurrentPage((prev) =>
-                  Math.min(prev + 1, Math.ceil(contacts.length / pageSize)),
+                  Math.min(prev + 1, Math.ceil(filteredContacts.length / pageSize)),
                 )
               }
-              disabled={currentPage === Math.ceil(contacts.length / pageSize)}
+              disabled={currentPage === Math.ceil(filteredContacts.length / pageSize)}
               style={{ color: '#69b1ff', padding: 0, marginLeft: 8 }}
             >
               Следующая

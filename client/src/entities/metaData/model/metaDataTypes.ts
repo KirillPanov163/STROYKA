@@ -12,9 +12,9 @@ export interface IMetaData {
   openGraph_url: string;
   openGraph_siteName: string;
   themeColor: string;
-  icons_icon: string;
-  icons_shortcut: string;
-  icons_apple: string;
+  icons_icon: string[] | string;
+  icons_shortcut: string[] | string;
+  icons_apple: string[] | string;
   other_geo_region: string;
   other_geo_placename: string;
   other_geo_position: string;

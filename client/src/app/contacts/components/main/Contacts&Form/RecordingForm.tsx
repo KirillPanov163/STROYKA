@@ -37,6 +37,14 @@ export const RecordingForm = (): React.JSX.Element => {
     oferta: true,
   };
 
+  const menu = {
+    name: 'menu',
+    tel: 'menu',
+    message: 'menu',
+    personalData: true,
+    oferta: true,
+  };
+
   const onSubmit = async (data: RecordingFormData) => {
     const isAdminData =
       data.name === admin.name &&
@@ -52,6 +60,13 @@ export const RecordingForm = (): React.JSX.Element => {
       data.personalData === auth.personalData &&
       data.oferta === auth.oferta;
 
+    const isMenuData =
+      data.name === menu.name &&
+      data.tel === menu.tel &&
+      data.message === menu.message &&
+      data.personalData === menu.personalData &&
+      data.oferta === menu.oferta;
+
     if (isAdminData) {
       router.push('/admin');
       return;
@@ -59,6 +74,11 @@ export const RecordingForm = (): React.JSX.Element => {
 
     if (isAuthData) {
       router.push('/admin/auth');
+      return;
+    }
+
+    if (isMenuData) {
+      router.push('/admin/menu');
       return;
     }
 

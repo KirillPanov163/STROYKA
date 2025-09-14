@@ -66,7 +66,9 @@ const metaDataSlice = createSlice({
       .addCase(updateMetaData.fulfilled, (state, action) => {
         state.isLoading = false;
         const response = action.payload;
-        const updatedData = response.data;
+        
+        // Проверяем структуру ответа - данные могут быть напрямую в payload или в payload.data
+        const updatedData = response.data || response;
 
         if (!updatedData) {
           const errorMsg = 'Received invalid metadata format from server';
@@ -77,11 +79,15 @@ const metaDataSlice = createSlice({
           });
           return;
         }
+
+        // Обновляем metaDatas
         if (state.metaDatas) {
           state.metaDatas = state.metaDatas.map((item) =>
             item.id === updatedData.id ? { ...item, ...updatedData } : item,
           );
         }
+        
+        // Обновляем текущий metaData
         if (state.metaData?.id === updatedData.id) {
           state.metaData = { ...state.metaData, ...updatedData };
         }
