@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import serverConfig from './configs/serverConfig.js';
 import indexRouter from './routes/index.route.js';
+import { NotificationScheduler } from './utils/scheduler.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
@@ -42,4 +43,7 @@ expressApp.listen(PORT, () => {
         : 'Not configured'
     }`,
   );
+  
+  // Запускаем планировщик уведомлений
+  NotificationScheduler.start();
 });

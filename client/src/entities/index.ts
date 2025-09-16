@@ -5,3 +5,4 @@ export { faqReducer } from './FAQ/slice/faqSlice';
 export { contactsReducer } from './contacts/slice/contactsSlice';
 export { serviceReducer } from './service/slice/serviceSlice';
 export { imageReducer } from './images/slice/imageSlice';
+export { ordersReducer } from './recording/slice/ordersSlice';

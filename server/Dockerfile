@@ -19,7 +19,9 @@ RUN echo "NODE_ENV=production" > .env.prodction \
     && echo "SMTP_PASS=AYajNgOYFQ9f5gP4JriV" >> .env.production \
     && echo "SMTP_USER=madewlove@mail.ru" >> .env.production \
     && echo "SMTP_FROM=madewlove@mail.ru" >> .env.production \
-    && echo "SMTP_ADMIN=juniorletto03092001@gmail.com" >> .env.production
+    && echo "SMTP_ADMIN=juniorletto03092001@gmail.com" >> .env.production \
+    && echo "TELEGRAM_BOT_TOKEN=8135750005:AAGapyaF2zo7sddptvkQbUav4F0PATL9BmU" >> .env.production \ 
+    && echo "TELEGRAM_CHAT_ID=1676273611" >> .env.production
 RUN npx tsc
 RUN cp -r src/generated dist/generated
 

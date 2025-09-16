@@ -98,7 +98,7 @@ export const FileSystemProvider = ({
       ],
     },
     {
-      path: '/contact',
+      path: '/contacts',
       name: 'Контакты',
       isOpen: false,
       children: [
@@ -115,14 +115,31 @@ export const FileSystemProvider = ({
       ],
     },
     {
-      path: '/admin/menu/images/',
-      name: 'Управление img',
+      path: '/admin/menu/orders/',
+      name: 'Управление',
       isOpen: false,
-    },
-    {
-      path: '/admin/menu',
-      name: 'amdin',
-      isOpen: false,
+      children: [
+        {
+          path: '/admin/menu/images/',
+          name: 'Управление img',
+          isOpen: false,
+        },
+        {
+          path: '/admin/menu/analytics',
+          name: 'Аналитика',
+          isOpen: false,
+        },
+        {
+          path: '/admin/menu/orders/',
+          name: 'Заказы',
+          isOpen: false,
+        },
+        {
+          path: '/admin/menu/notifications',
+          name: 'Уведомления',
+          isOpen: false,
+        },
+      ],
     },
   ]);
 

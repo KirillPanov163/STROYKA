@@ -13,19 +13,19 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: `${apiDocker}/:path*`,
-      },
-      {
-        source: '/uploads/:path*',
-        destination: `${uploadsDocker}/:path*`,
-      },
-      {
-        source: '/api/:path*',
         destination: `${apiUrl}/:path*`,
       },
       {
         source: '/uploads/:path*',
         destination: `${uploadsUrl}/:path*`,
+      },
+      {
+        source: '/api/:path*',
+        destination: `${apiDocker}/:path*`,
+      },
+      {
+        source: '/uploads/:path*',
+        destination: `${uploadsDocker}/:path*`,
       },
     ];
   },

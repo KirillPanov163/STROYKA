@@ -7,9 +7,10 @@ import { getAllContactsThunk } from '@/entities/contacts/api/ContactsApi';
 import styles from '../../styles/Contacts.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
+import { trackClick } from '@/shared/utils/analytics';
 
 // Функция для форматирования телефонного номера
-const formatPhoneNumber = (phone: string): string => {
+export const formatPhoneNumber = (phone: string): string => {
   // Удаляем все нецифровые символы
   const cleaned = phone.replace(/\D/g, '');
 
@@ -65,7 +66,11 @@ export const Contacts = () => {
       <div className={styles.contactInfo}>
         {contact.tel && (
           <div className={styles.contactItem}>
-            <a href={`tel:${contact.tel.replace(/\D/g, '')}`} className={styles.value}>
+            <a
+              href={`tel:${contact.tel.replace(/\D/g, '')}`}
+              className={styles.value}
+              onClick={() => trackClick('phone-link', { category: 'contact', label: formatPhoneNumber(contact.tel || '') })}
+            >
               {formatPhoneNumber(contact.tel)}
             </a>
           </div>
@@ -73,7 +78,11 @@ export const Contacts = () => {
 
         {contact.email && (
           <div className={styles.contactItem}>
-            <a href={`mailto:${contact.email}`} className={styles.value}>
+            <a
+              href={`mailto:${contact.email}`}
+              className={styles.value}
+              onClick={() => trackClick('email-link', { category: 'contact', label: contact.email || '' })}
+            >
               {contact.email}
             </a>
           </div>
@@ -82,10 +91,11 @@ export const Contacts = () => {
         {contact.address && (
           <div className={styles.contactItem}>
             <a
-              href={`https://yandex.ru/maps/?text=${encodeURIComponent(contact.address)}`}
+              href={`https://yandex.ru/maps/?text=${encodeURIComponent(contact.address || '')}`}
               target="_blank"
               rel="noopener noreferrer"
               className={styles.value}
+              onClick={() => trackClick('address-link', { category: 'contact', label: contact.address || '' })}
             >
               {contact.address}
             </a>
@@ -102,6 +112,7 @@ export const Contacts = () => {
             target="_blank"
             rel="noopener noreferrer"
             className={styles.socialLink}
+            onClick={() => trackClick('whatsapp-link', { category: 'social', label: contact.whatsapp || '' })}
           >
             <Image
               src="/whatsapp-icon.svg"
@@ -119,6 +130,7 @@ export const Contacts = () => {
             target="_blank"
             rel="noopener noreferrer"
             className={styles.socialLink}
+            onClick={() => trackClick('telegram-link', { category: 'social', label: contact.telegram || '' })}
           >
             <Image
               src="/telegram-icon.svg"
