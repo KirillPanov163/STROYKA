@@ -725,6 +725,10 @@ export default function OrdersPage() {
             value={statusFilter}
             onChange={(value) => dispatch(setStatusFilter(value))}
             className={styles.filterSelect}
+            dropdownClassName={styles.antSelectDropdown}
+            optionRender={(option) => (
+              <div className={styles.antSelectItem}>{option.label}</div>
+            )}
           >
             <Option value="">Все статусы</Option>
             <Option value="NEW">
@@ -752,6 +756,10 @@ export default function OrdersPage() {
             onChange={setViewMode}
             className={styles.selectAllButton}
             title="Режим отображения"
+            dropdownClassName={styles.antSelectDropdown}
+            optionRender={(option) => (
+              <div className={styles.antSelectItem}>{option.label}</div>
+            )}
           >
             <Option value="list">
               <UnorderedListOutlined /> Список
@@ -810,6 +818,10 @@ export default function OrdersPage() {
           onChange={(value) => handleSort(value as keyof OrderType)}
           className={styles.sortSelect}
           title='Сортировка'
+          dropdownClassName={styles.antSelectDropdown}
+          optionRender={(option) => (
+            <div className={styles.antSelectItem}>{option.label}</div>
+          )}
         >
           <Option value="createdAt">Дата создания</Option>
           <Option value="updatedAt">Дата обновления</Option>
@@ -834,6 +846,10 @@ export default function OrdersPage() {
               value={massStatus}
               onChange={(value) => setMassStatus(value as OrderType['status'])}
               className={styles.massStatusSelect}
+              dropdownClassName={styles.antSelectDropdown}
+              optionRender={(option) => (
+                <div className={styles.antSelectItem}>{option.label}</div>
+              )}
             >
               <Option value="NEW">Новый</Option>
               <Option value="IN_PROGRESS">В работе</Option>
@@ -1072,6 +1088,10 @@ export default function OrdersPage() {
                     }
                     className={styles.statusSelect}
                     style={{ borderColor: getStatusColor(order.status) }}
+                    dropdownClassName={styles.antSelectDropdown}
+                    optionRender={(option) => (
+                      <div className={styles.antSelectItem}>{option.label}</div>
+                    )}
                   >
                     <Option value="NEW">Новый</Option>
                     <Option value="IN_PROGRESS">В работе</Option>
@@ -1224,6 +1244,10 @@ export default function OrdersPage() {
                       })
                     }
                     className={styles.formInput}
+                    dropdownClassName={styles.antSelectDropdown}
+                    optionRender={(option) => (
+                      <div className={styles.antSelectItem}>{option.label}</div>
+                    )}
                   >
                     <Option value="NEW">Новый</Option>
                     <Option value="IN_PROGRESS">В работе</Option>
@@ -1465,6 +1489,10 @@ export default function OrdersPage() {
                     )
                   }
                   className={styles.formInput}
+                  dropdownClassName={styles.antSelectDropdown}
+                  optionRender={(option) => (
+                    <div className={styles.antSelectItem}>{option.label}</div>
+                  )}
                 >
                   <Option value="NEW">Новый</Option>
                   <Option value="IN_PROGRESS">В работе</Option>
@@ -1671,6 +1699,10 @@ export default function OrdersPage() {
                   value={exportFormat}
                   onChange={(value) => setExportFormat(value as 'xlsx')}
                   className={styles.formInput}
+                  dropdownClassName={styles.antSelectDropdown}
+                  optionRender={(option) => (
+                    <div className={styles.antSelectItem}>{option.label}</div>
+                  )}
                 >
                   <Option value="xlsx">Excel (.xlsx)</Option>
                 </Select>
@@ -1923,3 +1955,4 @@ export default function OrdersPage() {
     </div>
   );
 }
+
