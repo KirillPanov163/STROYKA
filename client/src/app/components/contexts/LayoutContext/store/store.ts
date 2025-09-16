@@ -6,6 +6,7 @@ import {
   contactsReducer,
   serviceReducer,
   imageReducer,
+  ordersReducer,
 } from '@/entities';
 import { configureStore } from '@reduxjs/toolkit';
 import { createWrapper } from 'next-redux-wrapper';
@@ -19,6 +20,7 @@ const store = configureStore({
     contacts: contactsReducer,
     service: serviceReducer,
     image: imageReducer,
+    orders: ordersReducer,
   },
 });
 

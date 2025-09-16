@@ -5,6 +5,7 @@ import { ClientLayoutWrapper } from './components/contexts/LayoutContext/ClientL
 import Head from 'next/head';
 import Script from 'next/script';
 import { generateMetadatas } from '@/shared/utils/metadata';
+import AnalyticsMiddleware from './components/AnalyticsMiddleware';
 
 export const viewport = {
   themeColor: [
@@ -117,6 +118,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </Head>
       <body className="wind-effect">
+        <AnalyticsMiddleware />
         <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
       </body>
     </html>

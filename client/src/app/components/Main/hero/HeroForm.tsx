@@ -4,6 +4,7 @@ import React, { useState, useRef } from 'react';
 import { useAppDispatch } from '@/shared/Hooks/useAppDispatch';
 import { sendRecordingThunk } from '@/entities/recording/api/RecordingFormApi';
 import styles from '../../styles/HeroSection.module.css';
+import { trackFormSubmit } from '@/shared/utils/analytics';
 
 const HeroForm = () => {
   const [phone, setPhone] = useState('');
@@ -168,6 +169,14 @@ const HeroForm = () => {
           inputRef.current.value = '';
         }
         
+        // Трек успешной отправки формы
+        await trackFormSubmit('hero-callback-form', {
+          tel: `+7${phone}`,
+          name: 'Заказ обратного звонка',
+          message: 'Запрос на обратный звонок с главной страницы',
+          status: 'success'
+        });
+        
         // Скрываем сообщение об успехе через 5 секунд
         setTimeout(() => {
           setIsSuccess(false);
@@ -176,11 +185,30 @@ const HeroForm = () => {
         // Обработка ошибки
         const errorMessage = resultAction.payload?.error || 'Произошла ошибка при отправке формы';
         setError(errorMessage);
+        
+        // Трек ошибки при отправке формы
+        await trackFormSubmit('hero-callback-form', {
+          tel: `+7${phone}`,
+          name: 'Заказ обратного звонка',
+          message: 'Запрос на обратный звонок с главной страницы',
+          status: 'error',
+          error: errorMessage
+        });
       }
       
     } catch (err) {
       console.error('Ошибка при отправке формы:', err);
-      setError('Произошла непредвиденная ошибка. Пожалуйста, попробуйте еще раз.');
+      const errorMsg = 'Произошла непредвиденная ошибка. Пожалуйста, попробуйте еще раз.';
+      setError(errorMsg);
+      
+      // Трек ошибки при отправке формы
+      await trackFormSubmit('hero-callback-form', {
+        tel: `+7${phone}`,
+        name: 'Заказ обратного звонка',
+        message: 'Запрос на обратный звонок с главной страницы',
+        status: 'error',
+        error: err?.toString() || 'Unknown error'
+      });
     } finally {
       setIsSubmitting(false);
     }

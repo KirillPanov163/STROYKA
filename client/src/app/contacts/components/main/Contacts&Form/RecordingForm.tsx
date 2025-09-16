@@ -7,6 +7,7 @@ import type { RecordingFormData } from '@/entities/recording/model';
 import styles from '../../styles/RecordingForm.module.css';
 import SuccessModal from '../SuccessModal/SuccessModal';
 import { useRouter } from 'next/navigation';
+import { trackFormSubmit } from '@/shared/utils/analytics';
 
 export const RecordingForm = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
@@ -86,10 +87,28 @@ export const RecordingForm = (): React.JSX.Element => {
       const result = await dispatch(sendRecordingThunk(data)).unwrap();
       setModalOpen(true);
       setTextModal('Форма успешно отправлена!');
+      
+      // Трек успешной отправки формы
+      await trackFormSubmit('recording-form', {
+        name: data.name,
+        tel: data.tel,
+        message: data.message,
+        status: 'success'
+      });
+      
       reset();
     } catch (error) {
       setModalOpen(true);
       setTextModal(`Ошибка: ${error || 'Возможно у вас включен VPN'}`);
+      
+      // Трек ошибки при отправке формы
+      await trackFormSubmit('recording-form', {
+        name: data.name,
+        tel: data.tel,
+        message: data.message,
+        status: 'error',
+        error: error?.toString() || 'Unknown error'
+      });
     }
   };
 
